@@ -1,6 +1,26 @@
 <?php
 include 'template-header.php'
 ?>
+
+<?php
+// core configuration
+include_once "config/core.php";
+ 
+// set page title
+$page_title = "Login";
+ 
+// include login checker
+$require_login=false;
+include_once "login_checker.php";
+ 
+// default to false
+$access_denied=false;
+ 
+// post code will be here
+ 
+// login form html will be here
+?>
+
 <form class="form-signin">
     <img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
     <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>

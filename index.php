@@ -6,8 +6,11 @@ include 'template-header.php'
 </div>
 <div class="body">
 <?php
-include 'navigation.php';
+include 'template-navbar.php';
 include 'content.php';
 ?>
 </div>
 </div>
+<?php
+include 'template-footer.php'
+?>

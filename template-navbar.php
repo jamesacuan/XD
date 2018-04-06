@@ -1,13 +1,10 @@
+<?php if(isset($_SESSION['logged_in'])) echo 'yes'; else echo 'no'; ?>
+
 <div class="navbar navbar-default navbar-static-top" role="navigation">
-    <div class="container-fluid">
- 
-        <div class="navbar-header">
-            <!-- to enable navigation dropdown when viewed in mobile device -->
+    <div class="container">
+         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
             <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
             </button>
  
             <a class="navbar-brand" href="<?php echo $home_url; ?>">Your Site</a>
@@ -25,13 +22,13 @@
 
             // check if users / customer was logged in
             // if user was logged in, show "Edit Profile", "Orders" and "Logout" options
-            if(isset($_SESSION['logged_in']) && $_SESSION['logged_in']==true && $_SESSION['access_level']=='Customer'){
+            if(isset($_SESSION['logged_in']) && $_SESSION['logged_in']==true && $_SESSION['role']=='user'){
                 ?>
                 <ul class="nav navbar-nav navbar-right">
                     <li <?php echo $page_title=="Edit Profile" ? "class='active'" : ""; ?>>
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                             <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                            &nbsp;&nbsp;<?php echo $_SESSION['firstname']; ?>
+                            &nbsp;&nbsp;<?php echo $_SESSION['username']; ?>
                             &nbsp;&nbsp;<span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu" role="menu">
@@ -51,19 +48,10 @@
                             <span class="glyphicon glyphicon-log-in"></span> Log In
                         </a>
                     </li>
-                
-                    <li <?php echo $page_title=="Register" ? "class='active'" : ""; ?>>
-                        <a href="<?php echo $home_url; ?>register">
-                            <span class="glyphicon glyphicon-check"></span> Register
-                        </a>
-                    </li>
                 </ul>
                 <?php
                 }
             ?>
-             
-        </div><!--/.nav-collapse -->
- 
+        </div>
     </div>
 </div>
-<!-- /navbar -->

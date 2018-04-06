@@ -1,14 +1,12 @@
 <?php
 class Database{
  
-    // specify your own database credentials
     private $host = "localhost";
     private $db_name = "xd";
     private $username = "root";
     private $password = "";
-    public $conn;
+    public  $conn;
  
-    // get the database connection
     public function getConnection(){
  
         $this->conn = null;

@@ -24,6 +24,7 @@ if($_POST){
         // if it is, set the session value to true
         $_SESSION['logged_in'] = true;
         $_SESSION['userid'] = $user->userid;
+        $_SESSION['username'] = $user->username;
         $_SESSION['role'] = $user->role;
         /*
         $_SESSION['firstname'] = htmlspecialchars($user->firstname, ENT_QUOTES, 'UTF-8') ;
@@ -34,7 +35,7 @@ if($_POST){
         /*if($user->access_level=='Admin'){
             header("Location: {$home_url}admin/index.php?action=login_success");
         }*/
-        header("Location: {$home_url}index.php");
+        header("Location: {$home_url}index.php?action=login_success");
 
         // else, redirect only to 'Customer' section
         /*else{

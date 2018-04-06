@@ -19,7 +19,7 @@ $action = isset($_GET['action']) ? $_GET['action'] : "";
 // if login was successful
 if($action=='login_success'){
     echo "<div class='alert alert-info'>";
-        echo "<strong>Hi " . $_SESSION['firstname'] . ", welcome back!</strong>";
+        echo "<strong>Hi " . $_SESSION['username'] . ", welcome back!</strong>";
     echo "</div>";
 }
 

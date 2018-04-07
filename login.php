@@ -16,16 +16,18 @@ if($_POST){
     $user = new User($db);
 
     $user->username=$_POST['username'];
-    
     $user_exists = $user->userExists();
-    if ($user_exists && password_verify($_POST['password'], $user->password)){
-    
-        // if it is, set the session value to true
+
+    /*if hashing is applied to password, use this*/
+    /*if ($user_exists && password_verify($_POST['password'], $user->password)){*/
+    if ($user_exists && $_POST['password'] == $user->password){
+
         $_SESSION['logged_in'] = true;
         $_SESSION['userid'] = $user->userid;
         $_SESSION['username'] = $user->username;
         $_SESSION['role'] = $user->role;
-        echo "test";
+ 
+ 
         /*
         $_SESSION['firstname'] = htmlspecialchars($user->firstname, ENT_QUOTES, 'UTF-8') ;
         $_SESSION['lastname'] = $user->lastname;
@@ -50,12 +52,15 @@ if($_POST){
 }
 
 include_once "template-header.php";
- 
+
+if($access_denied){
+    echo "<div class='alert alert-danger margin-top-40' role='alert'>Access Denied.<br /><br />Your username or password maybe incorrect </div>";
+}
+
 echo "<div class='col-sm-6 col-md-4 col-md-offset-4'>";
      echo "<div class='account-wall'>";
         echo "<div id='my-tab-content' class='tab-content'>";
             echo "<div class='tab-pane active' id='login'>";
-                echo "<img class='profile-img' src='images/login-icon.png'>";
                 echo "<form class='form-signin' action='" . htmlspecialchars($_SERVER["PHP_SELF"]) . "' method='post'>";
                     echo "<input type='text' name='username' class='form-control' placeholder='Username' required autofocus />";
                     echo "<input type='password' name='password' class='form-control' placeholder='Password' required />";
@@ -64,7 +69,6 @@ echo "<div class='col-sm-6 col-md-4 col-md-offset-4'>";
             echo "</div>";
         echo "</div>";
     echo "</div>";
- 
 echo "</div>";
  include_once "template-footer.php";
 ?>

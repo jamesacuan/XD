@@ -1,5 +1,3 @@
-<?php if(isset($_SESSION['logged_in'])) echo 'yes'; else echo 'no'; ?>
-
 <div class="navbar navbar-default navbar-static-top" role="navigation">
     <div class="container">
          <div class="navbar-header">
@@ -20,7 +18,7 @@
  
             <?php
 
-            // check if users / customer was logged in
+            // check if users was logged in
             // if user was logged in, show "Edit Profile", "Orders" and "Logout" options
             if(isset($_SESSION['logged_in']) && $_SESSION['logged_in']==true && $_SESSION['role']=='user'){
                 ?>

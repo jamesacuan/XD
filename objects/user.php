@@ -20,12 +20,12 @@ class User{
                 FROM " . $this->table_name . "
                 WHERE username = ?
                 LIMIT 0,1";
-        $stmt = $this->conn->prepare( $query );
+        $stmt = $this->conn->prepare($query);
     
         $this->username=htmlspecialchars(strip_tags($this->username));
-    
+
         $stmt->bindParam(1, $this->username);
-    
+
         $stmt->execute();
     
         $num = $stmt->rowCount();
@@ -34,6 +34,7 @@ class User{
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             $this->id = $row['userid'];
             $this->username = $row['username'];
+            $this->password = $row['password'];
             $this->role = $row['role'];
 
             return true;

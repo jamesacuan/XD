@@ -7,7 +7,7 @@ if(isset($_SESSION['role']) && $_SESSION['role']=="admin"){
 // if $require_login was set and value is 'true'
 else if(isset($require_login) && $require_login==true){
     // if user not yet logged in, redirect to login page
-    if(!isset($_SESSION['rolel'])){
+    if(!isset($_SESSION['role'])){
         header("Location: {$home_url}login.php?action=please_login");
     }
 }

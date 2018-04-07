@@ -11,7 +11,6 @@
 </head>
 <body>
      <?php include_once 'template-navbar.php'; ?>
-    <div class="container-fluid"> 
         <?php
         if($page_title!="Login"){
         ?>

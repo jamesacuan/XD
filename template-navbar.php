@@ -5,7 +5,7 @@
             <span class="sr-only">Toggle navigation</span>
             </button>
  
-            <a class="navbar-brand" href="<?php echo $home_url; ?>">Your Site</a>
+            <a class="navbar-brand" href="<?php echo $home_url; ?>">HANC</a>
         </div>
  
         <div class="navbar-collapse collapse">

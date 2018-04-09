@@ -19,7 +19,7 @@
             <?php
 
             // check if users was logged in
-            // if user was logged in, show "Edit Profile", "Orders" and "Logout" options
+            // if user was logged in, show "Edit Profile" and "Logout" options
             if(isset($_SESSION['logged_in']) && $_SESSION['logged_in']==true && $_SESSION['role']=='user'){
                 ?>
                 <ul class="nav navbar-nav navbar-right">
@@ -30,6 +30,7 @@
                             &nbsp;&nbsp;<span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu" role="menu">
+                            <li><a href="<?php echo $home_url; ?>profile.php">Profile</a></li>
                             <li><a href="<?php echo $home_url; ?>logout.php">Logout</a></li>
                         </ul>
                     </li>
@@ -37,7 +38,6 @@
                 <?php
                 }
                 
-            // if user was not logged in, show the "login" and "register" options
             else{
                 ?>
                 <ul class="nav navbar-nav navbar-right">

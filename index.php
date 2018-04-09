@@ -40,13 +40,13 @@ echo "</div>";
 <div>
 
 <!-- Nav tabs -->
-<ul class="nav nav-tabs clearfix" role="tablist">
+<ul class="nav nav-pills clearfix" role="tablist">
   <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">View All</a></li>
   <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Helmet Holder</a></li>
   <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Ticket Holder</a></li>
   <div class="btn-group pull-right">
-        <button type="button" onclick="location.href='createTicket.php'" class="btn btn-primary">Create a Ticket</button>
-        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <button type="button" onclick="location.href='createTicket.php'" class="btn btn-default">Create a Ticket</button>
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span class="caret"></span>
             <span class="sr-only">Toggle Dropdown</span>
         </button>
@@ -71,32 +71,50 @@ echo "</div>";
                 <th class="col-xs-1">Seller</th>
                 <th class="col-xs-2">Date</th>
                 <th class="col-xs-1">Status</th>
+                <th class="col-xs-2">Action</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <th scope="row">1</th>
+                <th scope="row">HH-0001</th>
                 <td>llsdasasdasdasdasdasdasdsaasd</td>
                 <td>testing.jpg</td>
                 <td>glenn</td>
                 <td>04/09/2018 1:55PM</td>
-                <td>Pending</td>
+                <td><span class="label label-primary">For Approval</span></td>
+                <td><span class="label label-danger">View</span></td>
+
+
             </tr>
             <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-                <td>@mdo</td>
-                <td>@mdo</td>
+                <th scope="row">HH-0002</th>
+                <td>llsdasasdasdasdasdasdasdsaasd</td>
+                <td>testing.jpg</td>
+                <td>ken</td>
+                <td>04/05/2018 1:55PM</td>
+                <td><span class="label label-danger">Overdue</span></td>
+                <td><span class="label label-danger">View</span></td>
+
             </tr>
             <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-                <td>@mdo</td>
-                <td>@mdo</td>
+                <th scope="row">TH-0001</th>
+                <td>llsdasasdasdasdasdasdasdsaasd</td>
+                <td>testing.jpg</td>
+                <td>mark</td>
+                <td>04/08/2018 1:55PM</td>
+                <td><span class="label label-success">Done</span></td>
+                <td><span class="label label-danger">View</span></td>
+
+            </tr>
+            <tr>
+                <th scope="row">HH-0003</th>
+                <td>llsdasasdasdasdasdasdasdsaasd</td>
+                <td>testing.jpg</td>
+                <td>glenn</td>
+                <td>04/03/2018 1:55PM</td>
+                <td><span class="label label-warning">Pending</span></td>
+                <td><span class="label label-danger">View</span></td>
+
             </tr>
         </tbody>
     </table>

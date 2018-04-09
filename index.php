@@ -38,8 +38,8 @@ else if($action=='already_logged_in'){
 echo "</div>";
 ?>
 <div class='clearfix'>
-    <div class="btn-group pull-right">
-        <button type="button" class="btn btn-primary">Create a Ticket</button>
+    <div class="btn-group pull-left">
+        <button type="button" onclick="location.href='createTicket.php'" class="btn btn-primary">Create a Ticket</button>
         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span class="caret"></span>
             <span class="sr-only">Toggle Dropdown</span>
@@ -51,14 +51,18 @@ echo "</div>";
             <li><a href="createTicket.php?product=THC">Ticket Holder - custom logo</a></li>
         </ul>
     </div>
+    <div class='pull-right'>
+        <button type='button' class='btn btn-default'>Delete</button>
+    </div>
 </div>
 <table class="table table-hover">
     <thead>
         <tr>
-            <th>#</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Username</th>
+            <th class="col-xs-1">Ticket ID</th>
+            <th class="col-xs-3">Customer Name</th>
+            <th class="col-xs-6">Note</th>
+            <th class="col-xs-1">Job Order</th>
+            <th class="col-xs-1">Status</th>
         </tr>
     </thead>
     <tbody>
@@ -67,18 +71,21 @@ echo "</div>";
             <td>Mark</td>
             <td>Otto</td>
             <td>@mdo</td>
+            <td>@mdo</td>
         </tr>
         <tr>
             <th scope="row">2</th>
             <td>Jacob</td>
             <td>Thornton</td>
             <td>@fat</td>
+            <td>@mdo</td>
         </tr>
         <tr>
             <th scope="row">3</th>
             <td>Larry</td>
             <td>the Bird</td>
             <td>@twitter</td>
+            <td>@mdo</td>
         </tr>
     </tbody>
 </table>

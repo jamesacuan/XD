@@ -1,17 +1,48 @@
 <?php
-// core configuration
-include_once "config/core.php";
+include_once "login_check.php";
+$require_login=true;
 
-// set page title
+include_once "config/core.php";
+include_once "config/database.php";
+include_once "objects/ticket.php";
+
+$database = new Database();
+$db = $database->getConnection();
+
+$ticket = new Ticket(db);
 $page_title="Create Ticket";
 
-// include login checker
-$require_login=true;
-include_once "login_check.php";
 include 'template-header.php'
 ?>
 
-<form class="form-horizontal" action="upload.php" method="post" enctype="multipart/form-data">
+<?php
+
+if($_POST){
+    $product->name = $_POST['name'];
+    $product->description = $_POST['description'];
+    $product->category_id = $_POST['category_id'];
+    $image=!empty($_FILES["image"]["name"])
+    ? sha1_file($_FILES['image']['tmp_name']) . "-" . basename($_FILES["image"]["name"]) : "";
+    $product->image = $image;
+
+    // create the product
+    if($product->create()){
+        echo $product->uploadPhoto();
+        echo "<div class='alert alert-success'>Product was created.</div>";
+        // try to upload the submitted file
+        // uploadPhoto() method will return an error message, if any.
+        
+    }
+ 
+    // if unable to create the product, tell the user
+    else{
+        echo "<div class='alert alert-danger'>Unable to create product.</div>";
+    }
+}
+
+?>
+
+<form class="form-horizontal" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data">
 <?php
     $product = isset($_GET['product']) ? $_GET['product'] : "";
     // if login was successful
@@ -43,9 +74,9 @@ include 'template-header.php'
 ?>
 
   <div class="form-group">
-    <label for="note1" class="col-sm-2 control-label">Note</label>
+    <label for="note" class="col-sm-2 control-label">Note</label>
     <div class="col-sm-10">
-      <textarea class="form-control" id="inputPassword3" placeholder="Add a note"></textarea>
+      <textarea class="form-control" id="note" placeholder="Add a note"></textarea>
     </div>
   </div>
 

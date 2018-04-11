@@ -17,7 +17,12 @@ class Ticket{
 
     function create(){
 
+        
+        $this->modified=
+
+
         $this->created=date('Y-m-d H:i:s');
+        $this->modified=date('Y-m-d H:i:s');
 
         $query = "INSERT INTO " . $this->table_name . " 
                 SET
@@ -44,5 +49,20 @@ class Ticket{
             $this->showError($stmt);
             return false;
         }
+    }
+
+    function getCode(){
+        $query = "SELECT count(*) FROM " . $this->table_name . " WHERE `type` like 'HH%'";
+        $stmt = $this->conn->prepare( $query );
+        $stmt->execute();
+        return $stmt;
+    }
+
+    function readAll($from_record_num, $records_per_page){
+        
+        $query = "SELECT `code`, ticket.modified, users.username FROM `ticket` JOIN users on ticket.userid=users.userid";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt;
     }
 }

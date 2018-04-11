@@ -9,7 +9,7 @@ include_once "objects/ticket.php";
 $database = new Database();
 $db = $database->getConnection();
 
-$ticket = new Ticket(db);
+$ticket = new Ticket($db);
 $page_title="Create Ticket";
 
 include 'template-header.php'
@@ -18,17 +18,16 @@ include 'template-header.php'
 <?php
 
 if($_POST){
-    $product->name = $_POST['name'];
-    $product->description = $_POST['description'];
-    $product->category_id = $_POST['category_id'];
-    $image=!empty($_FILES["image"]["name"])
-    ? sha1_file($_FILES['image']['tmp_name']) . "-" . basename($_FILES["image"]["name"]) : "";
-    $product->image = $image;
+    $ticket->type = $_POST['type'];
+
+    #$image=!empty($_FILES["image"]["name"])
+    #? sha1_file($_FILES['image']['tmp_name']) . "-" . basename($_FILES["image"]["name"]) : "";
+    #$product->image = $image;
 
     // create the product
-    if($product->create()){
-        echo $product->uploadPhoto();
-        echo "<div class='alert alert-success'>Product was created.</div>";
+    if($ticket->create()){
+        #echo $product->uploadPhoto();
+        echo "<div class='alert alert-success'>Ticket was created.</div>";
         // try to upload the submitted file
         // uploadPhoto() method will return an error message, if any.
         
@@ -62,11 +61,11 @@ if($_POST){
         echo "<div class=\"form-group\">";
         echo " <label for=\"inputEmail\" class=\"col-sm-2 control-label\">Type</label>";
         echo "  <div class=\"col-sm-10\">";
-        echo "<select>";
-        echo "<option>Helmet Holder (Plain)</option>";
-        echo "<option>Helmet Holder (Custom)</option>";
-        echo "<option>Ticket Holder (Plain)</option>";
-        echo "<option>Ticket Holder (Custom)</option>";
+        echo "<select name='product'>";
+        echo "<option value='HHP'>Helmet Holder (Plain)</option>";
+        echo "<option value='HHC'>Helmet Holder (Custom)</option>";
+        echo "<option value='THP'>Ticket Holder (Plain)</option>";
+        echo "<option value='THC'>Ticket Holder (Custom)</option>";
         echo "</select>";
         echo "  </div>";
         echo "</div>";
@@ -76,7 +75,7 @@ if($_POST){
   <div class="form-group">
     <label for="note" class="col-sm-2 control-label">Note</label>
     <div class="col-sm-10">
-      <textarea class="form-control" id="note" placeholder="Add a note"></textarea>
+      <textarea class="form-control" id="note" name='note' placeholder="Add a note"></textarea>
     </div>
   </div>
 

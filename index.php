@@ -46,6 +46,7 @@ echo "</div>";
   <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Ticket Holder</a></li>
   <div class="btn-group pull-right">
         <button type="button" onclick="location.href='createTicket.php'" class="btn btn-default">Create a Ticket</button>
+        <!--
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span class="caret"></span>
             <span class="sr-only">Toggle Dropdown</span>
@@ -56,10 +57,10 @@ echo "</div>";
             <li><a href="createTicket.php?product=THP">Ticket Holder - plain</a></li>
             <li><a href="createTicket.php?product=THC">Ticket Holder - custom logo</a></li>
         </ul>
+        -->
     </div>
 </ul>
 
-<!-- Tab panes -->
 <div class="tab-content">
   <div role="tabpanel" class="tab-pane active" id="home">
     <table class="table table-hover">
@@ -67,7 +68,6 @@ echo "</div>";
             <tr>
                 <th class="col-xs-1">Ticket Number</th>
                 <th class="col-xs-5">Note</th>
-                <th class="col-xs-2">Image</th>
                 <th class="col-xs-1">Seller</th>
                 <th class="col-xs-2">Date</th>
                 <th class="col-xs-1">Status</th>
@@ -133,5 +133,6 @@ $('#myTabs a').click(function (e) {
 })
 </script>
 <?php
-    include 'template-footer.php'
+    include 'template-content.php';
+    include 'template-footer.php';
 ?>

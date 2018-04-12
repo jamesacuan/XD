@@ -17,10 +17,6 @@ class Ticket{
 
     function create(){
 
-        
-        $this->modified=
-
-
         $this->created=date('Y-m-d H:i:s');
         $this->modified=date('Y-m-d H:i:s');
 

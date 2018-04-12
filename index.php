@@ -45,7 +45,8 @@ echo "</div>";
   <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Helmet Holder</a></li>
   <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Ticket Holder</a></li>
   <div class="btn-group pull-right">
-        <button type="button" onclick="location.href='createTicket.php'" class="btn btn-default">Create a Ticket</button>
+        <button type="button" onclick="location.href='createTicket.php'" class="btn btn-default">+ Job Order</button>
+        <button type="button" onclick="location.href='createTicket.php'" class="btn btn-primary">+ Purchase Order</button>
         <!--
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span class="caret"></span>
@@ -66,30 +67,23 @@ echo "</div>";
     <table class="table table-hover">
         <thead>
             <tr>
-                <th class="col-xs-1">Ticket Number</th>
-                <th class="col-xs-5">Note</th>
-                <th class="col-xs-1">Seller</th>
+                <th class="col-xs-2">Code</th>
+                <th class="col-xs-3">By</th>
                 <th class="col-xs-2">Date</th>
-                <th class="col-xs-1">Status</th>
-                <th class="col-xs-2">Action</th>
+                <th class="col-xs-2">Status</th>
+                <th class="col-xs-3">Action</th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <th scope="row">HH-0001</th>
-                <td>llsdasasdasdasdasdasdasdsaasd</td>
-                <td>testing.jpg</td>
                 <td>glenn</td>
                 <td>04/09/2018 1:55PM</td>
                 <td><span class="label label-primary">For Approval</span></td>
                 <td><span class="label label-danger">View</span></td>
-
-
             </tr>
             <tr>
                 <th scope="row">HH-0002</th>
-                <td>llsdasasdasdasdasdasdasdsaasd</td>
-                <td>testing.jpg</td>
                 <td>ken</td>
                 <td>04/05/2018 1:55PM</td>
                 <td><span class="label label-danger">Overdue</span></td>
@@ -98,8 +92,6 @@ echo "</div>";
             </tr>
             <tr>
                 <th scope="row">TH-0001</th>
-                <td>llsdasasdasdasdasdasdasdsaasd</td>
-                <td>testing.jpg</td>
                 <td>mark</td>
                 <td>04/08/2018 1:55PM</td>
                 <td><span class="label label-success">Done</span></td>
@@ -108,8 +100,6 @@ echo "</div>";
             </tr>
             <tr>
                 <th scope="row">HH-0003</th>
-                <td>llsdasasdasdasdasdasdasdsaasd</td>
-                <td>testing.jpg</td>
                 <td>glenn</td>
                 <td>04/03/2018 1:55PM</td>
                 <td><span class="label label-warning">Pending</span></td>
@@ -133,6 +123,6 @@ $('#myTabs a').click(function (e) {
 })
 </script>
 <?php
-    include 'template\content.php';
-    include 'template\footer.php';
+    include 'template/content.php';
+    include 'template/footer.php';
 ?>

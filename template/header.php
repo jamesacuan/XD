@@ -13,7 +13,7 @@
 
 </head>
 <body>
-     <?php include_once 'template-navbar.php'; ?>
+     <?php include_once 'template/navbar.php'; ?>
      <div class="container">
         <?php
         if($page_title!="Login"){

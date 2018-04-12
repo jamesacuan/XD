@@ -51,7 +51,7 @@ if($_POST){
     }
 }
 
-include_once "template-header.php";
+include_once "template/header.php";
 
 if($access_denied){
     echo "<div class='alert alert-danger margin-top-40' role='alert'>Access Denied.<br /><br />Your username or password maybe incorrect </div>";
@@ -70,5 +70,6 @@ echo "<div class='col-sm-6 col-md-4 col-md-offset-4'>";
         echo "</div>";
     echo "</div>";
 echo "</div>";
- include_once "template-footer.php";
+
+include_once "template/footer.php";
 ?>

@@ -69,7 +69,6 @@ if($total_rows>0){
     echo "</table>";
  
     // paging buttons
-    include_once 'paging.php';
 }
  
 // tell the user there are no products

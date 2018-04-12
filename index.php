@@ -8,7 +8,7 @@ $page_title="Dashboard";
 // include login checker
 $require_login=true;
 include_once "login_check.php";
-include 'template-header.php'
+include 'template/header.php'
 ?>
 <?php
 echo "<div class='col-md-12'>";
@@ -133,6 +133,6 @@ $('#myTabs a').click(function (e) {
 })
 </script>
 <?php
-    include 'template-content.php';
-    include 'template-footer.php';
+    include 'template\content.php';
+    include 'template\footer.php';
 ?>

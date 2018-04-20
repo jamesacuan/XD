@@ -1,0 +1,7 @@
+.page-header{
+    border-bottom: none;
+}
+.tab-job thead th,
+.tab-job th[scope="row"]{
+    text-align: center;
+}

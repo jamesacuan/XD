@@ -1,11 +1,16 @@
 <?php
 // core configuration
 include_once "config/core.php";
+include_once "config/database.php";
+include_once "objects/job_order.php";
 
-// set page title
+$database = new Database();
+$db = $database->getConnection();
+
+$job_order = new JobOrder($db);
+
 $page_title="Dashboard";
 
-// include login checker
 $require_login=true;
 include_once "login_check.php";
 include 'template/header.php'
@@ -40,12 +45,12 @@ echo "</div>";
 <div>
 
 <!-- Nav tabs -->
-<ul class="nav nav-pills clearfix" role="tablist">
+<ul class="nav nav-tabs clearfix" role="tablist">
   <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">View All</a></li>
   <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Helmet Holder</a></li>
   <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Ticket Holder</a></li>
   <div class="btn-group pull-right">
-        <button type="button" onclick="location.href='createTicket.php'" class="btn btn-default">+ Job Order</button>
+        <button type="button" onclick="location.href='addJobOrder.php'" class="btn btn-primary">+ Job Order</button>
         <button type="button" onclick="location.href='createTicket.php'" class="btn btn-primary">+ Purchase Order</button>
         <!--
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -61,54 +66,50 @@ echo "</div>";
         -->
     </div>
 </ul>
-<?php echo "id " . $_SESSION['userid'] ?>
-<?php echo "username " . $_SESSION['username'] ?>
-<?php echo "role " . $_SESSION['role'] ?>
 
-<div class="tab-content">
+<div class="tab-job tab-content" style="margin-top:20px">
   <div role="tabpanel" class="tab-pane active" id="home">
-    <table class="table table-hover">
+    <table class="table table-hover table-bordered">
         <thead>
             <tr>
-                <th class="col-xs-2">Code</th>
-                <th class="col-xs-3">By</th>
+                <th class="col-xs-1">Job Order</th>
+                <th class="col-xs-1">Code</th>
+                <th class="col-xs-1">By</th>
+                <th class="col-xs-3">Note</th>
                 <th class="col-xs-2">Date</th>
                 <th class="col-xs-2">Status</th>
-                <th class="col-xs-3">Action</th>
+                <th class="col-xs-2">Action</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <th scope="row">HH-0001</th>
-                <td>glenn</td>
-                <td>04/09/2018 1:55PM</td>
-                <td><span class="label label-primary">For Approval</span></td>
-                <td><span class="label label-danger">View</span></td>
-            </tr>
-            <tr>
-                <th scope="row">HH-0002</th>
-                <td>ken</td>
-                <td>04/05/2018 1:55PM</td>
-                <td><span class="label label-danger">Overdue</span></td>
-                <td><span class="label label-danger">View</span></td>
 
-            </tr>
-            <tr>
-                <th scope="row">TH-0001</th>
-                <td>mark</td>
-                <td>04/08/2018 1:55PM</td>
-                <td><span class="label label-success">Done</span></td>
-                <td><span class="label label-danger">View</span></td>
+        <?php       
+            $stmt = $job_order->read($from_record_num, $records_per_page);
+            $num  = $stmt->rowCount();
 
-            </tr>
-            <tr>
-                <th scope="row">HH-0003</th>
-                <td>glenn</td>
-                <td>04/03/2018 1:55PM</td>
-                <td><span class="label label-warning">Pending</span></td>
-                <td><span class="label label-danger">View</span></td>
-
-            </tr>
+            if($num>0){
+                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                    extract($row);
+                    echo "<tr>";
+                        echo "<th scope=\"row\">{$id}</th>";
+                        echo "<td>{$code}</td>";
+                        echo "<td>{$username}</td>";
+                        echo "<td>{$note}</td>";
+                        echo "<td>{$modified}</td>";
+                        echo "<td><span class=\"label label-primary\">{$status}</span></td>";
+                        echo "<td>
+                            <button class=\"btn btn-sm btn-default\">View</button>";
+                            if($username==$_SESSION['username']){
+                            echo " <button class=\"btn btn-sm btn-default\">Delete</button>";
+                            }
+                        echo "</td>";
+                    echo "</tr>";
+                }
+            }
+            else{
+                echo "<div class='alert alert-info'>No products found.</div>";
+            }
+        ?>
         </tbody>
     </table>
   
@@ -126,6 +127,6 @@ $('#myTabs a').click(function (e) {
 })
 </script>
 <?php
-    include 'template/content.php';
+    //include 'template/content.php';
     include 'template/footer.php';
 ?>

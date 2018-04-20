@@ -23,9 +23,9 @@ if($_POST){
     if ($user_exists && $_POST['password'] == $user->password){
 
         $_SESSION['logged_in'] = true;
-        $_SESSION['userid'] = $user->userid;
-        $_SESSION['username'] = $user->username;
-        $_SESSION['role'] = $user->role;
+        $_SESSION['userid']    = $user->id;
+        $_SESSION['username']  = $user->username;
+        $_SESSION['role']      = $user->role;
  
  
         /*

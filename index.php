@@ -61,6 +61,9 @@ echo "</div>";
         -->
     </div>
 </ul>
+<?php echo "id " . $_SESSION['userid'] ?>
+<?php echo "username " . $_SESSION['username'] ?>
+<?php echo "role " . $_SESSION['role'] ?>
 
 <div class="tab-content">
   <div role="tabpanel" class="tab-pane active" id="home">

@@ -138,5 +138,9 @@ class JobOrder{
         $stmt->execute();
         return $stmt;
     }
+
+    function readOne($code){
+        
+    }
 }
 ?>

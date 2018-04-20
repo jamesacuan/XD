@@ -94,11 +94,11 @@ echo "</div>";
                         echo "<th scope=\"row\">{$id}</th>";
                         echo "<td>{$code}</td>";
                         echo "<td>{$username}</td>";
-                        echo "<td class=\"clearfix\"><span>{$note}</span><span class=\"pull-right\">View</span></td>";
+                        echo "<td class=\"clearfix\"><span>{$note}</span><span class=\"glyphicon glyphicon-picture pull-right\" data-toggle=\"modal\" data-target=\"#image\"></span></td>";
                         echo "<td>{$modified}</td>";
                         echo "<td><span class=\"label label-primary\">{$status}</span></td>";
                         echo "<td>
-                            <button class=\"btn btn-sm btn-default\">View</button>";
+                            <a href=\"joborder.php?&code={$code}\" class=\"btn btn-sm btn-default\">View</a>";
                             if($username==$_SESSION['username']){
                             echo " <button class=\"btn btn-sm btn-default\">Delete</button>";
                             }
@@ -120,10 +120,27 @@ echo "</div>";
 
 </div>
 
+
+<div class="modal fade" id="image" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+    </div>
+  </div>
+</div>
 <script>
 $('#myTabs a').click(function (e) {
   e.preventDefault()
   $(this).tab('show')
+})
+
+$('#image').on('shown.bs.modal', function () {
+  $('#myInput').focus()
 })
 </script>
 <?php

@@ -54,7 +54,7 @@ if($_POST){
 }
 ?>
 
-<form class="form-horizontal" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post"> 
+<form class="form-horizontal" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype = "multipart/form-data"> 
   <div class="form-group">
     <label class="col-sm-2 control-label">Type</label>
 
@@ -76,9 +76,12 @@ if($_POST){
   </div>
 
   <div class="form-group">
-    <label for="url" class="col-sm-2 control-label">Image URL</label>
+    <label for="url" class="col-sm-2 control-label">Upload Image</label>
     <div class="col-sm-10">
-        <input type="text" name="url" class="form-control" id="url" placeholder="image url" required>
+        <input type="file" name="url" id="url" required/>
+        <!--
+            <input type="text" name="url" class="form-control" id="url" placeholder="image url" required>
+        -->
     </div>
   </div>
 

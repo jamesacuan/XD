@@ -94,7 +94,7 @@ echo "</div>";
                         echo "<th scope=\"row\">{$id}</th>";
                         echo "<td>{$code}</td>";
                         echo "<td>{$username}</td>";
-                        echo "<td>{$note}</td>";
+                        echo "<td class=\"clearfix\"><span>{$note}</span><span class=\"pull-right\">View</span></td>";
                         echo "<td>{$modified}</td>";
                         echo "<td><span class=\"label label-primary\">{$status}</span></td>";
                         echo "<td>

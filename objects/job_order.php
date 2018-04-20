@@ -13,12 +13,12 @@ class JobOrder{
     }
 
     function create(){
-        $this->created=date('Y-m-d H:i:s');
-        $this->modified=date('Y-m-d H:i:s');
+        $this->created  = date('Y-m-d H:i:s');
+        $this->modified = date('Y-m-d H:i:s');
 
         $query1 = "INSERT INTO " . $this->table1_name . "
                 SET 
-                    userid = :user_id,
+                    userid = :userid,
                     created = :created,
                     modified = :modified";
 
@@ -31,19 +31,20 @@ class JobOrder{
                     status = :status,
                     created = :created,
                     modified = :modified,
-                    job_orderid = :joborder_id";
+                    job_orderid = :job_orderid";
 
         $stmt1 = $this->conn->prepare($query1);
         $stmt2 = $this->conn->prepare($query2);
 
-        $this->userid    = htmlspecialchars(strip_tags($this->userid));
-        $this->type      = htmlspecialchars(strip_tags($this->type));
-        $this->code      = htmlspecialchars(strip_tags($this->code));
-        $this->note      = htmlspecialchars(strip_tags($this->note));  
-        $this->image_url = htmlspecialchars(strip_tags($this->image_url));
-        $this->expectedJO= htmlspecialchars(strip_tags($this->expectedJO));     
-        $this->created   = htmlspecialchars(strip_tags($this->created));
-        $this->modified  = htmlspecialchars(strip_tags($this->modified));
+        $this->userid     = htmlspecialchars(strip_tags($this->userid));
+        $this->type       = htmlspecialchars(strip_tags($this->type));
+        $this->code       = htmlspecialchars(strip_tags($this->code));
+        $this->note       = htmlspecialchars(strip_tags($this->note));  
+        $this->image_url  = htmlspecialchars(strip_tags($this->image_url));
+        $this->status  = htmlspecialchars(strip_tags($this->status));
+        $this->expectedJO = htmlspecialchars(strip_tags($this->expectedJO));     
+        $this->created    = htmlspecialchars(strip_tags($this->created));
+        $this->modified   = htmlspecialchars(strip_tags($this->modified));
 
         $stmt1->bindParam(':userid', $this->userid);        
         $stmt1->bindParam(':created', $this->created);
@@ -52,10 +53,11 @@ class JobOrder{
         $stmt2->bindParam(':type', $this->type);        
         $stmt2->bindParam(':code', $this->code);
         $stmt2->bindParam(':note', $this->note);
-        $stmt2->bindParam(':image_url', $this->image_url);
-        $stmt2->bindParam(':expectedJO', $this->expectedJO);
-        $stmt2->bindParam(':created', $this->created);
-        $stmt2->bindParam(':modified', $this->modified);
+        $stmt2->bindParam(':image_url',  $this->image_url);
+        $stmt2->bindParam(':status',     $this->status);
+        $stmt2->bindParam(':created',    $this->created);
+        $stmt2->bindParam(':modified',   $this->modified);
+        $stmt2->bindParam(':job_orderid', $this->expectedJO);
 
         if($stmt1->execute()){
             if($stmt2->execute()){

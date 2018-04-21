@@ -26,9 +26,9 @@ if($_POST){
         $_SESSION['userid']    = $user->id;
         $_SESSION['username']  = $user->username;
         $_SESSION['role']      = $user->role;
+        $_SESSION['admin']     = $user->isAdmin;
  
- 
-        /*
+         /*
         $_SESSION['firstname'] = htmlspecialchars($user->firstname, ENT_QUOTES, 'UTF-8') ;
         $_SESSION['lastname'] = $user->lastname;
         */

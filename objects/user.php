@@ -16,7 +16,7 @@ class User{
     }
 
     function userExists(){
-        $query = "SELECT `userid`, `username`, `password`, `role`, created, modified 
+        $query = "SELECT `userid`, `username`, `password`, `role`, isAdmin, created, modified 
                 FROM " . $this->table_name . "
                 WHERE username = ?
                 LIMIT 0,1";
@@ -32,6 +32,7 @@ class User{
             $this->username = $row['username'];
             $this->password = $row['password'];
             $this->role     = $row['role'];
+            $this->isAdmin  = $row['isAdmin'];
 
             return true;
         }

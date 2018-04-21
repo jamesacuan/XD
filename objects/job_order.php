@@ -121,7 +121,7 @@ class JobOrder{
         return false;
     }
 
-    function read($from_record_num, $records_per_page){
+    function read($typeval, $from_record_num, $records_per_page){
         $query = "SELECT job_order.id,
                         job_order_details.type,
                         job_order_details.code,
@@ -132,15 +132,16 @@ class JobOrder{
                         FROM `job_order`
                         JOIN users on job_order.userid = users.userid
                         JOIN job_order_details on job_order.id = job_order_details.job_orderid
+                        WHERE job_order_details.type LIKE '%{$typeval}%'
+                        /*ORDER BY job_order_details.modified DESC*/
                         LIMIT {$from_record_num}, {$records_per_page}";
-
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt;
     }
 
     function readOne($code){
-        
+
     }
 }
 ?>

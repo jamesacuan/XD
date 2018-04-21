@@ -22,10 +22,9 @@ include 'template/header.php';
                 <th class="col-xs-1">Job Order</th>
                 <th class="col-xs-1">Code</th>
                 <th class="col-xs-1">By</th>
-                <th class="col-xs-3">Note</th>
+                <th class="col-xs-6">Note</th>
                 <th class="col-xs-2">Date</th>
-                <th class="col-xs-2">Status</th>
-                <th class="col-xs-2">Action</th>
+                <th class="col-xs-1">Status</th>
             </tr>
         </thead>
         <tbody>
@@ -38,17 +37,16 @@ include 'template/header.php';
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                     extract($row);
                     echo "<tr>";
-                        echo "<th scope=\"row\">{$id}</th>";
-                        echo "<td>{$code}</td>";
+                        echo "<th scope=\"row\"><a href=\"joborder.php?&amp;id={$id}\">{$id}</th>";
+                        echo "<td><a href=\"joborderitem.php?&amp;code={$code}\">{$code}</a></td>";
                         echo "<td>{$username}</td>";
                         echo "<td class=\"clearfix\"><span>{$note}</span><span class=\"glyphicon glyphicon-picture pull-right\" data-toggle=\"modal\" data-target=\"#image\"></span></td>";
                         echo "<td>{$modified}</td>";
                         echo "<td><span class=\"label label-primary\">{$status}</span></td>";
-                        echo "<td>
-                            <a href=\"joborderitem.php?&amp;code={$code}\" class=\"btn btn-sm btn-default\">View</a>";
+                        /*echo "<td>";
                             if($username==$_SESSION['username']){
                             echo " <button class=\"btn btn-sm btn-default\">Delete</button>";
-                            }
+                            }*/
                         echo "</td>";
                     echo "</tr>";
                 }
@@ -58,7 +56,7 @@ include 'template/header.php';
             }
         ?>
         </tbody>
-    </table>
+    </table> 
     <div class="modal fade" id="image" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -66,7 +64,7 @@ include 'template/header.php';
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       </div>
       <div class="modal-body">
-        ...
+        <img src="" />
       </div>
     </div>
   </div>

@@ -5,7 +5,7 @@ class JobOrder{
     private $table1_name = "job_order";
     private $table2_name = "job_order_details";
 
-    public $userid, $type, $code, $note, $image_url, $expectedJO, $created, $modified, $isDeleted;
+    public $joborderid, $userid, $type, $code, $note, $image_url, $expectedJO, $created, $modified, $isDeleted;
     public $jocount, $tycount;
 
     public function __construct($db){
@@ -73,24 +73,6 @@ class JobOrder{
         }
     }
 
-    /*function create_details(){
-        $this->created=date('Y-m-d H:i:s');
-        $this->modified=date('Y-m-d H:i:s');
-
-        $query = "INSERT INTO " . $this->table2_name . "
-                SET 
-                    type = :type,
-                    code = :code,
-                    note = :note,
-                    image_url = :image_url,
-                    status = :status,
-                    created = :created,
-                    modified = :modified,
-                    job_orderid = :joborder_id";
-        
-        $stmt = $this->conn->prepare($query);
-    }*/
-
     function getJobOrderCount(){
         $query = "SELECT count(*) AS total FROM job_order";
 
@@ -127,6 +109,7 @@ class JobOrder{
                         job_order_details.code,
                         users.username,
                         job_order_details.note,
+                        job_order_details.image_url,
                         job_order_details.modified,
                         job_order_details.status
                         FROM `job_order`
@@ -140,8 +123,51 @@ class JobOrder{
         return $stmt;
     }
 
-    function readOne($code){
+    function getJOItem(){
+        $query = "SELECT job_order.id,
+        job_order_details.type,
+        job_order_details.code,
+        users.username,
+        job_order_details.note,
+        job_order_details.image_url,
+        job_order_details.modified,
+        job_order_details.status
+        FROM `job_order`
+        JOIN users on job_order.userid = users.userid
+        JOIN job_order_details on job_order.id = job_order_details.job_orderid
+        WHERE job_order_details.code LIKE ?";
+        /*ORDER BY job_order_details.modified DESC*/
+        
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(1, $this->code);
+        $stmt->execute();
 
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $this->joborderid  = $row['id'];
+        $this->type        = $row['type'];
+        $this->username    = $row['username'];
+        $this->note        = $row['note'];
+        $this->image_url   = $row['image_url'];
+        $this->modified    = $row['modified'];
+        $this->status      = $row['status'];
+        //return $stmt;
+    }
+
+    function truncate(){
+        $query1 = "TRUNCATE job_order_details";
+        $query2 = "TRUNCATE job_order";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();   
+        $num = $stmt->rowCount();
+    
+        if($num>0){
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $this->jocount = $row['total'];
+            return $this->jocount;
+        }
+        return false;
     }
 }
 ?>

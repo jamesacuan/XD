@@ -17,10 +17,8 @@ include 'template/header.php'
 ?>
 <?php
 echo "<div class='col-md-12'>";
- 
 // to prevent undefined index notice
 $action = isset($_GET['action']) ? $_GET['action'] : "";
-
 // if login was successful
 /*if($action=='login_success'){
     echo "<div class='alert alert-info'>";
@@ -34,17 +32,10 @@ else if($action=='already_logged_in'){
     echo "</div>";
 }
 */
-
-// content once logged in
-//echo "<div class='alert alert-info'>";
-//    echo "Content when logged in will be here. For example, your premium products or services.";
-//echo "</div>";
-
 echo "</div>";
 ?>
 <div>
 
-<!-- Nav tabs -->
 <ul class="nav nav-tabs clearfix" role="tablist">
   <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">View All</a></li>
   <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Helmet Holder</a></li>
@@ -52,19 +43,7 @@ echo "</div>";
   <div class="btn-group pull-right">
         <button type="button" onclick="location.href='addjoborder.php'" class="btn btn-primary">+ Job Order</button>
         <button type="button" onclick="location.href='addPurchaseOrder.php'" class="btn btn-primary">+ Purchase Order</button>
-        <!--
-        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <span class="caret"></span>
-            <span class="sr-only">Toggle Dropdown</span>
-        </button>
-        <ul class="dropdown-menu">
-            <li><a href="createTicket.php?product=HHP">Helmet Holder - plain</a></li>
-            <li><a href="createTicket.php?product=HHC">Helmet Holder - custom logo</a></li>
-            <li><a href="createTicket.php?product=THP">Ticket Holder - plain</a></li>
-            <li><a href="createTicket.php?product=THC">Ticket Holder - custom logo</a></li>
-        </ul>
-        -->
-    </div>
+  </div>
 </ul>
 <?php echo $_SESSION['admin'] ?>
 <div class="tab-job tab-content" style="margin-top:20px">
@@ -93,7 +72,10 @@ echo "</div>";
                         echo "<th scope=\"row\"><a href=\"joborder.php?&amp;id={$id}\">{$id}</th>";
                         echo "<td><a href=\"joborderitem.php?&amp;code={$code}\">{$code}</a></td>";
                         echo "<td>{$username}</td>";
-                        echo "<td class=\"clearfix\"><span>{$note}</span><span class=\"glyphicon glyphicon-picture pull-right\" data-toggle=\"modal\" data-target=\"#image\"></span></td>";
+                        echo "<td class=\"clearfix\">";
+                            echo "<span>{$note}</span>";
+                            echo "<span class=\"glyphicon glyphicon-picture pull-right\" data-toggle=\"modal\" data-target=\"#image\" data-file=\"{$image_url}\" title=\"{$image_url}\"></span>";
+                        echo "</td>";
                         echo "<td>{$modified}</td>";
                         echo "<td><span class=\"label label-primary\">{$status}</span></td>";
                         /*echo "<td>";
@@ -215,7 +197,7 @@ echo "</div>";
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       </div>
       <div class="modal-body">
-        ...
+        <img class="job-order-for-render" />"
       </div>
     </div>
   </div>
@@ -226,7 +208,11 @@ $('#myTabs a').click(function (e) {
   $(this).tab('show')
 })
 
-$('#image').on('shown.bs.modal', function () {
+$('#image').on('shown.bs.modal', function (event) {
+  var button = $(event.relatedTarget);
+  var filename = button.data('file');
+  var modal = $(this);
+  modal.find('.job-order-for-render').attr('src',"<?php echo $home_url; ?>" + "images/" + filename);
   $('#myInput').focus()
 })
 </script>

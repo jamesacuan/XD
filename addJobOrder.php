@@ -13,20 +13,41 @@ $job_order = new JobOrder($db);
 $page_title="Create Job Order";
 
 include 'template/header.php';
-
+$newJO ="";
 ?>
 
 <?php
-if($_POST){
-    $job_order->getJobOrderCount();
-    $newJO = $job_order->jocount + 1;
+if(isset($_FILES['image']) && $_POST){
+    $errors= array();
+    $file_name = $_FILES['image']['name'];
+    $file_size = $_FILES['image']['size'];
+    $file_tmp  = $_FILES['image']['tmp_name'];
+    $file_type = $_FILES['image']['type'];
+    $file_ext=strtolower(end(explode('.',$_FILES['image']['name'])));
+    $expensions= array("jpeg","jpg","png");
+    
+    if(isset($_POST['joid'])){
+        $newJO = $_POST['joid'];
+    }
+    else{
+        $job_order->getJobOrderCount();
+        $newJO = $job_order->jocount + 1;
+    }
 
     $job_order->getTypeCount($_POST['type']);
     $newTY = $job_order->tycount + 1;
 
     $job_order->userid = $_SESSION['userid'];
     $job_order->type = $_POST['type'];
-
+    
+    if(in_array($file_ext,$expensions)=== false){
+       $errors[]="extension not allowed, please choose a JPEG or PNG file.";
+    }
+    
+    if($file_size > 2097152) {
+       $errors[]='File size must be excately 2 MB';
+    }
+    
     if($newTY<10){
         $job_order->code = $_POST['type'] . "-000" . $newTY;
     }
@@ -40,13 +61,27 @@ if($_POST){
         $job_order->code = $_POST['type'] . "-" . $newTY;
     }
     $job_order->code;
+
+    //rename file
+    
+    $file_name = substr(sha1($job_order->code), -20) . "." .$file_ext;
+
     $job_order->note       = $_POST['note'];
-    $job_order->image_url  = $_POST['url'];
+    $job_order->image_url  = $file_name;
     $job_order->status     = "For Approval";
     $job_order->expectedJO = $newJO;
     
+    if(empty($errors)==true) {
+       move_uploaded_file($file_tmp,"images/".$file_name);
+    }else{
+       print_r($errors);
+    }
+
     if($job_order->create()){
-        echo "<div class='alert alert-success'>Job Order was created.</div>";        
+        echo "<div class='alert alert-success'>";
+            echo "<h4>Job Order #{$newJO} was created.</h4>";
+            echo "<span>You may continue request image for render by adding it below, or go back to dashboard.</span>";
+        echo "</div>";        
     }
     else{
         echo "<div class='alert alert-danger'>Unable to create product.</div>";
@@ -54,7 +89,7 @@ if($_POST){
 }
 ?>
 
-<form class="form-horizontal" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype = "multipart/form-data"> 
+<form class="form-horizontal" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data"> 
   <div class="form-group">
     <label class="col-sm-2 control-label">Type</label>
 
@@ -78,15 +113,26 @@ if($_POST){
   <div class="form-group">
     <label for="url" class="col-sm-2 control-label">Upload Image</label>
     <div class="col-sm-10">
-        <input type="file" name="url" id="url" required/>
+        <input type="file" name="image" id="url" required/>
         <!--
             <input type="text" name="url" class="form-control" id="url" placeholder="image url" required>
         -->
     </div>
   </div>
-
+  <?php
+  if($_POST){
+    echo "<input type=\"hidden\" name='joid' value='{$newJO}'/>";
+  }
+  ?>
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+<?php
+  if($_POST){
+    echo "<h4>Recently added to job order</h4>";
+    echo "<div class='panel-group' id='accordion' role='tablist'>";
+    echo "</div>";
+  }
+  ?>
 
 
 <?php include 'template/footer.php'; ?>

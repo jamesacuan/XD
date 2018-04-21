@@ -1,11 +1,11 @@
 <?php
 // if access level was not 'Admin', redirect him to login page
-if(isset($_SESSION['role']) && $_SESSION['role']=="admin"){
+/*if(isset($_SESSION['role']) && $_SESSION['role']=="admin"){
     header("Location: {$home_url}admin/index.php?action=logged_in_as_admin");
 }
- 
+ */
 // if $require_login was set and value is 'true'
-else if(isset($require_login) && $require_login==true){
+if(isset($require_login) && $require_login==true){
     // if user not yet logged in, redirect to login page
     if(!isset($_SESSION['role'])){
         header("Location: {$home_url}login.php?action=please_login");

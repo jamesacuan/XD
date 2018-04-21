@@ -54,8 +54,8 @@ echo "</div>";
                 <th class="col-xs-1">Job Order</th>
                 <th class="col-xs-1">Code</th>
                 <th class="col-xs-1">By</th>
-                <th class="col-xs-6">Note</th>
-                <th class="col-xs-2">Date</th>
+                <th class="col-xs-5">Note</th>
+                <th class="col-xs-3">Date</th>
                 <th class="col-xs-1">Status</th>
             </tr>
         </thead>
@@ -76,7 +76,7 @@ echo "</div>";
                             echo "<span>{$note}</span>";
                             echo "<span class=\"glyphicon glyphicon-picture pull-right\" data-toggle=\"modal\" data-target=\"#image\" data-file=\"{$image_url}\" title=\"{$image_url}\"></span>";
                         echo "</td>";
-                        echo "<td>{$modified}</td>";
+                        echo "<td>" . date_format(date_create($modified),"F d, Y h:i:s A") . "</td>";
                         echo "<td><span class=\"label label-primary\">{$status}</span></td>";
                         /*echo "<td>";
                             if($username==$_SESSION['username']){

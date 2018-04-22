@@ -22,9 +22,6 @@
             </ul>
  
             <?php
-
-            // check if users was logged in
-            // if user was logged in, show "Edit Profile" and "Logout" options
             if(isset($_SESSION['logged_in']) && $_SESSION['logged_in']==true){
                 ?>
                 <ul class="nav navbar-nav navbar-right">

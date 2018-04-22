@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?php echo isset($page_title) ? strip_tags($page_title) : "Index"; ?></title>  
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen" />   
-    <link href="css/login.css" rel="stylesheet" />
+    <link href="css/datables.css" rel="stylesheet" />
     <link href="css/style.css" rel="stylesheet" />
     <script src="js/jquery-3.2.1.js"></script>   
     <script src="js/bootstrap.min.js"></script>   
-
+    <script src="js/datatables.min.js"></script>   
 </head>
 <body>
      <?php include_once 'template/navbar.php'; ?>

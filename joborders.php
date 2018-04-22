@@ -15,38 +15,93 @@ include_once "login_check.php";
 include 'template/header.php';
 ?>
 
+<ul class="nav nav-tabs clearfix" role="tablist">
+  <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">View All</a></li>
+  <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Helmet Holder</a></li>
+  <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Ticket Holder</a></li>
+  <div class="btn-group pull-right">
+        <button type="button" onclick="location.href='addjoborder.php'" class="btn btn-primary">+ Job Order</button>
+  </div>
+</ul>
 
-<table class="table table-hover table-bordered">
+<div class="tab-job tab-content" style="margin-top:20px">
+  <div role="tabpanel" class="tab-pane active" id="home">
+    <table id="joborders" class="table table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th class="col-xs-1">Job Order</th>
+                    <th class="col-xs-1">Code</th>
+                    <th class="col-xs-1">By</th>
+                    <th class="col-xs-6">Note</th>
+                    <th class="col-xs-2">Date</th>
+                    <th class="col-xs-1">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            <?php       
+                $stmt = $job_order->read('', $from_record_num, $records_per_page);
+                $num  = $stmt->rowCount();
+
+                if($num>0){
+                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                        extract($row);
+                        echo "<tr>";
+                            echo "<th scope=\"row\"><a href=\"joborder.php?&amp;id={$id}\">{$id}</th>";
+                            echo "<td><a href=\"joborderitem.php?&amp;code={$code}\">{$code}</a></td>";
+                            echo "<td>{$username}</td>";
+                            echo "<td class=\"clearfix\"><span>{$note}</span><span class=\"glyphicon glyphicon-picture pull-right\" data-toggle=\"modal\" data-target=\"#image\"></span></td>";
+                            echo "<td>" . date_format(date_create($modified),"F d, Y h:i:s A") . "</td>";
+                            echo "<td><span class=\"label label-primary\">{$status}</span></td>";
+                            /*echo "<td>";
+                                if($username==$_SESSION['username']){
+                                echo " <button class=\"btn btn-sm btn-default\">Delete</button>";
+                                }*/
+                            echo "</td>";
+                        echo "</tr>";
+                    }
+                }
+                else{
+                    echo "<div class='alert alert-info'>No products found.</div>";
+                }
+            ?>
+            </tbody>
+        </table> 
+    </div>
+    <div role="tabpanel" class="tab-pane" id="profile">
+  <table class="table table-hover table-bordered">
         <thead>
             <tr>
                 <th class="col-xs-1">Job Order</th>
                 <th class="col-xs-1">Code</th>
                 <th class="col-xs-1">By</th>
-                <th class="col-xs-6">Note</th>
+                <th class="col-xs-3">Note</th>
                 <th class="col-xs-2">Date</th>
-                <th class="col-xs-1">Status</th>
+                <th class="col-xs-2">Status</th>
+                <th class="col-xs-2">Action</th>
             </tr>
         </thead>
         <tbody>
 
         <?php       
-            $stmt = $job_order->read('', $from_record_num, $records_per_page);
+            $stmt = $job_order->read('HH',$from_record_num, $records_per_page);
             $num  = $stmt->rowCount();
 
             if($num>0){
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                     extract($row);
                     echo "<tr>";
-                        echo "<th scope=\"row\"><a href=\"joborder.php?&amp;id={$id}\">{$id}</th>";
-                        echo "<td><a href=\"joborderitem.php?&amp;code={$code}\">{$code}</a></td>";
+                        echo "<th scope=\"row\">{$id}</th>";
+                        echo "<td>{$code}</td>";
                         echo "<td>{$username}</td>";
                         echo "<td class=\"clearfix\"><span>{$note}</span><span class=\"glyphicon glyphicon-picture pull-right\" data-toggle=\"modal\" data-target=\"#image\"></span></td>";
                         echo "<td>{$modified}</td>";
                         echo "<td><span class=\"label label-primary\">{$status}</span></td>";
-                        /*echo "<td>";
+                        echo "<td>
+                            <a href=\"joborderitem.php?&code={$code}\" class=\"btn btn-sm btn-default\">View</a>";
                             if($username==$_SESSION['username']){
                             echo " <button class=\"btn btn-sm btn-default\">Delete</button>";
-                            }*/
+                            }
                         echo "</td>";
                     echo "</tr>";
                 }
@@ -56,8 +111,56 @@ include 'template/header.php';
             }
         ?>
         </tbody>
-    </table> 
-    <div class="modal fade" id="image" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    </table>  
+
+  </div>
+  <div role="tabpanel" class="tab-pane" id="messages">
+  <table class="table table-hover table-bordered">
+        <thead>
+            <tr>
+                <th class="col-xs-1">Job Order</th>
+                <th class="col-xs-1">Code</th>
+                <th class="col-xs-1">By</th>
+                <th class="col-xs-3">Note</th>
+                <th class="col-xs-2">Date</th>
+                <th class="col-xs-2">Status</th>
+                <th class="col-xs-2">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        <?php       
+            $stmt = $job_order->read('TH',$from_record_num, $records_per_page);
+            $num  = $stmt->rowCount();
+
+            if($num>0){
+                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                    extract($row);
+                    echo "<tr>";
+                        echo "<th scope=\"row\">{$id}</th>";
+                        echo "<td>{$code}</td>";
+                        echo "<td>{$username}</td>";
+                        echo "<td class=\"clearfix\"><span>{$note}</span><span class=\"glyphicon glyphicon-picture pull-right\" data-toggle=\"modal\" data-target=\"#image\"></span></td>";
+                        echo "<td>{$modified}</td>";
+                        echo "<td><span class=\"label label-primary\">{$status}</span></td>";
+                        echo "<td>
+                            <a href=\"joborderitem.php?&code={$code}\" class=\"btn btn-sm btn-default\">View</a>";
+                            if($username==$_SESSION['username']){
+                            echo " <button class=\"btn btn-sm btn-default\">Delete</button>";
+                            }
+                        echo "</td>";
+                    echo "</tr>";
+                }
+            }
+            else{
+                echo "<div class='alert alert-info'>No products found.</div>";
+            }
+        ?>
+        </tbody>
+    </table>
+  </div>
+</div>
+<div class="modal fade" id="image" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -78,6 +181,14 @@ $('#myTabs a').click(function (e) {
 $('#image').on('shown.bs.modal', function () {
   $('#myInput').focus()
 })
+
+$(document).ready( function () {
+    $('#joborders').DataTable({
+        "aLengthMenu": [[25, 50, 75, -1], [25, 50, 75, "All"]],
+        "pageLength": 25
+    });
+    
+} );
 </script>
 <?php
 include 'template/footer.php';

@@ -13,9 +13,17 @@
                 <li <?php echo $page_title=="Dashboard" ? "class='active'" : ""; ?>>
                     <a href="<?php echo $home_url; ?>">Home</a>
                 </li>
-                <li <?php echo $page_title=="Job Orders" ? "class='active'" : ""; ?>>
-                    <a href="<?php echo $home_url . "joborders.php"; ?>">Job Orders</a>
-                </li>
+                <li>
+                  <div class="btn-group navbar-btn">
+                    <button onclick="location.href='joborders.php'" class="btn">Job Orders</button>
+                    <button data-toggle="dropdown" class="btn dropdown-toggle"><span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        <li><a href="<?php echo $home_url . "joborders.php?type=HH"; ?>">Helmet Holder</a></li>
+                        <li><a href="<?php echo $home_url . "joborders.php?type=TH"; ?>">Ticket Holder</a></li>
+                    </ul>
+                  </div>
+            </li>
+
                 <li <?php echo $page_title=="Index" ? "class='active'" : ""; ?>>
                     <a href="<?php echo $home_url; ?>">Purchase Orders</a>
                 </li>

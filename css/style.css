@@ -232,3 +232,26 @@ html {
 	right:50%;
 	margin-right:20px;
 }
+
+.home-approval .row{
+	margin: 0;
+	padding: 10px 0 10px 0;
+	border:1px solid #eee;
+}
+
+.home-approval div[class*="col-sm"]{
+	padding: 0;
+}
+
+.home-approval .info *{
+	font-size: 12px;
+}
+.home-approval .info{
+	margin-top:3px;
+}
+.home-approval .title a,
+.home-approval .title .note{
+	font-size: 16px;
+	font-weight: bold;
+	color: #000;
+}

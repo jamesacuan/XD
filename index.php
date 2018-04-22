@@ -38,22 +38,8 @@ echo "</div>";
 <div>
 
 
-<div class="row">
+<div class="row home-approval">
     <div class="col-md-6">
-
-    <table class="table table-hover table-bordered">
-        <thead>
-            <tr>
-                <th class="col-xs-1">Job Order</th>
-                <th class="col-xs-1">Code</th>
-                <th class="col-xs-1">By</th>
-                <th class="col-xs-5">Note</th>
-                <th class="col-xs-3">Date</th>
-                <th class="col-xs-1">Status</th>
-            </tr>
-        </thead>
-        <tbody>
-
         <?php       
             $stmt = $job_order->read('', $from_record_num, $records_per_page);
             $num  = $stmt->rowCount();
@@ -61,30 +47,25 @@ echo "</div>";
             if($num>0){
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                     extract($row);
-                    echo "<tr>";
-                        echo "<th scope=\"row\"><a href=\"joborder.php?&amp;id={$id}\">{$id}</th>";
-                        echo "<td><a href=\"joborderitem.php?&amp;code={$code}\">{$code}</a></td>";
-                        echo "<td>{$username}</td>";
-                        echo "<td class=\"clearfix\">";
-                            echo "<span>{$note}</span>";
-                            echo "<span class=\"glyphicon glyphicon-picture pull-right\" data-toggle=\"modal\" data-target=\"#image\" data-file=\"{$image_url}\" title=\"{$image_url}\"></span>";
-                        echo "</td>";
-                        echo "<td>" . date_format(date_create($modified),"F d, Y h:i:s A") . "</td>";
-                        echo "<td><span class=\"label label-primary\">{$status}</span></td>";
-                        /*echo "<td>";
-                            if($username==$_SESSION['username']){
-                            echo " <button class=\"btn btn-sm btn-default\">Delete</button>";
-                            }*/
-                        echo "</td>";
-                    echo "</tr>";
+                    echo "<div class=\"row\">";
+                        echo "<div class=\"col-sm-1\" style='text-align:center'>";
+                        echo "<span class=\"glyphicon glyphicon-picture\" data-toggle=\"modal\" data-target=\"#image\" data-file=\"{$image_url}\" title=\"{$image_url}\"></span>";
+                        echo "</div>";
+                        echo "<div class=\"col-sm-9\">";
+                            echo "<div class=\"title\"><a href=\"joborderitem.php?&amp;code={$code}\">{$code}</a>";
+                            echo " - <span class=\"note\">{$note}</span> <span class=\"label label-primary\">{$status}</span></div>";
+                            echo "<div class=\"info\"><span class=\"text-muted\">From <a href=\"joborder.php?&amp;id={$id}\">Job Order #{$id}</a> by {$username} on " . date_format(date_create($modified),"F d, Y") . "</div>";
+                        echo "</div>";
+                        echo "<div class=\"col-sm-2\">";
+                            echo "<button class=\"btn btn-default btn-sm\">Approve</button>";
+                        echo "</div>";
+                    echo "</div>";
                 }
             }
             else{
                 echo "<div class='alert alert-info'>No products found.</div>";
             }
         ?>
-        </tbody>
-    </table>
   
   </div>
 </div>

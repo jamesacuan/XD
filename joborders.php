@@ -5,9 +5,17 @@ include_once "objects/job_order.php";
 
 $database = new Database();
 $db = $database->getConnection();
+$type = "";
 
 $job_order = new JobOrder($db);
-
+if (!isset($_GET['type'])){
+    $type = "";
+}
+else {
+    if(strtolower($_GET['type'])=='hh') $type="HH";
+    elseif(strtolower($_GET['type'])=='th') $type="TH";
+    else $type="";
+}
 $page_title="Job Orders";
 $require_login=true;
 
@@ -40,7 +48,7 @@ include 'template/header.php';
             <tbody>
 
             <?php       
-                $stmt = $job_order->read('', $from_record_num, $records_per_page);
+                $stmt = $job_order->read($type);
                 $num  = $stmt->rowCount();
 
                 if($num>0){
@@ -184,7 +192,7 @@ $('#image').on('shown.bs.modal', function () {
 
 $(document).ready( function () {
     $('#joborders').DataTable({
-        "aLengthMenu": [[25, 50, 75, -1], [25, 50, 75, "All"]],
+        "aLengthMenu": [[10, 25, 50, 75, -1], [10, 25, 50, 75, "All"]],
         "pageLength": 25
     });
     

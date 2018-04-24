@@ -3,24 +3,37 @@ include_once "config/core.php";
 include_once "config/database.php";
 include_once "objects/job_order.php";
 
+
 $database = new Database();
 $db = $database->getConnection();
 $type = "";
 
 $job_order = new JobOrder($db);
-if (!isset($_GET['type'])){
-    $type = "";
-}
-else {
-    if(strtolower($_GET['type'])=='hh') $type="HH";
-    elseif(strtolower($_GET['type'])=='th') $type="TH";
-    else $type="";
-}
+
 $page_title="Job Orders";
 $require_login=true;
-
 include_once "login_check.php";
 include 'template/header.php';
+
+if($_POST){
+    $id = $_POST['id'];
+    if(isset($_POST['status'])){
+        $job_order->joborderdetailsid = $id;
+        $job_order->status    = $_POST['status'];
+        $job_order->approve();
+    }
+    echo $_POST['status'];
+}
+else{
+    if (!isset($_GET['type']))
+    $type = "";
+
+    else {
+        if(strtolower($_GET['type'])=='hh') $type="HH";
+        elseif(strtolower($_GET['type'])=='th') $type="TH";
+        else $type="";
+    }
+}
 ?>
 
 <ul class="nav nav-tabs clearfix" role="tablist">
@@ -63,10 +76,20 @@ include 'template/header.php';
                             echo "<td>" . date_format(date_create($modified),"F d, Y h:i:s A") . "</td>";
                             echo "<td><span class=\"label label-primary\">{$status}</span></td>";
                             echo "<td>";
+                            echo "<button class=\"btn btn-sm btn-default\" onclick=\"location.href='" . htmlspecialchars($_SERVER["PHP_SELF"]) . "?&amp;id={$id}&amp;status='Approve''\">Approve</button>";
+                            ?>
+                            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+                            <?php
+                                echo "<input type=\"hidden\" name=\"id\" value=\"{$id}\"/>";
                                 if($username==$_SESSION['username'] && $status=="For Approval")
                                     echo " <button class=\"btn btn-sm btn-default\">Delete</button>";
-                                else if($_SESSION['role']=="hans"||$_SESSION['role']=="admin")
-                                    echo " <button class=\"btn btn-sm btn-primary\">Approve</button>";
+                                else if($_SESSION['role']=="hans"||$_SESSION['role']=="admin"){
+                                    echo " <button name=\"status\" class=\"btn btn-sm btn-primary\" value=\"Approve\">Approve</button>";
+                                    echo " <button name=\"status\" class=\"btn btn-sm btn-default\" value=\"Deny\">Deny</button>";
+                                }
+                                ?>
+                            </form>
+                            <?php
                             echo "</td>";
                         echo "</tr>";
                     }
@@ -200,6 +223,7 @@ $(document).ready( function () {
     
 } );
 </script>
+
 <?php
 include 'template/footer.php';
 ?>

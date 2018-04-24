@@ -1,4 +1,6 @@
 <?php
+include_once "config/core.php";
+
    if(isset($_FILES['image'])){
       $errors= array();
       $file_name = $_FILES['image']['name'];
@@ -25,9 +27,7 @@
       }
    }
 ?>
-<html>
-   <body>
-      
+
       <form action = "" method = "POST" enctype = "multipart/form-data">
          <input type = "file" name = "image" />
          <input type = "submit"/>
@@ -39,6 +39,14 @@
          </ul>
 			
       </form>
-      
+      <button type="button" onclick="<?php testfun($home_url, 5, "yes"); ?>" >testing</button><br/>
+
+        <?php
+        function testfun($home_url, $id, $status)
+        {
+            echo "window.location.href=" . $home_url . "test.php?&amp;id=" . $id . "&amp;status=" . $status ;
+        }
+
+        ?>
    </body>
 </html>

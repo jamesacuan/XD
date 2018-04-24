@@ -5,7 +5,7 @@ class JobOrder{
     private $table1_name = "job_order";
     private $table2_name = "job_order_details";
 
-    public $joborderid, $userid, $type, $code, $note, $image_url, $expectedJO, $created, $modified, $isDeleted;
+    public $joborderid, $userid, $type, $code, $note, $image_url, $expectedJO, $created, $modified, $isDeleted, $joborderdetailsid;
     public $jocount, $tycount;
 
     public function __construct($db){
@@ -74,8 +74,31 @@ class JobOrder{
     }
 
     function approve(){
-        
+        $this->modified = date('Y-m-d H:i:s');
+
+        $query = "UPDATE " . $this->table2_name . "
+                 SET
+                    status   = :status,
+                    modified = :modified
+                 WHERE
+                    id       = :id";
+
+        $stmt = $this->conn->prepare($query);
+
+        $this->status            = htmlspecialchars(strip_tags($this->status));
+        $this->modified          = htmlspecialchars(strip_tags($this->modified));
+        $this->joborderdetailsid = htmlspecialchars(strip_tags($this->joborderdetailsid));
+
+        $stmt->bindParam(':status',   $this->status);
+        $stmt->bindParam(':modified', $this->modified);
+        $stmt->bindParam(':id',       $this->joborderdetailsid);
+
+        if($stmt->execute()){
+            return true;
+        }
+        return false;
     }
+
     function getJobOrderCount(){
         $query = "SELECT count(*) AS total FROM job_order";
 

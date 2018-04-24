@@ -3,7 +3,7 @@
     session_start();
     date_default_timezone_set('Asia/Manila');
     
-    $home_url="http://localhost/xd/";
+    $home_url = "http://localhost/xd/";
     //$home_url="http://www.3d.local/";
     $page = isset($_GET['page']) ? $_GET['page'] : 1;  
     $records_per_page = 10;

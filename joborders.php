@@ -40,9 +40,10 @@ include 'template/header.php';
                     <th class="col-xs-1">Job Order</th>
                     <th class="col-xs-1">Code</th>
                     <th class="col-xs-1">By</th>
-                    <th class="col-xs-6">Note</th>
+                    <th class="col-xs-4">Note</th>
                     <th class="col-xs-2">Date</th>
                     <th class="col-xs-1">Status</th>
+                    <th class="col-xs-2">Action></th>
                 </tr>
             </thead>
             <tbody>
@@ -61,10 +62,11 @@ include 'template/header.php';
                             echo "<td class=\"clearfix\"><span>{$note}</span><span class=\"glyphicon glyphicon-picture pull-right\" data-toggle=\"modal\" data-target=\"#image\"></span></td>";
                             echo "<td>" . date_format(date_create($modified),"F d, Y h:i:s A") . "</td>";
                             echo "<td><span class=\"label label-primary\">{$status}</span></td>";
-                            /*echo "<td>";
-                                if($username==$_SESSION['username']){
-                                echo " <button class=\"btn btn-sm btn-default\">Delete</button>";
-                                }*/
+                            echo "<td>";
+                                if($username==$_SESSION['username'] && $status=="For Approval")
+                                    echo " <button class=\"btn btn-sm btn-default\">Delete</button>";
+                                else if($_SESSION['role']=="hans"||$_SESSION['role']=="admin")
+                                    echo " <button class=\"btn btn-sm btn-primary\">Approve</button>";
                             echo "</td>";
                         echo "</tr>";
                     }

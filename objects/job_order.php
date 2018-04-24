@@ -73,6 +73,9 @@ class JobOrder{
         }
     }
 
+    function approve(){
+        
+    }
     function getJobOrderCount(){
         $query = "SELECT count(*) AS total FROM job_order";
 

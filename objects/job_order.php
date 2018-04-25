@@ -158,6 +158,29 @@ class JobOrder{
         return false;
     }
 
+    function readJO($JOID){
+        $query = "SELECT job_order.id as JOID,
+                        job_order_details.id as JODID,
+                        job_order_details.type,
+                        job_order_details.code,
+                        users.username,
+                        job_order_details.note,
+                        job_order_details.image_url,
+                        job_order_details.modified,
+                        job_order_details.status
+                        FROM `job_order`
+                        JOIN users on job_order.userid = users.userid
+                        JOIN job_order_details on job_order.id = job_order_details.job_orderid
+                        WHERE job_order.id = $JOID";
+                        /*ORDER BY job_order_details.modified DESC
+                        LIMIT {$from_record_num}, {$records_per_page}";
+                        */
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt;
+    }
+
+
     function read($typeval){
         $query = "SELECT job_order.id as JOID,
                         job_order_details.id as JODID,
@@ -171,7 +194,8 @@ class JobOrder{
                         FROM `job_order`
                         JOIN users on job_order.userid = users.userid
                         JOIN job_order_details on job_order.id = job_order_details.job_orderid
-                        WHERE job_order_details.type LIKE '%{$typeval}%'";
+                        WHERE job_order_details.type LIKE '%{$typeval}%'
+                            AND job_order_details.isDeleted <> 'Y'";
                         /*ORDER BY job_order_details.modified DESC
                         LIMIT {$from_record_num}, {$records_per_page}";
                         */

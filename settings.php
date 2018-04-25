@@ -1,3 +1,4 @@
+
 <?php
 include_once "login_check.php";
 $require_login=true;
@@ -14,5 +15,8 @@ $page_title="Settings";
 
 include 'template/header.php'
 ?>
+
+<h3>Something Something here</h3>
+<p>Edit profile/Change password/manage users</p>
 
 <?php include 'template/footer.php' ?>

@@ -16,9 +16,10 @@ include_once "login_check.php";
 include 'template/header.php'
 ?>
 
-<?php
-echo $_SESSION['role'];
+<h3>Something Something here</h3>
+<p>summary/notification/quick view</p>
 
+<?php
 echo "<div class='col-md-12'>";
 // to prevent undefined index notice
 $action = isset($_GET['action']) ? $_GET['action'] : "";
@@ -55,7 +56,12 @@ echo "</div>";
                         echo "</div>";
                         echo "<div class=\"col-sm-9\">";
                             echo "<div class=\"title\"><a href=\"joborderitem.php?&amp;code={$code}\">{$code}</a>";
-                            echo " - <span class=\"note\">{$note}</span> <span class=\"label label-primary\">{$status}</span></div>";
+                            echo " - <span class=\"note\">{$note}</span> <span class=\"label ";
+                                if     ($status=="For Approval") echo "label-primary";
+                                elseif ($status=="Approve") echo "label-success";
+                                elseif ($status=="Deny") echo "label-danger";
+                                else   echo "label-default";
+                            echo "\">{$status}</span></div>";
                             echo "<div class=\"info\"><span class=\"text-muted\">From <a href=\"joborder.php?&amp;id={$JOID}\">Job Order #{$JOID}</a> by {$username} on " . date_format(date_create($modified),"F d, Y") . "</div>";
                         echo "</div>";
                         echo "<div class=\"col-sm-2\">";

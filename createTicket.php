@@ -16,7 +16,6 @@ include 'template-header.php'
 ?>
 
 <?php
-
 if($_POST){
     $ticket->type = $_POST['type'];
 

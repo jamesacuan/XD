@@ -5,7 +5,10 @@ class JobOrder{
     private $table1_name = "job_order";
     private $table2_name = "job_order_details";
 
-    public $joborderid, $userid, $type, $code, $note, $image_url, $expectedJO, $created, $modified, $isDeleted, $joborderdetailsid;
+    public $joborderid;
+    public $userid;
+    public $type;
+    public $code, $note, $image_url, $expectedJO, $created, $modified, $isDeleted, $joborderdetailsid;
     public $jocount, $tycount;
 
     public function __construct($db){
@@ -99,6 +102,32 @@ class JobOrder{
         return false;
     }
 
+    function delete(){
+        $this->modified = date('Y-m-d H:i:s');
+
+        $query = "UPDATE " . $this->table2_name . "
+                 SET
+                    isDeleted   = :isDeleted,
+                    modified    = :modified
+                 WHERE
+                    id          = :id";
+
+        $stmt = $this->conn->prepare($query);
+
+        $this->isDeleted         = htmlspecialchars(strip_tags($this->status));
+        $this->modified          = htmlspecialchars(strip_tags($this->modified));
+        $this->joborderdetailsid = htmlspecialchars(strip_tags($this->joborderdetailsid));
+
+        $stmt->bindParam(':isDeleted',   $this->isDeleted);
+        $stmt->bindParam(':modified', $this->modified);
+        $stmt->bindParam(':id',       $this->joborderdetailsid);
+
+        if($stmt->execute()){
+            return true;
+        }
+        return false;
+    }
+
     function getJobOrderCount(){
         $query = "SELECT count(*) AS total FROM job_order";
 
@@ -130,7 +159,8 @@ class JobOrder{
     }
 
     function read($typeval){
-        $query = "SELECT job_order.id,
+        $query = "SELECT job_order.id as JOID,
+                        job_order_details.id as JODID,
                         job_order_details.type,
                         job_order_details.code,
                         users.username,

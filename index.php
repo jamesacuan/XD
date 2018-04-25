@@ -17,6 +17,8 @@ include 'template/header.php'
 ?>
 
 <?php
+echo $_SESSION['role'];
+
 echo "<div class='col-md-12'>";
 // to prevent undefined index notice
 $action = isset($_GET['action']) ? $_GET['action'] : "";
@@ -54,7 +56,7 @@ echo "</div>";
                         echo "<div class=\"col-sm-9\">";
                             echo "<div class=\"title\"><a href=\"joborderitem.php?&amp;code={$code}\">{$code}</a>";
                             echo " - <span class=\"note\">{$note}</span> <span class=\"label label-primary\">{$status}</span></div>";
-                            echo "<div class=\"info\"><span class=\"text-muted\">From <a href=\"joborder.php?&amp;id={$id}\">Job Order #{$id}</a> by {$username} on " . date_format(date_create($modified),"F d, Y") . "</div>";
+                            echo "<div class=\"info\"><span class=\"text-muted\">From <a href=\"joborder.php?&amp;id={$JOID}\">Job Order #{$JOID}</a> by {$username} on " . date_format(date_create($modified),"F d, Y") . "</div>";
                         echo "</div>";
                         echo "<div class=\"col-sm-2\">";
                             echo "<button class=\"btn btn-default btn-sm\">Approve</button>";

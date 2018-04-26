@@ -28,8 +28,8 @@
                   </div>
                 </li>
                 -->
-                <li <?php echo $page_title=="Index" ? "class='active'" : ""; ?>>
-                    <a href="<?php echo $home_url; ?>">Purchase Orders</a>
+                <li <?php echo $page_title=="Purchase Orders" ? "class='active'" : ""; ?>>
+                    <a href="<?php echo $home_url . "purchaseorders.php" ; ?>">Purchase Orders</a>
                 </li>
             </ul>
  

@@ -53,11 +53,11 @@ if($_POST){
 
 include_once "template/header.php";
 
+echo "<div class='col-sm-6 col-md-4 col-md-offset-4'>";
+
 if($access_denied){
     echo "<div class='alert alert-danger margin-top-40' role='alert'>Access Denied.<br /><br />Your username or password maybe incorrect </div>";
 }
-
-echo "<div class='col-sm-6 col-md-4 col-md-offset-4'>";
      echo "<div class='account-wall'>";
         echo "<div id='my-tab-content' class='tab-content'>";
             echo "<div class='tab-pane active' id='login'>";

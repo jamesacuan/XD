@@ -2,7 +2,7 @@
 include_once "config/core.php";
 include_once "config/database.php";
 include_once "objects/job_order.php";
-
+include_once "objects/MomentPHP.php";
 
 $database = new Database();
 $db = $database->getConnection();
@@ -90,7 +90,7 @@ else{
                             echo "<td><a href=\"joborderitem.php?&amp;code={$code}\">{$code}</a></td>";
                             echo "<td>{$username}</td>";
                             echo "<td class=\"clearfix\"><span>{$note}</span><span class=\"glyphicon glyphicon-picture pull-right\" data-toggle=\"modal\" data-target=\"#image\" data-file=\"{$image_url}\" title=\"{$image_url}\"></span></td>";
-                            echo "<td>" . date_format(date_create($modified),"F d, Y h:i:s A") . "</td>";
+                            echo "<td><span class=\"dtime\">" . date_format(date_create($modified),"m-d-Y") . "</span></td>";
                             echo "<td><span class=\"label ";
                                 if     ($status=="For Approval") echo "label-primary";
                                 elseif ($status=="Approved") echo "label-success";
@@ -149,30 +149,7 @@ else{
   </div>
 </div>
 
-<script>
-
-$('#image').on('shown.bs.modal', function (event) {
-    var button   = $(event.relatedTarget);
-    var filename = button.data('file');
-    var modal    = $(this);
-    modal.find('.job-order-for-render').attr('src',"<?php echo $home_url; ?>" + "images/" + filename);
-})
-
-$('#warn').on('shown.bs.modal', function (event) {
-    var button = $(event.relatedTarget);
-    var _jodid = button.data('id');
-    var modal  = $(this);
-    modal.find('.delmodal').attr('href',"<?php echo $home_url; ?>joborders.php?id=" + _jodid + "&delete=Y");
-})
-
-$(document).ready( function () {
-    $('#joborders').DataTable({
-        "aLengthMenu": [[10, 25, 50, 75, -1], [10, 25, 50, 75, "All"]],
-        "pageLength": 25
-    });
-    
-} );
-</script>
+<script src="js/script.js"></script>
 
 <?php
 include 'template/footer.php';

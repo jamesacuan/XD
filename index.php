@@ -12,12 +12,12 @@ $job_order = new JobOrder($db);
 $page_title="Dashboard";
 
 $require_login=true;
+
+$today = date("m/d/Y");
+$yesterday = date("m/d/Y", strtotime($today . ' -1 days'));
 include_once "login_check.php";
 include 'template/header.php'
 ?>
-
-<h3>Something Something here</h3>
-<p>summary/notification/quick view</p>
 
 <?php
 echo "<div class='col-md-12'>";
@@ -39,17 +39,38 @@ else if($action=='already_logged_in'){
 echo "</div>";
 ?>
 <div>
+<div class="row">
+    <div class="col-md-12 clearfix">
+        <div class="pull-left">
+            <h3>Something Something here</h3>
+            <p>summary/notification/quick view</p>
 
+            <ul>
+                <li>Get NUMBER OF JOs AND POs THAT NEEDS APPROVAL of CURRENT LOGGED IN USER</li>
+                <li>Activities today, yesterday</li>
+            </ul>
+        </div>
+
+        <div class="pull-right">
+        <button type="button" onclick="location.href='addjoborder.php'" class="btn btn-primary">+ Job Order</button>
+        </div>
+    </div>
+</div>
 
 <div class="row home-approval">
     <div class="col-md-6">
+        <h3>Activity</h3>
         <?php       
-            $stmt = $job_order->read('', $from_record_num, $records_per_page);
+            $stmt = $job_order->readJODwithUserandStatus($_SESSION['userid'], "For Approval");
             $num  = $stmt->rowCount();
 
             if($num>0){
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                     extract($row);
+                    if($today == date_format(date_create($modified),"m/d/Y")) echo "<b>Today</b>";
+                    elseif($yesterday == date_format(date_create($modified),"m/d/Y")) echo "<b>Yesterday</b>";
+                    else echo "<b>Past</b>";
+
                     echo "<div class=\"row\">";
                         echo "<div class=\"col-sm-1\" style='text-align:center'>";
                         echo "<span class=\"glyphicon glyphicon-picture\" data-toggle=\"modal\" data-target=\"#image\" data-file=\"{$image_url}\" title=\"{$image_url}\"></span>";
@@ -65,8 +86,7 @@ echo "</div>";
                             echo "<div class=\"info\"><span class=\"text-muted\">From <a href=\"joborder.php?&amp;id={$JOID}\">Job Order #{$JOID}</a> by {$username} on " . date_format(date_create($modified),"F d, Y") . "</div>";
                         echo "</div>";
                         echo "<div class=\"col-sm-2\">";
-                            echo "<button class=\"btn btn-default btn-sm\">Approve</button>";
-                        echo "</div>";
+                         echo "</div>";
                     echo "</div>";
                 }
             }

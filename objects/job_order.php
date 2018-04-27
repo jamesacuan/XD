@@ -10,6 +10,7 @@ class JobOrder{
     public $type;
     public $code, $note, $image_url, $expectedJO, $created, $modified, $isDeleted, $joborderdetailsid;
     public $jocount, $tycount;
+    public $nickname;
 
     public function __construct($db){
         $this->conn = $db;
@@ -128,8 +129,8 @@ class JobOrder{
         return false;
     }
 
-    function getJobOrderCount(){
-        $query = "SELECT count(*) AS total FROM job_order";
+   function getJobOrderCount(){
+        $query = "SELECT max(id) AS total FROM job_order";
 
         $stmt = $this->conn->prepare($query);
         $stmt->execute();   
@@ -142,6 +143,39 @@ class JobOrder{
         }
         return false;
     }
+
+    function getJobOrderDetailsCount($JOID){
+        $query = "SELECT count(*) AS total FROM job_order_details where job_orderid={$JOID}";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();   
+        $num = $stmt->rowCount();
+    
+        if($num>0){
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $this->answer = $row['total'];
+            return $this->answer;
+        }
+        return false;
+    }
+
+    function getJobOrderUser($JOID){
+        $query = "SELECT nickname, job_order.created FROM job_order 
+                    JOIN users ON job_order.userid = users.userid
+                    where job_order.id={$JOID}";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();   
+        $num = $stmt->rowCount();
+    
+        if($num>0){
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $this->answer = $row['nickname'];
+            return $this->answer;
+        }
+        return false;
+    }
+
 
     function getTypeCount($type_){
         $query = "SELECT count(*) AS total FROM `job_order_details` WHERE `type`='{$type_}'";
@@ -160,6 +194,26 @@ class JobOrder{
 
     function readJO($JOID){
         $query = "SELECT job_order.id as JOID,
+                        users.nickname,
+                        job_order.created
+                        FROM `job_order`
+                        JOIN users on job_order.userid = users.userid
+                        WHERE job_order.id = $JOID";
+                        /*ORDER BY job_order_details.modified DESC
+                        LIMIT {$from_record_num}, {$records_per_page}";
+                        */
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $this->nickname  = $row['nickname'];
+        $this->created   = $row['created'];
+        $stmt->execute();
+        return $stmt;
+    }
+
+    function readJOD($JOID){
+        $query = "SELECT job_order.id as JOID,
                         job_order_details.id as JODID,
                         job_order_details.type,
                         job_order_details.code,
@@ -175,6 +229,27 @@ class JobOrder{
                         /*ORDER BY job_order_details.modified DESC
                         LIMIT {$from_record_num}, {$records_per_page}";
                         */
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt;
+    }
+
+    function readJODwithUserandStatus($userid, $status){
+        $query = "SELECT job_order.id as JOID,
+                job_order_details.id as JODID,
+                job_order_details.type,
+                job_order_details.code,
+                users.username,
+                job_order_details.note,
+                job_order_details.image_url,
+                job_order_details.modified,
+                job_order_details.status
+                FROM `job_order`
+                JOIN users on job_order.userid = users.userid
+                JOIN job_order_details on job_order.id = job_order_details.job_orderid
+                WHERE users.userid = $userid
+                ORDER BY job_order_details.modified DESC";
+
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt;

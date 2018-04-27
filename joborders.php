@@ -64,7 +64,7 @@ else{
 </ul>
 
   <div role="tabpanel" class="tab-pane active" id="home">
-    <table id="joborders" class="table table-hover table-bordered">
+    <table id="joborders" class="table table-hover table-bordered table-striped">
             <thead>
                 <tr>
                     <th class="col-xs-1">Job Order</th>
@@ -81,16 +81,22 @@ else{
             <?php       
                 $stmt = $job_order->read($type);
                 $num  = $stmt->rowCount();
+                $date_today   = date("m/d/Y");
 
                 if($num>0){
                     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                         extract($row);
                         echo "<tr>";
+                            $date_modified = date_format(date_create($modified),"m/d/Y");
+                            if($date_today == $date_modified) $date_modified = date_format(date_create($modified),"h:i A");
+                            else $date_modified = date_format(date_create($modified),"F d");;
+
                             echo "<th scope=\"row\"><a href=\"joborder.php?&amp;id={$JOID}\">{$JOID}</th>";
                             echo "<td><a href=\"joborderitem.php?&amp;code={$code}\">{$code}</a></td>";
                             echo "<td>{$username}</td>";
                             echo "<td class=\"clearfix\"><span>{$note}</span><span class=\"glyphicon glyphicon-picture pull-right\" data-toggle=\"modal\" data-target=\"#image\" data-file=\"{$image_url}\" title=\"{$image_url}\"></span></td>";
-                            echo "<td><span class=\"dtime\">" . date_format(date_create($modified),"m-d-Y") . "</span></td>";
+                            echo "<td><span title=\"" . date_format(date_create($modified),"F d, Y h:i:s A") . "\">{$date_modified}</span></td>";
+                            //<span class=\"dtime\">" . date_format(date_create($modified),"m-d-Y") . "</span>
                             echo "<td><span class=\"label ";
                                 if     ($status=="For Approval") echo "label-primary";
                                 elseif ($status=="Approved") echo "label-success";
@@ -100,6 +106,7 @@ else{
                             echo "<td>";
                             ?>
                             <?php
+                                echo "<a href=\"joborderitem.php?&amp;code={$code}\" class=\"btn btn-xs btn-default\">View</a>";
                                 if(($role=="hans" || $role=="admin" || $role=="superadmin") && $status=="For Approval"){
                                     echo "<a href=\"" . $home_url . "joborders.php?id={$JODID}&amp;status=Approve\" class=\"btn btn-xs btn-default\">Approve</a>";
                                     echo "<a href=\"" . $home_url . "joborders.php?id={$JODID}&amp;status=Deny\" class=\"btn btn-xs btn-default\">Deny</a>";

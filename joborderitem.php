@@ -77,9 +77,76 @@ include 'template/header.php';
 </div>
 
 
-<div class="row">
+<div class="row" style="margin-top:30px;">
   <div class="col-md-12">
     <h3>Feedback</h3>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="media">
+        <div class="media-left media-top">
+            <img class="media-object" src="#" width="64" height="64" />
+        </div>
+        <div class="media-body">
+          <h4 class="media-heading">Middle aligned media</h4>
+          <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+            Donec sed odio dui. Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+            </p>
+        </div>
+      </div>
+  </div>
+  <div class="col-md-12">
+    <div class="media">
+        <div class="media-left media-top">
+            <img class="media-object" src="#" width="64" height="64" />
+        </div>
+        <div class="media-body">
+          <h4 class="media-heading">Middle aligned media</h4>
+          <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+            Donec sed odio dui. Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+            </p>
+        </div>
+      </div>
+  </div>
+  <div class="col-md-12">
+    <div class="media">
+        <div class="media-left media-top">
+            <img class="media-object" src="#" width="64" height="64" />
+        </div>
+        <div class="media-body">
+          <h4 class="media-heading">Middle aligned media</h4>
+          <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+            Donec sed odio dui. Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+            </p>
+        </div>
+      </div>
+  </div>
+  <div class="col-md-12">
+    <div class="media">
+        <div class="media-left media-top">
+            <img class="media-object" src="#" width="64" height="64" />
+        </div>
+        <div class="media-body">
+          <h4 class="media-heading">Middle aligned media</h4>
+          <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+            Donec sed odio dui. Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+            </p>
+        </div>
+      </div>
+  </div>
+  <div class="col-md-12">
+    <div class="media">
+        <div class="media-left media-top">
+            <img class="media-object" src="#" width="64" height="64" />
+        </div>
+        <div class="media-body">
+          <h4 class="media-heading">Middle aligned media</h4>
+          <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+            Donec sed odio dui. Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+            </p>
+        </div>
+      </div>
   </div>
 </div>
 <?php

@@ -77,6 +77,8 @@ class JobOrder{
         }
     }
 
+
+
     function approve(){
         $this->modified = date('Y-m-d H:i:s');
 
@@ -265,6 +267,7 @@ class JobOrder{
                         job_order_details.note,
                         job_order_details.image_url,
                         job_order_details.modified,
+                        job_order_details.created,
                         job_order_details.status
                         FROM `job_order`
                         JOIN users on job_order.userid = users.userid
@@ -314,16 +317,12 @@ class JobOrder{
         $query1 = "TRUNCATE job_order_details";
         $query2 = "TRUNCATE job_order";
 
-        $stmt = $this->conn->prepare($query);
+        $stmt = $this->conn->prepare($query1);
         $stmt->execute();   
-        $num = $stmt->rowCount();
     
-        if($num>0){
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            $this->jocount = $row['total'];
-            return $this->jocount;
-        }
-        return false;
+        $stmt = $this->conn->prepare($query2);
+        $stmt->execute();
+        return $stmt;
     }
 }
 ?>

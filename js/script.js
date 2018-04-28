@@ -13,6 +13,12 @@ $('#warn').on('shown.bs.modal', function (event) {
     modal.find('.delmodal').attr('href', home_url + "joborders.php?id=" + _jodid + "&delete=Y");
 })
 
+$('#clear').on('shown.bs.modal', function (event) {
+    var modal  = $(this);
+    modal.find('.delmodal').attr('href', home_url + "?truncate=Y");
+})
+
+
 $(document).ready( function () {
     $('#noteArea').wysiwyg();
 

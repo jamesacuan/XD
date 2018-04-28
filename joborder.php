@@ -52,7 +52,7 @@ include 'template/header.php';
                                 echo "<div class=\"col-md-4\">";
                                     echo "<h4 class=\"panel-title\">";
                                         echo "<a role=\"button\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapse{$code}\">";
-                                        echo "{$i} - {$code}";
+                                        echo "Requested Item {$i}: {$code}";
                                         echo "</a>";
                                     echo "</h4>";
                                 echo "</div>";

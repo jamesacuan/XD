@@ -87,15 +87,15 @@ else{
                     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                         extract($row);
                         echo "<tr>";
-                            $date_modified = date_format(date_create($modified),"m/d/Y");
-                            if($date_today == $date_modified) $date_modified = date_format(date_create($modified),"h:i A");
-                            else $date_modified = date_format(date_create($modified),"F d");;
+                            $date_created = date_format(date_create($created),"m/d/Y");
+                            if($date_today == $date_created) $date_created = date_format(date_create($created),"h:i A");
+                            else $date_created = date_format(date_create($created),"F d");;
 
                             echo "<th scope=\"row\"><a href=\"joborder.php?&amp;id={$JOID}\">{$JOID}</th>";
                             echo "<td><a href=\"joborderitem.php?&amp;code={$code}\">{$code}</a></td>";
                             echo "<td>{$username}</td>";
                             echo "<td class=\"clearfix\"><span>{$note}</span><span class=\"glyphicon glyphicon-picture pull-right\" data-toggle=\"modal\" data-target=\"#image\" data-file=\"{$image_url}\" title=\"{$image_url}\"></span></td>";
-                            echo "<td><span title=\"" . date_format(date_create($modified),"F d, Y h:i:s A") . "\">{$date_modified}</span></td>";
+                            echo "<td><span title=\"" . date_format(date_create($created),"F d, Y h:i:s A") . "\">{$date_created}</span></td>";
                             //<span class=\"dtime\">" . date_format(date_create($modified),"m-d-Y") . "</span>
                             echo "<td><span class=\"label ";
                                 if     ($status=="For Approval") echo "label-primary";

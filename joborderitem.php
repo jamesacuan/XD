@@ -8,9 +8,15 @@ $db = $database->getConnection();
 
 $job_order = new JobOrder($db);
 
-$page_title="Job Order Item: " . $_GET['code'];
+if(isset($_GET['code'])){
+    $itemcode = $_GET['code'];
+}
+else{
+    location: '404.php';
+}
+$page_title      = "Job Order Item: " . $itemcode;
+$job_order->code = $itemcode;
 
-$job_order->code=$_GET['code'];
 $job_order->getJOItem();
 $require_login=true;
 
@@ -18,6 +24,13 @@ include_once "login_check.php";
 include 'template/header.php';
 ?>
 
+
+<?php
+if($_POST){
+    echo "test";    
+}
+?>
+<div class="container">
 <div class="row">
 <div class="col-md-3">
     <div class="row">
@@ -43,11 +56,16 @@ include 'template/header.php';
           <div class="md-stepper-horizontal">
           <div class="md-step active">
             <div class="md-step-circle"><span>1</span></div>
-            <div class="md-step-title">Request</div>
+            <div class="md-step-title">
+            <?php if ($job_order->status == "Approved") echo "Approved";
+                  else echo "Request"; ?>
+            </div>
             <div class="md-step-bar-left"></div>
             <div class="md-step-bar-right"></div>
           </div>
-          <div class="md-step inactive">
+          <?php echo "<div class=\"md-step ";
+                    if ($job_order->status == "Approved") echo "active\">";
+                    else echo "inactive\">"; ?>
             <div class="md-step-circle"><span>2</span></div>
             <div class="md-step-title">Proposal</div>
             <!--<div class="md-step-optional">Rendered Image</div>-->
@@ -89,65 +107,43 @@ include 'template/header.php';
             <img class="media-object" src="#" width="64" height="64" />
         </div>
         <div class="media-body">
-          <h4 class="media-heading">Middle aligned media</h4>
           <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
             Donec sed odio dui. Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
             </p>
         </div>
       </div>
   </div>
-  <div class="col-md-12">
-    <div class="media">
-        <div class="media-left media-top">
-            <img class="media-object" src="#" width="64" height="64" />
-        </div>
-        <div class="media-body">
-          <h4 class="media-heading">Middle aligned media</h4>
-          <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-            Donec sed odio dui. Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-            </p>
-        </div>
-      </div>
-  </div>
-  <div class="col-md-12">
-    <div class="media">
-        <div class="media-left media-top">
-            <img class="media-object" src="#" width="64" height="64" />
-        </div>
-        <div class="media-body">
-          <h4 class="media-heading">Middle aligned media</h4>
-          <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-            Donec sed odio dui. Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-            </p>
-        </div>
-      </div>
-  </div>
-  <div class="col-md-12">
-    <div class="media">
-        <div class="media-left media-top">
-            <img class="media-object" src="#" width="64" height="64" />
-        </div>
-        <div class="media-body">
-          <h4 class="media-heading">Middle aligned media</h4>
-          <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-            Donec sed odio dui. Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-            </p>
-        </div>
-      </div>
-  </div>
-  <div class="col-md-12">
-    <div class="media">
-        <div class="media-left media-top">
-            <img class="media-object" src="#" width="64" height="64" />
-        </div>
-        <div class="media-body">
-          <h4 class="media-heading">Middle aligned media</h4>
-          <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-            Donec sed odio dui. Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-            </p>
-        </div>
-      </div>
-  </div>
+</div>
+<div class="row" style="margin-top:75px; margin-bottom:75px">
+    <div class="col-md-12">
+        <div class="media">
+            <div class="media-left media-top">
+                <img class="media-object" src="#" width="64" height="64" />
+            </div>
+            <div class="media-body">
+                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data"> 
+                <fieldset>
+                <div class="form-group">
+                    <textarea class="form-control" name="note" placeholder="Add a note" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="url" class="control-label">Upload Image</label>
+                    <div>
+                        <input type="file" name="image" id="url" />
+                    </div>
+                </div>
+                <?php
+                if($_POST){
+                    echo "<input type=\"hidden\" name='joid' value='{$newJO}'/>";
+                }
+                ?>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                </fieldset>
+                </form>
+            </div>
+    </div>
+    </div>
+</div>
 </div>
 <?php
 include 'template/footer.php';

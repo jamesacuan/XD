@@ -14,12 +14,16 @@ $('#warn').on('shown.bs.modal', function (event) {
 })
 
 $(document).ready( function () {
+    $('#noteArea').wysiwyg();
+
     $('#joborders').DataTable({
         "aLengthMenu": [[10, 25, 50, 75, -1], [10, 25, 50, 75, "All"]],
         "pageLength": 25
     });
     
 } );
+
+
 moment().format();
 
 function fromNow(){
@@ -29,3 +33,4 @@ function fromNow(){
         console.log(x[i].innerText);
     }
 }
+

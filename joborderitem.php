@@ -16,6 +16,7 @@ else{
 }
 $page_title      = "Job Order Item: " . $itemcode;
 $job_order->code = $itemcode;
+$role = $_SESSION['role'];
 
 echo $job_order->getJOItem();
 $require_login=true;
@@ -88,26 +89,30 @@ if($_POST){
             </div>
         </div>
         <div class="col-md-2 clearfix">
-            <div class="pull-right">
+            <div class="pull-right btn-group">
             <?php
                 if ($job_order->username==$_SESSION['username'] && $job_order->status=='For Approval'){
                     echo "<a href=\"#\" class=\"btn btn-danger\">Delete</a>";
                 }
-                if($job_order->status=='For Approval' && $_SESSION['role']=='admin'){
-                    echo "<a href=\"#\" class=\"btn btn-primary\">Approve</a>";
+                if($job_order->status=='For Approval' && ($role=="hans" || $role=="admin" || $role=="superadmin")){
+                    echo "<a href=\"#\" class=\"btn btn-default\">Approve</a>";
+                    echo "<a href=\"#\" class=\"btn btn-default\">Deny</a>";
                 }
             ?>
             </div>
         </div>
     </div>
 
+    <?php if($role=="hans" || $role=="admin" || $role=="superadmin"){
+        ?>
     <div class="row" style="margin-top:30px;">
         <div class="col-md-12">
             <h3>Feedback</h3>
         </div>
     </div>
 
-    <div class="row" style="margin-top:25px; margin-bottom:15px">
+    
+   <div class="row" style="margin-top:25px; margin-bottom:15px">
         <div class="col-md-12">
             <div class="media">
                 <div class="media-left media-top">
@@ -141,6 +146,7 @@ if($_POST){
         </div>
         </div>
     </div>
+    <?php } ?>
 </div>
 <?php
 include 'template/footer.php';

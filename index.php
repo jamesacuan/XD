@@ -34,13 +34,11 @@ echo "<div class='col-md-12'>";
 // to prevent undefined index notice
 $action = isset($_GET['action']) ? $_GET['action'] : "";
 // if login was successful
-/*if($action=='login_success'){
-    echo "<div class='alert alert-info'>";
-        echo "<strong>Hi " . $_SESSION['username'] . ", welcome back!</strong>";
-    echo "</div>";
+if($action=='login_success'){
+        echo "<h3>Hi, " . $_SESSION['nickname'] . ". Welcome back!</h3>";
 }
 // if user is already logged in, shown when user tries to access the login page
-else if($action=='already_logged_in'){
+/*else if($action=='already_logged_in'){
     echo "<div class='alert alert-info'>";
         echo "<strong>You are already logged in.</strong>";
     echo "</div>";
@@ -50,14 +48,20 @@ echo "</div>";
 ?>
 <div>
 <div class="container">
+
 <div class="row">
     <div class="col-md-12 clearfix">
         <div class="pull-left">
         <h3>Activity</h3>
         </div>
 
-        <div class="pull-right">
-        <button type="button" onclick="location.href='addjoborder.php'" class="btn btn-primary">+ Job Order</button>
+        <div class="pull-right btn-group">
+        <?php
+            if($_SESSION['role']=="user"){        
+                echo "<button type=\"button\" onclick=\"location.href='addjoborder.php'\" class=\"btn btn-default\">+ Job Order</button>";
+                echo "<button type=\"button\" onclick=\"location.href='addpurchaseorder.php'\" class=\"btn btn-default\">+ Purchase Order</button>";
+            }
+        ?>
         <?php
             if($_SESSION['role']=="superadmin"){
                 echo "<a href=\"#\" class=\"btn btn-danger\" data-id=\"truncate\" data-toggle=\"modal\" data-target=\"#clear\">Truncate</a>";

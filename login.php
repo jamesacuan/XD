@@ -24,6 +24,7 @@ if($_POST){
 
         $_SESSION['logged_in'] = true;
         $_SESSION['userid']    = $user->id;
+        $_SESSION['nickname']  = $user->nickname;
         $_SESSION['username']  = $user->username;
         $_SESSION['role']      = $user->role;
         $_SESSION['admin']     = $user->isAdmin;

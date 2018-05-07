@@ -12,7 +12,6 @@
     <script src="js/jquery-3.2.1.js"></script>   
     <script src="js/bootstrap.min.js"></script>   
     <script src="js/datatables.min.js"></script>   
-    <script src="js/bootstrap-wysiwyg.js"></script>
 </head>
 <body>
      <?php include_once 'template/navbar.php'; ?>

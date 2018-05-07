@@ -16,7 +16,7 @@ class User{
     }
 
     function userExists(){
-        $query = "SELECT `userid`, `username`, `password`, `role`, isAdmin, created, modified 
+        $query = "SELECT `userid`, `username`, `nickname`, `password`, `role`, isAdmin, created, modified 
                 FROM " . $this->table_name . "
                 WHERE username = ?
                 LIMIT 0,1";
@@ -29,6 +29,7 @@ class User{
         if($num>0){
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             $this->id       = $row['userid'];
+            $this->nickname = $row['nickname'];
             $this->username = $row['username'];
             $this->password = $row['password'];
             $this->role     = $row['role'];

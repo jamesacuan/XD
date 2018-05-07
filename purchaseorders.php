@@ -22,4 +22,24 @@ include 'template/header.php'
         ?>
     </div>
 
+<div class="row">
+    <div class="col-md-12">
+        <table id="purchaseorders" class="table table-hover table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th class="col-xs-1">PO</th>
+                        <th class="col-xs-3">By</th>
+                        <th class="col-xs-3">Date</th>
+                        <th class="col-xs-2">Status</th>
+                        <th class="col-xs-3">Action</th>
+                    </tr>
+                </thead>
+                <tbody>      
+                </tbody>
+            </table> 
+        </div>
+    </div>
+</div>
+</div>
+<script src="js/script.js"></script>
 <?php include 'template/footer.php'?>

@@ -19,15 +19,17 @@ $('#clear').on('shown.bs.modal', function (event) {
     modal.find('.delmodal').attr('href', home_url + "?truncate=Y");
 })
 
-
 $(document).ready( function () {
     $('#joborders').DataTable({
         "aLengthMenu": [[10, 25, 50, 75, -1], [10, 25, 50, 75, "All"]],
         "pageLength": 25
     });
-    
-} );
 
+    $('#purchaseorders').DataTable({
+        "aLengthMenu": [[10, 25, 50, 75, -1], [10, 25, 50, 75, "All"]],
+        "pageLength": 25
+    });
+});
 
 moment().format();
 

@@ -69,7 +69,7 @@ else{
     <table id="joborders" class="table table-hover table-bordered table-striped">
             <thead>
                 <tr>
-                    <th class="col-xs-1">Job Order</th>
+                    <th class="col-xs-1">JO</th>
                     <th class="col-xs-1">Code</th>
                     <th class="col-xs-1">By</th>
                     <th class="col-xs-4">Note</th>

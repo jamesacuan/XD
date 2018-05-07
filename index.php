@@ -9,7 +9,7 @@ $db = $database->getConnection();
 
 $job_order = new JobOrder($db);
 
-$page_title="Dashboard";
+$page_title= "Dashboard";
 
 $require_login=true;
 

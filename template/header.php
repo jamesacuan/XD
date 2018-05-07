@@ -5,7 +5,12 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?php echo isset($page_title) ? strip_tags($page_title) : "Index"; ?></title>  
+    <title><?php 
+            if (isset($page_title))
+                echo $home_title . " - " . $page_title;
+            else echo "Index";
+            ?>
+    </title>
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen" />   
     <link href="css/datables.css" rel="stylesheet" />
     <link href="css/style.css" rel="stylesheet" />

@@ -10,7 +10,7 @@ $database = new Database();
 $db = $database->getConnection();
 
 $job_order = new PurchaseOrder($db);
-$page_title="Create Purchase Order";
+$page_title="Create New Purchase Order";
 
 include 'template/header.php';
 ?>

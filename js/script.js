@@ -1,4 +1,5 @@
 var home_url = "http://localhost/xd/";
+
 $('#image').on('shown.bs.modal', function (event) {
     var button   = $(event.relatedTarget);
     var filename = button.data('file');
@@ -20,8 +21,6 @@ $('#clear').on('shown.bs.modal', function (event) {
 
 
 $(document).ready( function () {
-    $('#noteArea').wysiwyg();
-
     $('#joborders').DataTable({
         "aLengthMenu": [[10, 25, 50, 75, -1], [10, 25, 50, 75, "All"]],
         "pageLength": 25

@@ -53,13 +53,15 @@ else{
     }
 }
 ?>
-
+<div class="container">
 <ul class="nav nav-tabs clearfix" role="tablist">
     <li role="presentation" <?php if($type=="") echo "class=\"active\"" ?>><a href="<?php echo $home_url ?>joborders.php">View All</a></li>
     <li role="presentation" <?php if($type=="HH") echo "class=\"active\"" ?>><a href="<?php echo $home_url ?>joborders.php?type=HH">Helmet Holder</a></li>
     <li role="presentation" <?php if($type=="TH") echo "class=\"active\"" ?>><a href="<?php echo $home_url ?>joborders.php?type=TH">Ticket Holder</a></li>
     <div class="btn-group pull-right">
-        <button type="button" onclick="location.href='addjoborder.php'" class="btn btn-primary">+ Job Order</button>
+        <?php if($_SESSION['role']=="user")
+            echo "<button type=\"button\" onclick=\"location.href='addjoborder.php'\" class=\"btn btn-primary\">+ Job Order</button>";
+        ?>
     </div>
 </ul>
 
@@ -91,7 +93,7 @@ else{
                             if($date_today == $date_created) $date_created = date_format(date_create($created),"h:i A");
                             else $date_created = date_format(date_create($created),"F d");;
 
-                            echo "<th scope=\"row\"><a href=\"joborder.php?&amp;id={$JOID}\">{$JOID}</th>";
+                            echo "<th scope=\"row\"><a href=\"joborder.php?&amp;id={$JOID}\">{$JOID}</a></th>";
                             echo "<td><a href=\"joborderitem.php?&amp;code={$code}\">{$code}</a></td>";
                             echo "<td>{$username}</td>";
                             echo "<td class=\"clearfix\"><span>{$note}</span><span class=\"glyphicon glyphicon-picture pull-right\" data-toggle=\"modal\" data-target=\"#image\" data-file=\"{$image_url}\" title=\"{$image_url}\"></span></td>";
@@ -157,7 +159,7 @@ else{
 </div>
 
 <script src="js/script.js"></script>
-
+</div>
 <?php
 include 'template/footer.php';
 ?>

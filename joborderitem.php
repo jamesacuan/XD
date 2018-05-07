@@ -12,12 +12,12 @@ if(isset($_GET['code'])){
     $itemcode = $_GET['code'];
 }
 else{
-    location: '404.php';
+    header("Location: {$home_url}404.php");
 }
 $page_title      = "Job Order Item: " . $itemcode;
 $job_order->code = $itemcode;
 
-$job_order->getJOItem();
+echo $job_order->getJOItem();
 $require_login=true;
 
 include_once "login_check.php";
@@ -41,15 +41,20 @@ if($_POST){
   <div class="col-md-7">
       <div class="row">
           <div class="col-xs-3">From Job Order</div>
-          <div class="col-xs-9"><?php echo $job_order->joborderid?></div>
+          <div class="col-xs-9"><a href="<?php echo $home_url . "joborder.php?&amp;id=" . $job_order->joborderid?>"><?php echo $job_order->joborderid?></a></div>
+      </div>
+      <div class="row">
+          <div class="col-xs-3">Type:</div>
+          <div class="col-xs-9"><?php if($job_order->type=="HH") echo "Helmet Holder";
+                                      elseif($job_order->type=="TH") echo "Ticket Holder"; ?></div>
       </div>
       <div class="row">
           <div class="col-xs-3">By:</div>
-          <div class="col-xs-9"><?php echo $job_order->username?></div>
+          <div class="col-xs-9"><?php echo $job_order->nickname?></div>
       </div>
       <div class="row">
           <div class="col-xs-3">Date added:</div>
-          <div class="col-xs-9"><?php echo $job_order->modified?></div>
+          <div class="col-xs-9"><?php echo date_format(date_create($job_order->modified),"F d, Y h:i:s A"); ?></div>
       </div>
       <div class="row">
         <div class="col-xs-12">
@@ -100,20 +105,7 @@ if($_POST){
     <h3>Feedback</h3>
   </div>
 </div>
-<div class="row">
-  <div class="col-md-12">
-    <div class="media">
-        <div class="media-left media-top">
-            <img class="media-object" src="#" width="64" height="64" />
-        </div>
-        <div class="media-body">
-          <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-            Donec sed odio dui. Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-            </p>
-        </div>
-      </div>
-  </div>
-</div>
+
 <div class="row" style="margin-top:75px; margin-bottom:75px">
     <div class="col-md-12">
         <div class="media">

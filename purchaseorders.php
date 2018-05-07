@@ -15,6 +15,11 @@ $require_login=true;
 include_once "login_check.php";
 include 'template/header.php'
 ?>
-
+<div class="container">
+    <div class="btn-group pull-right">
+        <?php if($_SESSION['role']=="user")
+            echo "<button type=\"button\" onclick=\"location.href='addpurchaseorder.php'\" class=\"btn btn-primary\">+ Purchase Order</button>";
+        ?>
+    </div>
 
 <?php include 'template/footer.php'?>

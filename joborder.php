@@ -10,13 +10,17 @@ $job_order     = new JobOrder($db);
 
 $require_login =true;
 $role          = $_SESSION['role'];
+$id = $_GET['id'];
 
-if(isset($_GET['id'])){
-    $id = $_GET['id'];
+$stmt = $job_order->readJOD($id);
+$num  = $stmt->rowCount();
+
+if($num>0){
+    $page_title    = "Job Order #" . $id;
 }
-else
-    $id ="";
-$page_title    = "Job Order #" . $id;
+else{
+    header("Location: {$home_url}404.php");
+}
 
 $jocount="";
 $i = 1;

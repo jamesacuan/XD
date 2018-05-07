@@ -1,4 +1,7 @@
 <?php
+
+$page_title = "Page Not Found";
+include 'config/core.php';
 include 'template/header.php';
 ?>
 

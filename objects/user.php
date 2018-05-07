@@ -39,4 +39,37 @@ class User{
     
         return false;
     }
+
+    function read(){
+        $query = "SELECT * FROM `users`
+                    WHERE isDeleted <> 'Y'
+                    ORDER BY nickname ASC";
+                        /*ORDER BY job_order_details.modified DESC
+                        LIMIT {$from_record_num}, {$records_per_page}";
+                        */
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt;
+    }
+
+    function getUser($uid){
+        $query = "SELECT job_order.id as JOID,
+                        users.nickname,
+                        job_order.created
+                        FROM `job_order`
+                        JOIN users on job_order.userid = users.userid
+                        WHERE job_order.id = $uid";
+                        /*ORDER BY job_order_details.modified DESC
+                        LIMIT {$from_record_num}, {$records_per_page}";
+                        */
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $this->nickname  = $row['nickname'];
+        $this->created   = $row['created'];
+        $stmt->execute();
+        return $stmt;
+    }
+
 }

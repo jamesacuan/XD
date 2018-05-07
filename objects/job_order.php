@@ -78,7 +78,6 @@ class JobOrder{
     }
 
 
-
     function approve(){
         $this->modified = date('Y-m-d H:i:s');
 
@@ -287,6 +286,7 @@ class JobOrder{
         job_order_details.type,
         job_order_details.code,
         users.username,
+        users.nickname,
         job_order_details.note,
         job_order_details.image_url,
         job_order_details.modified,
@@ -306,6 +306,7 @@ class JobOrder{
         $this->joborderid  = $row['id'];
         $this->type        = $row['type'];
         $this->username    = $row['username'];
+        $this->nickname    = $row['nickname'];
         $this->note        = $row['note'];
         $this->image_url   = $row['image_url'];
         $this->modified    = $row['modified'];

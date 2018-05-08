@@ -103,7 +103,7 @@ if($_POST){
         </div>
     </div>
 
-    <?php if($role=="hans" || $role=="admin" || $role=="superadmin"){
+    <?php if(($role=="hans" || $role=="admin" || $role=="superadmin") && $job_order->status=="Approved"){
         ?>
     <div class="row" style="margin-top:30px;">
         <div class="col-md-12">
@@ -125,6 +125,14 @@ if($_POST){
                     <fieldset>
                     <div class="form-group">
                         <textarea class="form-control" name="note" placeholder="Add a note" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="status" class="control-label">Status</label>
+                        <select>
+                            <option></option>
+                            <option>Needs Feedback</option>
+                            <option>Done</option>
+                        </select>
                     </div>
                     <!--
                     <div class="form-group">

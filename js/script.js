@@ -29,6 +29,22 @@ $(document).ready( function () {
         "aLengthMenu": [[10, 25, 50, 75, -1], [10, 25, 50, 75, "All"]],
         "pageLength": 25
     });
+
+    /*
+    $({property: 0}).animate({property: 105}, {
+        duration: 1000,
+        step: function() {
+          var _percent = Math.round(this.property);
+          $("#progressBar").css("width",  _percent+"%");
+          if(_percent == 105) {
+            $("#progressBar").addClass("done");
+          }
+        },
+        complete: function() {
+            
+        }
+      });
+      */
 });
 
 moment().format();
@@ -40,4 +56,3 @@ function fromNow(){
         console.log(x[i].innerText);
     }
 }
-

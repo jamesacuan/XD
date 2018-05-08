@@ -19,6 +19,7 @@
     <script src="js/datatables.min.js"></script>   
 </head>
 <body>
+<div id="progressBar" class="waiting"></div>
      <?php include_once 'template/navbar.php'; ?>
      <div class="container">
         <?php

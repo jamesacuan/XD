@@ -1,14 +1,20 @@
 <div class="navbar navbar-default navbar-static-top" role="navigation">
     <div class="container">
          <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <button type="button" class="navbar-toggle " data-toggle="collapse" data-target=".navbar-collapse">
             <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
             </button>
  
             <a class="navbar-brand" href="<?php echo $home_url; ?>">HANC</a>
         </div>
  
         <div class="navbar-collapse collapse">
+            <?php
+            if(isset($_SESSION['logged_in']) && $_SESSION['logged_in']==true){
+                ?>
             <ul class="nav navbar-nav">
                 <li <?php echo $page_title=="Dashboard" ? "class='active'" : ""; ?>>
                     <a href="<?php echo $home_url; ?>">Home</a>
@@ -32,7 +38,8 @@
                     <a href="<?php echo $home_url . "purchaseorders.php" ; ?>">Purchase Orders</a>
                 </li>
             </ul>
- 
+            <?php   } ?>
+            
             <?php
             if(isset($_SESSION['logged_in']) && $_SESSION['logged_in']==true){
                 ?>

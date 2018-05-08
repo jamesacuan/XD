@@ -5,7 +5,9 @@ $require_login=false;
 include_once "login_check.php";
 // default to false
 $access_denied=false;
- 
+
+if(isset($_GET['goto'])) $_SESSION['goto'] = $_GET['goto'];
+
 if($_POST){
     include_once "config/database.php";
     include_once "objects/user.php";
@@ -38,12 +40,12 @@ if($_POST){
         /*if($user->access_level=='Admin'){
             header("Location: {$home_url}admin/index.php?action=login_success");
         }*/
-        header("Location: {$home_url}index.php?action=login_success");
-
-        // else, redirect only to 'Customer' section
-        /*else{
+        if(!$_SESSION['goto']){
             header("Location: {$home_url}index.php?action=login_success");
-        }*/
+        }
+        else{
+            header("Location: " . $_SESSION['goto']);
+        }
     }
     
     // if username does not exist or password is wrong

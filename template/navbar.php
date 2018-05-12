@@ -1,4 +1,4 @@
-<div class="navbar navbar-default navbar-static-top" role="navigation">
+    <div class="navbar navbar-default navbar-static-top" role="navigation">
     <div class="container">
          <div class="navbar-header">
             <button type="button" class="navbar-toggle " data-toggle="collapse" data-target=".navbar-collapse">
@@ -12,7 +12,7 @@
         </div>
  
         <div class="navbar-collapse collapse">
-            <?php
+        <?php
             if(isset($_SESSION['logged_in']) && $_SESSION['logged_in']==true){
                 ?>
             <ul class="nav navbar-nav">
@@ -77,3 +77,5 @@
         </div>
     </div>
 </div>
+
+-->

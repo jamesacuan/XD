@@ -1,0 +1,23 @@
+.mdl-layout__header{
+    background-color: #282e6c !important;
+}
+.mdl-navigation__link .is-active{
+    border-bottom-color: #18FFFF !important;
+    border-bottom-width: 3px !important;
+}
+.xd-ribbon {
+    width: 100%;
+    height: 50vh;
+    background-color: #282e6c;
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+}
+.xd-wrapper{
+    width:85%;
+    background-color: #fff;
+    margin: auto auto;
+}
+.xd-main{
+    margin-top: -35vh;
+}

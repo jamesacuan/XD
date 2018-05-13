@@ -1,5 +1,4 @@
 <?php
-// core configuration
 include_once "config/core.php";
 include_once "config/database.php";
 include_once "objects/purchase_order.php";
@@ -12,8 +11,8 @@ $purchase_order = new PurchaseOrder($db);
 $page_title="Purchase Orders";
 
 $require_login=true;
-include_once "login_check.php";
-include 'template/2header.php'
+include_once "template/login_check.php";
+include 'template/header.php'
 ?>
 <div class="xd-ribbon"></div>
 <div class="xd-main">

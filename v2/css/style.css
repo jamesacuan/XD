@@ -1,9 +1,17 @@
 .mdl-layout__header{
     background-color: #282e6c !important;
 }
-.mdl-navigation__link .is-active{
-    border-bottom-color: #18FFFF !important;
-    border-bottom-width: 3px !important;
+.xd-navigation .mdl-navigation__link {
+    border-bottom: 4px solid transparent;
+}
+
+.xd-navigation .mdl-navigation__link:hover,
+.xd-navigation .mdl-navigation__link.active {
+    border-bottom: 4px solid #18FFFF;
+}
+.xd-login{
+    margin-top:100px;
+    margin: auto auto;
 }
 .xd-ribbon {
     width: 100%;

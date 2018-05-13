@@ -16,3 +16,4 @@ include_once "template/login_check.php";
 include 'template/header.php'
 ?>
 
+<div class="xd-ribbon"></div>

@@ -1,48 +1,51 @@
-<header class="mdl-layout__header">   
-    <div class="mdl-layout__drawer-button"><i class="material-icons"></i></div>
-    <div class="mdl-layout__header-row">
-        <a class="mdl-layout-title" href="<?php echo $home_url . "home.php"; ?>"><span class="">HANC</span></a>
-        <nav class="mdl-navigation">
-            <a class="mdl-navigation__link" href="<?php echo $home_url . "joborders.php" ; ?>">Job Orders</a>
-            <a class="mdl-navigation__link is-active" href="<?php echo $home_url . "2purchaseorders.php" ; ?>">Purchase Orders</a>
-        </nav>
-        <div class="mdl-layout-spacer"></div>
-        <?php 
-            if(isset($_SESSION['logged_in']) && $_SESSION['logged_in']==true){
-        ?>
-                <span>hello@example.com</span>
-                <div class="wrapper">
-                    <button id="demo-menu-lower-right" class="mdl-button mdl-js-button mdl-button--icon">
-                        <div class="demo-avatar-dropdown">
-                            <i class="material-icons">arrow_drop_down</i>
-                    </button>
 
-                            <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
-                                for="demo-menu-lower-right">
-                            <li class="mdl-menu__item"><a href="<?php echo $home_url; ?>logout.php">Logout</a></li>
-                            </ul>
-                        </div>
-                </div>
-        <?php }
-           else echo "<a class=\"mdl-navigation__link\" href=\"<?php echo $home_url; ?>\">Log In</a>";
-        ?>
+<div class="xd-header mdl-layout__header mdl-layout__header--waterfall">
+<div aria-expanded="false" role="button" tabindex="0" class="mdl-layout__drawer-button"><i class="material-icons"></i></div>
+  <div class="mdl-layout__header-row">
+    <span class="android-title mdl-layout-title">
+      <a href="<?php echo $home_url; ?>">HANC</a>
+    </span>
+    <!-- Navigation -->
+    <div class="xd-navigation-container">
+      <nav class="xd-navigation mdl-navigation">
+        <a class="mdl-navigation__link mdl-typography--text-uppercase <?php echo $page_title=="Job Orders" ? "active" : ""; ?>" href="<?php echo $home_url . "joborders.php" ; ?>">Job Orders</a>
+        <a class="mdl-navigation__link mdl-typography--text-uppercase <?php echo $page_title=="Purchase Orders" ? "active" : ""; ?>" href="<?php echo $home_url . "purchaseorders.php" ; ?>">Purchase Orders</a>
+      </nav>
     </div>
-    <!--
-    <div class="">
-        <div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color--primary-dark">
-            <a href="#overview" class="mdl-layout__tab is-active">Overview</a>
-            <a href="#features" class="mdl-layout__tab">Features</a>
-            <a href="#features" class="mdl-layout__tab">Details</a>
-            <a href="#features" class="mdl-layout__tab">Technology</a>
-            <a href="#features" class="mdl-layout__tab">FAQ</a>
-            <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-shadow--4dp mdl-color--accent" id="add">
-                <i class="material-icons" role="presentation">add</i>
-                <span class="visuallyhidden">Add</span>
-            </button>
-        </div>
-    </div>
-    -->
-</header>
-<div class="mdl-layout__drawer">
-    <span class="mdl-layout__title">Simple Layout</span>
+    <span class="android-mobile-title mdl-layout-title">
+      <img class="android-logo-image" src="images/android-logo.png">
+    </span>
+    <div class="android-header-spacer mdl-layout-spacer"></div>
+    <?php
+        if(isset($_SESSION['logged_in']) && $_SESSION['logged_in']==true){
+    ?>
+        <span><?php echo $_SESSION['nickname']; ?></span>
+        <button class="android-more-button mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect" id="more-button">
+        <i class="material-icons">more_vert</i>
+        </button>
+        <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right mdl-js-ripple-effect" for="more-button">
+        <li class="mdl-menu__item"><a href="<?php echo $home_url; ?>logout.php">Logout</a></li>
+        </ul>
+        <?php
+                }
+                
+            else{
+                ?><span>Login</span>
+            <?php } ?>
+  </div>
+</div>
+
+<div class="android-drawer mdl-layout__drawer">
+  <span class="mdl-layout-title">
+    <img class="android-logo-image" src="images/android-logo-white.png">
+  </span>
+  <nav class="mdl-navigation">
+
+    <span class="mdl-navigation__link" href="">Versions</span>
+    <a class="mdl-navigation__link" href="">Lollipop 5.0</a>
+    <a class="mdl-navigation__link" href="">KitKat 4.4</a>
+    <a class="mdl-navigation__link" href="">Jelly Bean 4.3</a>
+    <a class="mdl-navigation__link" href="">Android history</a>
+    <div class="android-drawer-separator"></div>
+  </nav>
 </div>

@@ -20,5 +20,5 @@
     <script src="js/material.min.js"></script>
 </head>
 <body>
-<div class="mdl-layout mdl-js-layout ">
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-color--grey-100">
      <?php include_once 'template/navbar.php'; ?>

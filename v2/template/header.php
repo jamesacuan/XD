@@ -14,11 +14,11 @@
     <link href="css/datables.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link href="css/material.min.css" rel="stylesheet" />
-    <link href="css/2style.css" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet" />
     <script src="js/jquery-3.2.1.js"></script>    
     <script src="js/datatables.min.js"></script>
     <script src="js/material.min.js"></script>
 </head>
 <body>
 <div class="mdl-layout mdl-js-layout ">
-     <?php include_once 'template/2navbar.php'; ?>
+     <?php include_once 'template/navbar.php'; ?>

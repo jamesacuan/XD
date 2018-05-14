@@ -23,9 +23,15 @@
 }
 .xd-wrapper{
     width:85%;
-    background-color: #fff;
     margin: auto auto;
+}
+.xd-wrapper .container{
+    background-color: #fff;
 }
 .xd-main{
     margin-top: -35vh;
+}
+
+#purchaseorders{
+    width: 100%;
 }

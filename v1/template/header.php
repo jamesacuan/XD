@@ -12,9 +12,11 @@
             ?>
     </title>
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen" />   
-    <link href="css/datables.css" rel="stylesheet" />
+    <link href="css/datatables.css" rel="stylesheet" />
+    <link href="css/jquery-ui.min.css" rel="stylesheet" />
     <link href="css/style.css" rel="stylesheet" />
-    <script src="js/jquery-3.2.1.js"></script>   
+    <script src="js/jquery-3.2.1.js"></script>
+    <script src="js/jquery-ui.min.js"></script>  
     <script src="js/bootstrap.min.js"></script>   
     <script src="js/datatables.min.js"></script>
 </head>

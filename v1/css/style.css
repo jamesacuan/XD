@@ -287,3 +287,7 @@ html {
 	box-shadow: #b91f1f 1px 0 6px 2px;
 	border-radius: 50%;
 	}
+
+	#item_dialog .form-group .radio{
+		margin: 0;
+	}

@@ -107,13 +107,15 @@ $(document).ready(function(){
     $('#item_type').hide();
     $('#item_color').hide();
     $('#item_custom').hide();
+    $('#save').text('Save');
  });
 
  $('input[name="product"]').click(function(){
     $('#item_type').show();
     $('#item_color').show();
     fetch_colors();
-    fetch_products(type);
+    $('#item_custom').hide();
+    $('input[name="type"]').prop('checked',false);
  });
  
 
@@ -134,10 +136,22 @@ $(document).on('click', '.view_details', function(){
   $('#last_name').val(last_name);
   $('#save').text('Edit');
   $('#hidden_row_id').val(row_id);
-  $('#item_dialog').dialog('option', 'title', 'Edit Data');
+  $('#item_dialog').dialog('option', 'title', 'Edit Item');
   $('#item_dialog').dialog('open');
  });
 
+ $(document).on('click', '.remove_details', function(){
+  var row_id = $(this).attr("id");
+  if(confirm("Are you sure you want to remove this row data?"))
+  {
+   $('#row_'+row_id+'').remove();
+  }
+  else
+  {
+   return false;
+  }
+ });
+ 
  $('#save').click(function(){
     var err=0;
     var product = "";
@@ -179,10 +193,12 @@ $(document).on('click', '.view_details', function(){
             custom = $("#custom option:selected").text();
             output = '<tr id="row_'+count+'">';
             output += '<td></td>';
-            output += '<td>'+product+' - '+type+' - '+custom+'</td>';
+            output += '<td>'+product+' - '+type+' - '+custom+'';
+            output += '<input type="hidden" name="hidden_product[]" id="product'+count+'" value="'+$("input[name='product']:checked").val()+'" /></td>';
             output += '<td>'+color+'</td>';
             output += '<td>'+quantity+'</td>';
-            output += '<td><a href="#" class="btn btn-warning btn-xs view_details">View</a> <a href="#" class="btn btn-danger btn-xs">Delete</a></td>';
+            output += '<td><button type="button" name="view_details" class="btn btn-warning btn-xs view_details" id="'+count+'">View</button>';
+            output += '<button type="button" name="remove_details" class="btn btn-danger btn-xs remove_details" id="'+count+'">Remove</button></td>';
             output += '</tr>';
             $('#po_table').append(output);
             

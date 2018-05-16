@@ -5,6 +5,59 @@
 .tab-job th[scope="row"]{
     text-align: center;
 }
+.xd-container{
+	margin-top:-40vh;
+	margin-bottom: 10vh;
+	background-color: #fff;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	border: 1px solid #ddd;
+}
+.xd-ribbon{
+	width: 100%;
+	height: 50vh;
+	background-color: #282e6c;
+	-webkit-flex-shrink: 0;
+	-ms-flex-negative: 0;
+	flex-shrink: 0;
+}
+/*
+*   MATERIALIZING
+*/
+
+body{
+	background-color: rgb(245, 245, 245);
+}
+
+.navbar{
+	background-color: #282e6c;
+	margin-bottom: 0;
+}
+.navbar a{
+	color: #fff !important;
+}
+.navbar-nav a{
+	border-bottom: transparent 2px !important;
+	transition: transform 250ms ease-in-out;
+}
+.navbar .container{
+	width: 95%;
+}
+.navbar li.active a,
+.navbar li.open .dropdown-toggle{
+	background-color: rgba(245, 245, 245, .05) !important;
+	border-bottom: 2px solid #18FFFF !important;
+}
+.navbar-nav a:hover{
+	border-bottom: 2px solid #18FFFF !important;
+}
+.navbar .dropdown-menu a{
+	color: #000 !important;
+}
+
+.navbar-default{
+	border: none;
+}
 
 /*start of */
 .margin-bottom-1em{ margin-bottom:1em; }
@@ -260,7 +313,6 @@ html {
 	width: 100%;
 }
 
-
 #progressBar {
 	position: fixed;
 	z-index: 999999;
@@ -275,8 +327,8 @@ html {
 	-o-transition: width 500ms ease-out,opacity 400ms linear;
 	-webkit-transition: width 500ms ease-out,opacity 400ms linear;
 	transition: width 500ms ease-out,opacity 400ms linear;
-	}
-	#progressBar:before {
+}
+#progressBar:before {
 	position: absolute;
 	content: 	'';
 	top: 0;
@@ -286,8 +338,8 @@ html {
 	height: 2px;
 	box-shadow: #b91f1f 1px 0 6px 2px;
 	border-radius: 50%;
-	}
+}
 
-	#item_dialog .form-group .radio{
-		margin: 0;
-	}
+#item_dialog .form-group .radio{
+	margin: 0;
+}

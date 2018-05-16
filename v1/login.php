@@ -73,6 +73,8 @@ if($access_denied){
         echo "</div>";
     echo "</div>";
 echo "</div>";
+?>
 
+<?php
 include_once "template/footer.php";
 ?>

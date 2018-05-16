@@ -12,6 +12,7 @@ $job_order = new JobOrder($db);
 $page_title= "Dashboard";
 
 $require_login=true;
+$page_ribbon="F";
 
 $today     = date("m/d/Y");
 $yesterday = date("m/d/Y", strtotime($today . ' -1 days'));

@@ -46,7 +46,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li <?php echo $page_title=="Edit Profile" ? "class='active'" : ""; ?>>
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                            <span class=""></span>
                             &nbsp;&nbsp;<?php echo $_SESSION['username']; ?>
                             &nbsp;&nbsp;<span class="caret"></span>
                         </a>
@@ -77,5 +77,3 @@
         </div>
     </div>
 </div>
-
--->

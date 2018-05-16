@@ -11,6 +11,7 @@ $db = $database->getConnection();
 
 $job_order = new JobOrder($db);
 $page_title="Create New Job Order";
+$page_theme="";
 
 include 'template/header.php';
 $newJO ="";

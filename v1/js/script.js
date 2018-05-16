@@ -46,13 +46,12 @@ $(document).ready( function () {
       });
       */
 });
-
 moment().format();
-
-function fromNow(){
+setMoment();
+function setMoment(){
     x=document.getElementsByClassName("dtime");  // Find the elements
     for(var i = 0; i < x.length; i++){
-        x[i].innerText = moment(x[i].innerText, 'MM-DD-YYYY');
+        x[i].innerText = moment(x[i].innerText, 'MM-DD-YYYY').fromNow();
         console.log(x[i].innerText);
     }
 }

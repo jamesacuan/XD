@@ -53,20 +53,28 @@ else{
     }
 }
 ?>
-<div class="container">
+
+<div class="row xd-heading">
+    <div class="clearfix">
+        <div class="page-header pull-left">
+            <h1><?php echo isset($page_title) ? $page_title : "Index"; ?></h1>
+        </div>
+        <div class="btn-group pull-right">
+            <?php if($_SESSION['role']=="user")
+                echo "<button type=\"button\" onclick=\"location.href='addjoborder.php'\" class=\"btn btn-primary\">+ Job Order</button>";
+            ?>
+        </div>
+    </div>
+</div>
+<div class="row xd-content">
 <ul class="nav nav-tabs clearfix" role="tablist">
     <li role="presentation" <?php if($type=="") echo "class=\"active\"" ?>><a href="<?php echo $home_url ?>joborders.php">View All</a></li>
     <li role="presentation" <?php if($type=="HH") echo "class=\"active\"" ?>><a href="<?php echo $home_url ?>joborders.php?type=HH">Helmet Holder</a></li>
     <li role="presentation" <?php if($type=="TH") echo "class=\"active\"" ?>><a href="<?php echo $home_url ?>joborders.php?type=TH">Ticket Holder</a></li>
-    <div class="btn-group pull-right">
-        <?php if($_SESSION['role']=="user")
-            echo "<button type=\"button\" onclick=\"location.href='addjoborder.php'\" class=\"btn btn-primary\">+ Job Order</button>";
-        ?>
-    </div>
 </ul>
 
   <div role="tabpanel" class="tab-pane active" id="home">
-    <table id="joborders" class="table table-hover table-bordered table-striped">
+    <table id="joborders" class="table table-hover table-striped">
             <thead>
                 <tr>
                     <th class="col-xs-1">JO</th>
@@ -97,8 +105,8 @@ else{
                             echo "<td><a href=\"joborderitem.php?&amp;code={$code}\">{$code}</a></td>";
                             echo "<td>{$username}</td>";
                             echo "<td class=\"clearfix\"><span>{$note}</span><span class=\"glyphicon glyphicon-picture pull-right\" data-toggle=\"modal\" data-target=\"#image\" data-file=\"{$image_url}\" title=\"{$image_url}\"></span></td>";
-                            echo "<td><span title=\"" . date_format(date_create($created),"F d, Y h:i:s A") . "\">{$date_created}</span></td>";
-                            //<span class=\"dtime\">" . date_format(date_create($modified),"m-d-Y") . "</span>
+                            //echo "<td><span title=\"" . date_format(date_create($created),"F d, Y h:i:s A") . "\">{$date_created}</span></td>";
+                            echo "<td><span class=\"dtime\">" . date_format(date_create($modified),"m-d-Y") . "</span></td>";
                             echo "<td><span class=\"label ";
                                 if     ($status=="For Approval") echo "label-primary";
                                 elseif ($status=="Approved") echo "label-success";
@@ -106,18 +114,32 @@ else{
                                 else   echo "label-default";
                             echo "\">{$status}</span></div>";
                             echo "<td>";
+                            echo "<div class=\"btn-group\">";
+
                             ?>
                             <?php
                                 echo "<a href=\"joborderitem.php?&amp;code={$code}\" class=\"btn btn-xs btn-default\">View</a>";
                                 if(($role=="hans" || $role=="admin" || $role=="superadmin") && $status=="For Approval"){
-                                    echo "<a href=\"" . $home_url . "joborders.php?id={$JODID}&amp;status=Approve\" class=\"btn btn-xs btn-default\">Approve</a>";
-                                    echo "<a href=\"" . $home_url . "joborders.php?id={$JODID}&amp;status=Deny\" class=\"btn btn-xs btn-default\">Deny</a>";
-                                }
-                                if(($status=="For Approval" && $role=="user" && $_SESSION['username']==$username) || ($status=="For Approval" && $role=="superadmin")){
-                                    echo "<a href=\"#\" class=\"btn btn-xs btn-default\" data-id={$JODID} data-toggle=\"modal\" data-target=\"#warn\">Delete</a>";
-                                }
+                                ?>
+                                    <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="glyphicon glyphicon-option-vertical"></span>
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                <?php
+                                    echo "<li><a href=\"" . $home_url . "joborders.php?id={$JODID}&amp;status=Approve\">Approve</a></li>";
+                                    echo "<li><a href=\"" . $home_url . "joborders.php?id={$JODID}&amp;status=Deny\">Deny</a></li>";
+                                }?>
+
+                                    </ul>
+                                </div>
+                                <?php
+                                    if(($status=="For Approval" && $role=="user" && $_SESSION['username']==$username) || ($status=="For Approval" && $role=="superadmin")){
+                                        echo "<a href=\"#\" class=\"btn btn-xs btn-default\" data-id={$JODID} data-toggle=\"modal\" data-target=\"#warn\">Delete</a>";
+                                    }
                                 ?>
                             <?php
+                            echo "</div>";
                             echo "</td>";
                         echo "</tr>";
                     }

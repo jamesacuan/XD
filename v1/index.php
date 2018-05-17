@@ -46,7 +46,6 @@ echo "</div>";
 <div class="row">
     <div class="col-md-12 clearfix">
         <div class="pull-left">
-        <h3>Activity</h3>
         </div>
 
         <div class="pull-right btn-group">
@@ -64,9 +63,21 @@ echo "</div>";
         </div>
     </div>
 </div>
-
 <div class="row home-approval">
-    <div class="col-md-6">
+    <div class="col-md-3">
+        <div class="thumbnail panel panel-default">
+            <div class="caption">
+                <h3><?php echo $_SESSION["nickname"]?></h3>
+                <p><?php echo $_SESSION["role"]?></p>
+            </div>
+            <ul class="list-group">
+                <li class="list-group-item">Job Orders</li>
+                <li class="list-group-item">Purchase Orders</li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-9">
+    <h3>Activity</h3>
 
         <?php       
             $stmt = $job_order->readJODwithUserandStatus($_SESSION['userid'], "For Approval");
@@ -89,7 +100,7 @@ echo "</div>";
                         $temp = 1;
                     }
 
-                    echo "<div class=\"row\">";
+                    echo "<div class=\"row\" style=\"background-color:#fff\">";
                         echo "<div class=\"col-sm-1\" style='text-align:center'>";
                         echo "<span class=\"glyphicon glyphicon-picture\" data-toggle=\"modal\" data-target=\"#image\" data-file=\"{$image_url}\" title=\"{$image_url}\"></span>";
                         echo "</div>";
@@ -109,7 +120,7 @@ echo "</div>";
                 }
             }
             else{
-                echo "<div class='alert alert-info'>No products found.</div>";
+                echo "<div class='alert alert-info'>No recent activity.</div>";
             }
         ?>
   

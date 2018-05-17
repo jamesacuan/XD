@@ -34,7 +34,7 @@
      }
      ?>
      <?php
-        if($page_title!="Login"){
+     /* if($page_title!="Login"){
         ?>
         <div class="row">
             <div class='col-md-12'>
@@ -45,4 +45,4 @@
         </div>
         <?php
         }
-        ?>
+       */ ?>

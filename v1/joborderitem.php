@@ -14,7 +14,7 @@ if(isset($_GET['code'])){
 else{
     header("Location: {$home_url}404.php");
 }
-$page_title      = "Job Order Item: " . $itemcode;
+$page_title      = $itemcode;
 $job_order->code = $itemcode;
 $role = $_SESSION['role'];
 
@@ -25,13 +25,16 @@ include_once "login_check.php";
 include 'template/header.php';
 ?>
 
-
 <?php
 if($_POST){
     echo "test";    
 }
 ?>
-<div class="container">
+<div class="xd-content">
+    <div class="row">
+        <div class="col-md-12 xd-breadcrumb">Job Order</div>
+        <div class="col-md-12"><h1><?php echo $page_title ?></h1></div>
+    </div>
     <div class="row">
         <div class="col-md-3">
             <div class="row">
@@ -93,6 +96,9 @@ if($_POST){
             <?php
                 if ($job_order->username==$_SESSION['username'] && $job_order->status=='For Approval'){
                     echo "<a href=\"#\" class=\"btn btn-danger\">Delete</a>";
+                }
+                else{
+                    echo "<a href=\"#\" class=\"btn btn-danger disabled\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"You can no longer delete your request, once approved.\">Delete</a>";
                 }
                 if($job_order->status=='For Approval' && ($role=="hans" || $role=="admin" || $role=="superadmin")){
                     echo "<a href=\"#\" class=\"btn btn-default\">Approve</a>";

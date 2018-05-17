@@ -14,8 +14,15 @@ $page_title="Create New Purchase Order";
 
 include 'template/header.php';
 ?>
+<div class="row xd-heading">
+    <div class="clearfix">
+        <div class="page-header pull-left">
+            <h1><?php echo isset($page_title) ? $page_title : "Index"; ?></h1>
+        </div>
+    </div>
+</div>
 
-<div class="container">
+<div class="row xd-content">
 <div align="right" style="margin-bottom:5px;">
     <button type="button" name="add" id="add_item" class="btn btn-success">Add Item</button>
    </div>
@@ -94,7 +101,6 @@ include 'template/header.php';
   <div id="action_alert" title="Action">
 
 </div>
-
 <script src="js/po_script.js"></script>
 <?php 
 include 'template/footer.php';

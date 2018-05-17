@@ -1,13 +1,21 @@
 .page-header{
-    border-bottom: none;
+	border-bottom: none;
+	padding: 0;
+	margin: 0;
 }
 .tab-job thead th,
 .tab-job th[scope="row"]{
     text-align: center;
 }
 .xd-container{
-	margin-top:-40vh;
+	margin-top: -40vh;
 	margin-bottom: 10vh;
+}
+.xd-container .row{
+	margin-left: 0;
+	margin-right: 0;
+}
+.xd-content{
 	background-color: #fff;
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;
@@ -20,6 +28,23 @@
 	-webkit-flex-shrink: 0;
 	-ms-flex-negative: 0;
 	flex-shrink: 0;
+}
+.xd-heading{
+	margin: 20px 0;
+}
+.xd-heading h1{
+	color: #fff;
+	text-shadow: #444 1px 1px;
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+.xd-thumbnail{
+   outline: 1px solid #ccc;
+   padding: 1px;
+}
+#joborders.table{
+	font-size: 13px;
 }
 /*
 *   MATERIALIZING
@@ -34,11 +59,11 @@ body{
 	margin-bottom: 0;
 }
 .navbar a{
-	color: #fff !important;
+	color: #ccc !important;
 }
 .navbar-nav a{
-	border-bottom: transparent 2px !important;
-	transition: transform 250ms ease-in-out;
+	border-bottom: transparent 2px solid !important;
+	transition: all .1s ease-in-out;
 }
 .navbar .container{
 	width: 95%;
@@ -47,12 +72,15 @@ body{
 .navbar li.open .dropdown-toggle{
 	background-color: rgba(245, 245, 245, .05) !important;
 	border-bottom: 2px solid #18FFFF !important;
+	color: #fff !important;
 }
 .navbar-nav a:hover{
 	border-bottom: 2px solid #18FFFF !important;
+	color: #fff !important;
 }
 .navbar .dropdown-menu a{
 	color: #000 !important;
+	border-bottom: 2px solid transparent !important;
 }
 
 .navbar-default{

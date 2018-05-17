@@ -10,6 +10,7 @@ $type = "";
 $job_order = new JobOrder($db);
 
 $page_title="Job Orders";
+
 $require_login=true;
 $role = $_SESSION['role'];
 
@@ -61,11 +62,14 @@ else{
         </div>
         <div class="btn-group pull-right">
             <?php if($_SESSION['role']=="user")
-                echo "<button type=\"button\" onclick=\"location.href='addjoborder.php'\" class=\"btn btn-primary\">+ Job Order</button>";
+                echo "<button type=\"button\" onclick=\"location.href='addjoborder.php'\" class=\"btn btn-primary pull-right\">+ Job Order</button>";
             ?>
         </div>
     </div>
 </div>
+
+
+
 <div class="row xd-content">
 <ul class="nav nav-tabs clearfix" role="tablist">
     <li role="presentation" <?php if($type=="") echo "class=\"active\"" ?>><a href="<?php echo $home_url ?>joborders.php">View All</a></li>
@@ -78,12 +82,13 @@ else{
             <thead>
                 <tr>
                     <th class="col-xs-1">JO</th>
+                    <th class="col-xs-1">Image</th>
                     <th class="col-xs-1">Code</th>
                     <th class="col-xs-1">By</th>
                     <th class="col-xs-4">Note</th>
-                    <th class="col-xs-2">Date</th>
+                    <th class="col-xs-2">Last Modified</th>
                     <th class="col-xs-1">Status</th>
-                    <th class="col-xs-2">Action</th>
+                    <th class="col-xs-1">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -98,20 +103,28 @@ else{
                         extract($row);
                         echo "<tr>";
                             $date_created = date_format(date_create($created),"m/d/Y");
-                            if($date_today == $date_created) $date_created = date_format(date_create($created),"h:i A");
-                            else $date_created = date_format(date_create($created),"F d");;
-
+                            //if($date_today == $date_created) $date_created = date_format(date_create($created),"h:i A");
+                            //else $date_created = date_format(date_create($created),"F d");;
                             echo "<th scope=\"row\"><a href=\"joborder.php?&amp;id={$JOID}\">{$JOID}</a></th>";
+                            echo "<td><img src=\"{$home_url}images/{$image_url}\" class=\"xd-thumbnail\" width=\"50\" height=\"35\" /></td>";
                             echo "<td><a href=\"joborderitem.php?&amp;code={$code}\">{$code}</a></td>";
                             echo "<td>{$username}</td>";
-                            echo "<td class=\"clearfix\"><span>{$note}</span><span class=\"glyphicon glyphicon-picture pull-right\" data-toggle=\"modal\" data-target=\"#image\" data-file=\"{$image_url}\" title=\"{$image_url}\"></span></td>";
+                            echo "<td class=\"clearfix\"><span>{$note}</span>";
+                            if($date_today == $date_created) echo " <span class=\"label label-default\">New</span>";
+                            //echo  $date_today . " - " . $date_created;
+                            //$datediff = $date_today - $date_created;
+                            $diff = (new DateTime($date_today))->diff(new DateTime($date_created));
+                            if(($diff->d)>4 && $status!="Denied"){
+                                echo " <span class=\"label label-danger\">Overdue</span>";
+                            }
+                            //echo "<span class=\"glyphicon glyphicon-picture pull-right\" data-toggle=\"modal\" data-target=\"#image\" data-file=\"{$image_url}\" title=\"{$image_url}\"></span></td>";
                             //echo "<td><span title=\"" . date_format(date_create($created),"F d, Y h:i:s A") . "\">{$date_created}</span></td>";
                             echo "<td><span class=\"dtime\">" . date_format(date_create($modified),"m-d-Y") . "</span></td>";
-                            echo "<td><span class=\"label ";
-                                if     ($status=="For Approval") echo "label-primary";
+                            echo "<td><span ";
+                            /*    if     ($status=="For Approval") echo "label-primary";
                                 elseif ($status=="Approved") echo "label-success";
                                 elseif ($status=="Denied") echo "label-danger";
-                                else   echo "label-default";
+                                else   echo "label-default"; */
                             echo "\">{$status}</span></div>";
                             echo "<td>";
                             echo "<div class=\"btn-group\">";
@@ -119,23 +132,23 @@ else{
                             ?>
                             <?php
                                 echo "<a href=\"joborderitem.php?&amp;code={$code}\" class=\"btn btn-xs btn-default\">View</a>";
-                                if(($role=="hans" || $role=="admin" || $role=="superadmin") && $status=="For Approval"){
+                                if($status=="For Approval" || $role=="superadmin"){ 
                                 ?>
-                                    <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
                                     <span class="glyphicon glyphicon-option-vertical"></span>
                                     <span class="sr-only">Toggle Dropdown</span>
                                     </button>
                                     <ul class="dropdown-menu">
-                                <?php
+                                <?php 
+                                if(($role=="hans" || $role=="admin" || $role=="superadmin") && $status=="For Approval"){
                                     echo "<li><a href=\"" . $home_url . "joborders.php?id={$JODID}&amp;status=Approve\">Approve</a></li>";
                                     echo "<li><a href=\"" . $home_url . "joborders.php?id={$JODID}&amp;status=Deny\">Deny</a></li>";
-                                }?>
-
-                                    </ul>
+                                }
+                                if(($status=="For Approval" && $role=="user" && $_SESSION['username']==$username) || ($status=="For Approval" && $role=="superadmin")){
+                                    echo "<li><a href=\"#\" data-id={$JODID} data-toggle=\"modal\" data-target=\"#warn\">Delete</a></li>";
+                                }?></ul>
                                 </div>
                                 <?php
-                                    if(($status=="For Approval" && $role=="user" && $_SESSION['username']==$username) || ($status=="For Approval" && $role=="superadmin")){
-                                        echo "<a href=\"#\" class=\"btn btn-xs btn-default\" data-id={$JODID} data-toggle=\"modal\" data-target=\"#warn\">Delete</a>";
                                     }
                                 ?>
                             <?php

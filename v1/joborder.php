@@ -27,7 +27,7 @@ $i = 1;
 include_once "login_check.php";
 include 'template/header.php';
 ?>
-<div class="container">
+<div class="xd-content">
     <div class="row">
         <div class="col-md-12">
         <?php      

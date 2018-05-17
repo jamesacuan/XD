@@ -16,8 +16,15 @@ $page_theme="";
 include 'template/header.php';
 $newJO ="";
 ?>
+<div class="row xd-heading">
+    <div class="clearfix">
+        <div class="page-header pull-left">
+            <h1><?php echo isset($page_title) ? $page_title : "Index"; ?></h1>
+        </div>
+    </div>
+</div>
 
-<div class='container'>
+<div class="row xd-content">
 <?php
 if(isset($_FILES['image']) && $_POST){
     $errors= array();

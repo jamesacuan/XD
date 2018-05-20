@@ -82,8 +82,8 @@ if(isset($_FILES['image']) && $_POST){
     $job_order->expectedJO = $newJO;
     
     
-    //if(isset($_POST['joid'])){
-        if(empty($errors)==true && $job_order->create()) {
+    if(isset($_POST['joid'])){
+        if(empty($errors)==true && $job_order->addJOItem()) {
             move_uploaded_file($file_tmp,"images/".$file_name);
             echo "<div class=\"row\"><div class=\"col-md-12\"><div class='alert alert-success'>";
                 echo "<h4>Job Order #{$newJO} was created.</h4>";
@@ -97,7 +97,24 @@ if(isset($_FILES['image']) && $_POST){
             print_r($errors);
             echo "</div></div></div>";
         }
-    //}
+    }
+
+    else{
+        if(empty($errors)==true && $job_order->addJOItem() && $job_order->createJO()) {
+            move_uploaded_file($file_tmp,"images/".$file_name);
+            echo "<div class=\"row\"><div class=\"col-md-12\"><div class='alert alert-success'>";
+                echo "<h4>Job Order #{$newJO} was created.</h4>";
+                echo "<span>You may continue request image for render by adding it below, or go back to dashboard.</span>";
+            echo "</div></div></div>";
+        }
+    
+        else{
+            echo "<div class=\"row\"><div class=\"col-md-12\"><div class='alert alert-danger'>";
+            echo "<h4>Unable to create job order.</h4>";
+            print_r($errors);
+            echo "</div></div></div>";
+        }
+    }
 }
 ?>
 <?php if($_SESSION['role']=="hans"||$_SESSION['role']=="designer"){

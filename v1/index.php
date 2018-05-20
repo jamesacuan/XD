@@ -112,7 +112,7 @@ echo "</div>";
                                 elseif ($status=="Deny") echo "label-danger";
                                 else   echo "label-default";
                             echo "\">{$status}</span></div>";
-                            echo "<div class=\"info\"><span class=\"text-muted\">From <a href=\"joborder.php?&amp;id={$JOID}\">Job Order #{$JOID}</a> by {$username} on " . date_format(date_create($modified),"F d, Y") . "</div>";
+                            echo "<div class=\"info\"><span class=\"text-muted\">From <a href=\"joborder.php?&amp;id={$JOID}\">Job Order #{$JOID}</a> on " . date_format(date_create($modified),"F d") . "</div>";
                         echo "</div>";
                         echo "<div class=\"col-sm-2\">";
                          echo "</div>";

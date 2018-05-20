@@ -52,8 +52,9 @@
 .xd-settings-content tr{
 	background-color: #fff !important;
 }
-
-
+.xd-joitem-details-btngroup{
+	margin-top: 20px;
+}
 /*
 *   MATERIALIZING
 */

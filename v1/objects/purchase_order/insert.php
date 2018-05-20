@@ -1,14 +1,8 @@
 <?php
-
 //insert.php
-
 $connect = new PDO("mysql:host=localhost;dbname=test", "root", "");
 
-$query = "
-INSERT INTO user 
-(first_name, last_name) 
-VALUES (:first_name, :last_name)
-";
+$query = "INSERT INTO user (first_name, last_name)  VALUES (:first_name, :last_name)";
 
 for($count = 0; $count<count($_POST['hidden_first_name']); $count++)
 {

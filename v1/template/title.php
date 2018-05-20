@@ -2,8 +2,8 @@
 
 <div class="xd-ribbon"></div>
 <?php
-if ($page)
-<?php
+
+
         if($page_title!="Login"){
         ?>
         <div class="row">

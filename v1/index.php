@@ -128,7 +128,7 @@ echo "</div>";
 </div>
 
 </div>
-        </div>
+</div>
 
 <div class="modal fade" id="clear" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-sm" role="document">

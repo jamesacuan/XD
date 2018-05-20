@@ -14,6 +14,36 @@ class User{
     public function __construct($db){
         $this->conn = $db;
     }
+    function addUser(){
+        $this->created  = date('Y-m-d H:i:s');
+        $this->modified = date('Y-m-d H:i:s');
+        $query1 = "INSERT INTO " . $this->table_name . "SET 
+                    nickname = :nickname,
+                    username = :username,
+                    role     = :role,
+                    created = :created,
+                    modified = :modified";
+
+        $stmt1 = $this->conn->prepare($query1);
+
+        $this->nickname   = htmlspecialchars(strip_tags($this->nickname));
+        $this->username   = htmlspecialchars(strip_tags($this->username));
+        $this->role       = htmlspecialchars(strip_tags($this->role));  
+        $this->created    = htmlspecialchars(strip_tags($this->created));
+        $this->modified   = htmlspecialchars(strip_tags($this->modified));
+
+        $stmt1->bindParam(':nickname', $this->nickname);    
+        $stmt1->bindParam(':username', $this->username); 
+        $stmt1->bindParam(':role', $this->role); 
+        $stmt1->bindParam(':created', $this->created);
+        $stmt1->bindParam(':modified', $this->modified);
+
+        if($stmt1->execute()){
+                return true;
+        }else
+            return false;
+    }
+
 
     function userExists(){
         $query = "SELECT `userid`, `username`, `nickname`, `password`, `role`, isAdmin, created, modified 

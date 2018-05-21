@@ -12,6 +12,7 @@ class JobOrder{
     public $expectedJOD, $created, $modified, $isDeleted, $joborderdetailsid;
     public $jocount, $tycount;
     public $nickname;
+    public $tag;
 
     public function __construct($db){
         $this->conn = $db;
@@ -299,6 +300,35 @@ class JobOrder{
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt;
+    }
+
+    function readJODFeedback($val){
+        $query = "SELECT job_order_feedback.`image_url`, job_order_feedback.`note`, `tag`, job_order_feedback.`created`, job_order_feedback.`modified`, users.username, `job_order_detailsid`, job_order_details.code
+        FROM `job_order_feedback`
+        JOIN users on job_order_feedback.userid = users.userid
+        JOIN job_order_details on job_order_feedback.job_order_detailsid = job_order_details.id
+        WHERE job_order_details.code LIKE '%$val%'";
+
+        /*$stmt = $this->conn->prepare($query);
+        $stmt->bindParam(1, $this->code);
+        $stmt->execute();
+
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $this->image_url   = $row['image_url'];
+        $this->note        = $row['note'];
+        $this->tag         = $row['tag'];
+        //$this->type        = $row['type'];
+        $this->username    = $row['username'];
+        //$this->nickname    = $row['nickname'];
+        //$this->modified    = $row['modified'];
+       // $this->status      = $row['status'];
+
+       */
+
+      $stmt = $this->conn->prepare($query);
+      $stmt->execute();
+      return $stmt;
     }
 
     function readJODwithUserandStatus($userid, $status){

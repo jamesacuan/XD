@@ -155,6 +155,28 @@ if($_POST){
         </div>
     </div>
 
+   <div class="row">   
+        <?php       
+                $stmt = $job_order->readJODFeedback($itemcode);
+                $num  = $stmt->rowCount();
+
+                if($num>0){
+                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                        extract($row);
+                        echo "<div class=\"col-md-12\">";
+                        echo "<div class=\"media\">";
+                            echo "<div class=\"media-left media-top\">";
+                            echo "<img class=\"media-object\" src=\"{$home_url}/images/{$image_url}\" width=\"64\" height=\"64\" />";
+                            echo "</div>";
+                        echo "</div>";
+                        echo "<div class=\"media-body\">{$note} - {$username}";
+                        echo "</div>";
+                        echo "</div>";
+                    }
+                }
+                else echo "none";
+        ?>
+   </div>
     
    <div class="row" style="margin-top:25px; margin-bottom:15px">
         <div class="col-md-12">

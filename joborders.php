@@ -119,7 +119,7 @@ else{
                             }
                             //echo "<span class=\"glyphicon glyphicon-picture pull-right\" data-toggle=\"modal\" data-target=\"#image\" data-file=\"{$image_url}\" title=\"{$image_url}\"></span></td>";
                             //echo "<td><span title=\"" . date_format(date_create($created),"F d, Y h:i:s A") . "\">{$date_created}</span></td>";
-                            echo "<td><span class=\"dtime\" title=\"" . date_format(date_create($created),"F d, Y h:i:s A") . "\">" . date_format(date_create($modified),"m-d-Y h:i:s A") . "</span></td>";
+                            echo "<td><span class=\"dtime\"  data-toggle=\"tooltip\" title=\"" . date_format(date_create($created),"F d, Y h:i:s A") . "\">" . date_format(date_create($modified),"m-d-Y h:i:s A") . "</span></td>";
                             echo "<td><span ";
                             /*    if     ($status=="For Approval") echo "label-primary";
                                 elseif ($status=="Approved") echo "label-success";

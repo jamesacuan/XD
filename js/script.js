@@ -47,6 +47,7 @@ $(document).ready( function () {
         }
       });
       */
+     $('[data-toggle="tooltip"]').tooltip(); 
 });
 moment().format();
 setMoment();

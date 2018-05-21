@@ -3,7 +3,7 @@
     session_start();
     date_default_timezone_set('Asia/Manila');
     
-    $home_url    = "http://localhost/xd/v1/";
+    $home_url    = "http://localhost/xd/";
     $home_title  = "HANC";
 
     //$home_url="http://www.3d.local/";

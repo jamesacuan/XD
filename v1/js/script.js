@@ -21,7 +21,9 @@ $('#clear').on('shown.bs.modal', function (event) {
 
 $(document).ready( function () {
     $('#joborders').DataTable({
-        "aLengthMenu": [[10, 25, 50, 75, -1], [10, 25, 50, 75, "All"]],
+        fixedHeader: {
+            header: true
+        },
         "pageLength": 25
     });
 
@@ -51,7 +53,7 @@ setMoment();
 function setMoment(){
     x=document.getElementsByClassName("dtime");  // Find the elements
     for(var i = 0; i < x.length; i++){
-        x[i].innerText = moment(x[i].innerText, 'MM-DD-YYYY').fromNow();
+        x[i].innerText = moment(x[i].innerText, 'MM-DD-YYYY h:m:s A').fromNow();
         console.log(x[i].innerText);
     }
 }

@@ -15,6 +15,8 @@ $page_theme="";
 
 include 'template/header.php';
 $newJO ="";
+$newJOD ="";
+
 ?>
 <div class="row xd-heading">
     <div class="clearfix">
@@ -25,6 +27,7 @@ $newJO ="";
 </div>
 
 <div class="row xd-content">
+
 <?php
 if(isset($_FILES['image']) && $_POST){
     $errors= array();
@@ -43,6 +46,8 @@ if(isset($_FILES['image']) && $_POST){
         $job_order->getJobOrderCount();
         $newJO = $job_order->jocount + 1;
     }
+
+    $newJOD = $job_order->getJobOrderDetailsCount() + 1;
 
     $job_order->getTypeCount($_POST['type']);
     $newTY = $job_order->tycount + 1;
@@ -73,21 +78,21 @@ if(isset($_FILES['image']) && $_POST){
     $job_order->code;
 
     //rename file
-    
-    $file_name = substr(sha1($job_order->code), -20) . "." .$file_ext;
+    $tmpfile_name = substr(sha1($job_order->code), -20) . substr(sha1($_POST['note']), -10);
+    $file_name = $tmpfile_name . "." .$file_ext;
 
     $job_order->note       = $_POST['note'];
     $job_order->image_url  = $file_name;
     $job_order->status     = "For Approval";
-    $job_order->expectedJO = $newJO;
-    
+    $job_order->expectedJO  = $newJO;
+    $job_order->expectedJOD = $newJOD;
     
     if(isset($_POST['joid'])){
         if(empty($errors)==true && $job_order->addJOItem()) {
             move_uploaded_file($file_tmp,"images/".$file_name);
             echo "<div class=\"row\"><div class=\"col-md-12\"><div class='alert alert-success'>";
-                echo "<h4>Job Order #{$newJO} was created.</h4>";
-                echo "<span>You may continue request image for render by adding it below, or go back to dashboard.</span>";
+                echo "<h4>Your requested job order is added to Job Order #{$newJO}.</h4>";
+                echo "<span>You may continue to request an image for render by adding it below, or go back to dashboard.</span>";
             echo "</div></div></div>";
         }
     
@@ -100,11 +105,11 @@ if(isset($_FILES['image']) && $_POST){
     }
 
     else{
-        if(empty($errors)==true && $job_order->addJOItem() && $job_order->createJO()) {
+        if(empty($errors)==true && $job_order->addJOItem() && $job_order->createJO() && $job_order->addJOItemFeedback()) {
             move_uploaded_file($file_tmp,"images/".$file_name);
             echo "<div class=\"row\"><div class=\"col-md-12\"><div class='alert alert-success'>";
                 echo "<h4>Job Order #{$newJO} was created.</h4>";
-                echo "<span>You may continue request image for render by adding it below, or go back to dashboard.</span>";
+                echo "<span>You may continue to request an image for render by adding it below, or go back to dashboard.</span>";
             echo "</div></div></div>";
         }
     
@@ -123,6 +128,9 @@ if(isset($_FILES['image']) && $_POST){
     echo "</div></div></div>";
 }
 ?>
+
+
+
 <div class="row">
 <div class="col-md-8">
 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data"> 

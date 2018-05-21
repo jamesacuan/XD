@@ -8,74 +8,14 @@ class JobOrder{
     public $joborderid;
     public $userid;
     public $type;
-    public $code, $note, $image_url, $expectedJO, $created, $modified, $isDeleted, $joborderdetailsid;
+    public $code, $note, $image_url, $expectedJO;
+    public $expectedJOD, $created, $modified, $isDeleted, $joborderdetailsid;
     public $jocount, $tycount;
     public $nickname;
 
     public function __construct($db){
         $this->conn = $db;
     }
-
-    /*function create(){
-        $this->created  = date('Y-m-d H:i:s');
-        $this->modified = date('Y-m-d H:i:s');
-
-        $query1 = "INSERT INTO " . $this->table1_name . "
-                SET 
-                    userid = :userid,
-                    created = :created,
-                    modified = :modified";
-
-        $query2 = "INSERT INTO " . $this->table2_name . "
-                SET 
-                    type = :type,
-                    code = :code,
-                    note = :note,
-                    image_url = :image_url,
-                    status = :status,
-                    created = :created,
-                    modified = :modified,
-                    job_orderid = :job_orderid";
-
-        $stmt1 = $this->conn->prepare($query1);
-        $stmt2 = $this->conn->prepare($query2);
-
-        $this->userid     = htmlspecialchars(strip_tags($this->userid));
-        $this->type       = htmlspecialchars(strip_tags($this->type));
-        $this->code       = htmlspecialchars(strip_tags($this->code));
-        $this->note       = htmlspecialchars(strip_tags($this->note));  
-        $this->image_url  = htmlspecialchars(strip_tags($this->image_url));
-        $this->status  = htmlspecialchars(strip_tags($this->status));
-        $this->expectedJO = htmlspecialchars(strip_tags($this->expectedJO));     
-        $this->created    = htmlspecialchars(strip_tags($this->created));
-        $this->modified   = htmlspecialchars(strip_tags($this->modified));
-
-        $stmt1->bindParam(':userid', $this->userid);        
-        $stmt1->bindParam(':created', $this->created);
-        $stmt1->bindParam(':modified', $this->modified);
-
-        $stmt2->bindParam(':type', $this->type);        
-        $stmt2->bindParam(':code', $this->code);
-        $stmt2->bindParam(':note', $this->note);
-        $stmt2->bindParam(':image_url',  $this->image_url);
-        $stmt2->bindParam(':status',     $this->status);
-        $stmt2->bindParam(':created',    $this->created);
-        $stmt2->bindParam(':modified',   $this->modified);
-        $stmt2->bindParam(':job_orderid', $this->expectedJO);
-
-        if($stmt1->execute()){
-            if($stmt2->execute()){
-                return true;
-            }
-            else{
-                $this->showError($stmt2);
-                return false;
-            }
-        }else{
-            $this->showError($stmt1);
-            return false;
-        }
-    }*/
 
     function addJOItem(){
         $this->created  = date('Y-m-d H:i:s');
@@ -156,6 +96,7 @@ class JobOrder{
                 SET 
                     image_url = :image_url,
                     note      = :note,
+                    tag       = :tag,
                     created   = :created,
                     modified  = :modified,
                     userid    = :userid,
@@ -163,32 +104,31 @@ class JobOrder{
 
         $stmt = $this->conn->prepare($query);
 
-        $this->type       = htmlspecialchars(strip_tags($this->type));
-        $this->code       = htmlspecialchars(strip_tags($this->code));
-        $this->note       = htmlspecialchars(strip_tags($this->note));  
         $this->image_url  = htmlspecialchars(strip_tags($this->image_url));
-        $this->status  = htmlspecialchars(strip_tags($this->status));
-        $this->expectedJO = htmlspecialchars(strip_tags($this->expectedJO));     
-        $this->created    = htmlspecialchars(strip_tags($this->created));
+        $this->note       = htmlspecialchars(strip_tags($this->note));
+        $this->status     = htmlspecialchars(strip_tags($this->status));
+        $this->created    = htmlspecialchars(strip_tags($this->created));  
         $this->modified   = htmlspecialchars(strip_tags($this->modified));
+        $this->userid     = htmlspecialchars(strip_tags($this->userid));
+        $this->expectedJOD = htmlspecialchars(strip_tags($this->expectedJOD));     
 
-        $stmt2->bindParam(':type', $this->type);        
-        $stmt2->bindParam(':code', $this->code);
-        $stmt2->bindParam(':note', $this->note);
-        $stmt2->bindParam(':image_url',  $this->image_url);
-        $stmt2->bindParam(':status',     $this->status);
-        $stmt2->bindParam(':created',    $this->created);
-        $stmt2->bindParam(':modified',   $this->modified);
-        $stmt2->bindParam(':job_orderid', $this->expectedJO);
+        $stmt->bindParam(':image_url', $this->image_url);        
+        $stmt->bindParam(':note',      $this->note);
+        $stmt->bindParam(':tag',       $this->status);
+        $stmt->bindParam(':created',   $this->created);
+        $stmt->bindParam(':modified',  $this->modified);
+        $stmt->bindParam(':userid',    $this->userid);
+        $stmt->bindParam(':job_order_detailsid', $this->expectedJOD);
 
-        if($stmt2->execute()){
+        if($stmt->execute()){
             return true;
         }
         else{
-            $this->showError($stmt2);
+            $this->showError($stmt);
             return false;
         }
     }
+
     function approve(){
         $this->modified = date('Y-m-d H:i:s');
 
@@ -256,8 +196,8 @@ class JobOrder{
         return false;
     }
 
-    function getJobOrderDetailsCount($JOID){
-        $query = "SELECT count(*) AS total FROM job_order_details where job_orderid={$JOID}";
+    function getJobOrderDetailsCount(){
+        $query = "SELECT count(*) AS total FROM job_order_details";
 
         $stmt = $this->conn->prepare($query);
         $stmt->execute();   
@@ -270,6 +210,21 @@ class JobOrder{
         }
         return false;
     }
+
+    /*function getJobOrderDetailsCount($JOID){
+        $query = "SELECT count(*) AS total FROM job_order_details where job_orderid={$JOID}";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();   
+        $num = $stmt->rowCount();
+    
+        if($num>0){
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $this->answer = $row['total'];
+            return $this->answer;
+        }
+        return false;
+    }*/
 
     function getJobOrderUser($JOID){
         $query = "SELECT nickname, job_order.created FROM job_order 

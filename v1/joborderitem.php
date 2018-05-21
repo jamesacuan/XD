@@ -30,14 +30,22 @@ if($_POST){
     echo "test";    
 }
 ?>
+<div class="xd-snip">
+    <ol class="breadcrumb">
+        <li><a href="<?php echo $home_url ?>">Home</a></li>
+        <li><a href="<?php echo $home_url . "joborder.php?&amp;id=" . $job_order->joborderid?>">Job Order #<?php echo $job_order->joborderid?></a></li>
+        <li class="active"><?php echo $page_title ?></li>
+    </ol>
+</div>
+
 <div class="xd-content">
+    <!--
     <div class="row">
-        <div class="col-md-12 xd-breadcrumb">Job Order</div>
         <div class="col-md-9"><h1><?php echo $page_title ?></h1></div>
         <div class="col-md-3 clearfix">
             <div class="pull-right btn-group xd-joitem-details-btngroup">
             <?php
-                if ($job_order->username==$_SESSION['username'] && $job_order->status=='For Approval'){
+            /*    if ($job_order->username==$_SESSION['username'] && $job_order->status=='For Approval'){
                     echo "<a href=\"#\" class=\"btn btn-danger\"><span class=\"glyphicon glyphicon-trash\"></span> Delete</a>";
                 }
                 //else{
@@ -47,13 +55,14 @@ if($_POST){
                     echo "<a href=\"#\" class=\"btn btn-primary\"><span class=\"glyphicon glyphicon-ok\"></span> Approve</a>";
                     echo "<a href=\"#\" class=\"btn btn-default\">Deny</a>";
                 }
+                */
             ?>
                 <a href="#" class="btn btn-default"><span class="glyphicon glyphicon-print"></span> Print</a>
             </div>
         </div>
-
     </div>
-    <div class="row">
+    -->
+    <div class="row" style="margin-top: 40px">
         <div class="col-md-3">
             <div class="row">
                 <div class="col-xs-12"><img src="<?php echo $home_url . "images/" . $job_order->image_url?>" width="250" height="250"/>
@@ -61,6 +70,10 @@ if($_POST){
             </div>
         </div>
         <div class="col-md-6">
+            <div class="row">
+                <div class="col-xs-12"><h2><?php echo $page_title ?></h2></div>
+            </div>
+            
             <div class="row">
                 <div class="col-xs-3">From Job Order</div>
                 <div class="col-xs-9"><a href="<?php echo $home_url . "joborder.php?&amp;id=" . $job_order->joborderid?>"><?php echo $job_order->joborderid?></a></div>
@@ -71,7 +84,7 @@ if($_POST){
                                             elseif($job_order->type=="TH") echo "Ticket Holder"; ?></div>
             </div>
             <div class="row">
-                <div class="col-xs-3">By:</div>
+                <div class="col-xs-3">Requested By:</div>
                 <div class="col-xs-9"><?php echo $job_order->nickname?></div>
             </div>
             <div class="row">
@@ -109,11 +122,33 @@ if($_POST){
             </div>
             </div>
         </div>
-
+        <div class="col-md-3">
+            <div class="row">
+                <div class="col-sm-3 clearfix">
+                    <div class="pull-right btn-group xd-joitem-details-btngroup">
+                    <?php
+                        if ($job_order->username==$_SESSION['username'] && $job_order->status=='For Approval'){
+                            echo "<a href=\"#\" class=\"btn btn-danger\"><span class=\"glyphicon glyphicon-trash\"></span> Delete</a>";
+                        }
+                        //else{
+                            //echo "<a href=\"#\" class=\"btn btn-danger disabled\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"You can no longer delete your request, once approved.\"><span class=\"glyphicon glyphicon-trash\"></span>Delete</a>";
+                        //} 
+                        if($job_order->status=='For Approval' && ($role=="hans" || $role=="admin" || $role=="superadmin")){
+                            echo "<a href=\"#\" class=\"btn btn-primary\"><span class=\"glyphicon glyphicon-ok\"></span> Approve</a>";
+                            echo "<a href=\"#\" class=\"btn btn-default\">Deny</a>";
+                        }
+                    ?>
+                        <a href="#" class="btn btn-default"><span class="glyphicon glyphicon-print"></span> Print</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <?php if(($role=="hans" || $role=="admin" || $role=="superadmin") && $job_order->status=="Approved"){
-        ?>
+    <!--
+        php if(($role=="hans" || $role=="admin" || $role=="superadmin") && $job_order->status=="Approved"){
+    
+        -->
     <div class="row" style="margin-top:30px;">
         <div class="col-md-12">
             <h3>Feedback</h3>
@@ -163,7 +198,7 @@ if($_POST){
         </div>
         </div>
     </div>
-    <?php } ?>
+    <?php  ?>
 </div>
 <?php
 include 'template/footer.php';

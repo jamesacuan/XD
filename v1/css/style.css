@@ -8,7 +8,7 @@
     text-align: center;
 }
 .xd-container{
-	margin-top: -40vh;
+	margin-top: -45vh;
 	margin-bottom: 10vh;
 }
 .xd-container .row{
@@ -55,6 +55,15 @@
 .xd-joitem-details-btngroup{
 	margin-top: 20px;
 }
+
+.xd-snip .breadcrumb{
+	background-color: transparent !important; 
+	margin: 0;
+}
+.xd-snip .breadcrumb a,
+.xd-snip .breadcrumb li{
+	color: #fff !important;
+}
 /*
 *   MATERIALIZING
 */
@@ -64,9 +73,12 @@ body{
 }
 
 .navbar{
+	background-color: #24292E;
 	background-color: #282e6c;
 	margin-bottom: 0;
 }
+
+
 .navbar a{
 	color: #ccc !important;
 }
@@ -344,7 +356,13 @@ html {
 	font-weight: bold;
 	color: #000;
 }
+.home-approval .col-md-9 .row{
+	border-left:3px solid transparent;
+}
 
+.home-approval .col-md-9 .row:hover{
+	border-left:3px solid #18FFFF;
+}
 
 .modal-body img{
 	width: 100%;
@@ -379,4 +397,11 @@ html {
 
 #item_dialog .form-group .radio{
 	margin: 0;
+}
+
+
+table.fixedHeader-floating{position:fixed !important;background-color:white}table.fixedHeader-floating.no-footer{border-bottom-width:0}table.fixedHeader-locked{position:absolute !important;background-color:white}@media print{table.fixedHeader-floating{display:none}}
+
+table.dataTable{
+	margin: 0 !important;
 }

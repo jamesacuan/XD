@@ -37,6 +37,9 @@
                 <li <?php echo $page_title=="Purchase Orders" ? "class='active'" : ""; ?>>
                     <a href="<?php echo $home_url . "purchaseorders.php" ; ?>">Purchase Orders</a>
                 </li>
+                <li <?php echo $page_title=="Products" ? "class='active'" : ""; ?>>
+                    <a href="<?php echo $home_url . "products.php" ; ?>">Products</a>
+                </li>
             </ul>
             <?php   } ?>
             

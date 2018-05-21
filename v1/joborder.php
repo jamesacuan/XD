@@ -27,6 +27,13 @@ $i = 1;
 include_once "login_check.php";
 include 'template/header.php';
 ?>
+<div class="xd-snip">
+    <ol class="breadcrumb">
+        <li><a href="<?php echo $home_url ?>">Home</a></li>
+        <li><a href="<?php echo $home_url . "joborder.php?&amp;id=" . $id?>" class="active">Job Order #<?php echo $id?></a></li>
+    </ol>
+</div>
+
 <div class="xd-content">
     <div class="row">
         <div class="col-md-12">

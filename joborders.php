@@ -97,7 +97,7 @@ else{
                 $stmt = $job_order->read($type);
                 $num  = $stmt->rowCount();
                 $date_today   = date("m/d/Y");
-
+                
                 if($num>0){
                     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                         extract($row);
@@ -109,7 +109,7 @@ else{
                             echo "<td><img src=\"{$home_url}images/{$image_url}\" class=\"xd-thumbnail\" width=\"50\" height=\"35\" /></td>";
                             echo "<td><a href=\"joborderitem.php?&amp;code={$code}\">{$code}</a></td>";
                             echo "<td>{$username}</td>";
-                            echo "<td class=\"clearfix\"><span>{$note}</span>";
+                            echo "<td class=\"clearfix\"><span>{$note}</span> <span class=\"label label-primary\">{$tag}</span>";
                             if($date_today == $date_created) echo " <span class=\"label label-default\">New</span>";
                             //echo  $date_today . " - " . $date_created;
                             //$datediff = $date_today - $date_created;

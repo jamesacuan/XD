@@ -130,6 +130,27 @@ class JobOrder{
         }
     }
 
+    function setTag(){
+        $query = "UPDATE " . $this->table2_name . "
+                 SET
+                    tag   = :status
+                 WHERE
+                    id    = :id";
+
+        $stmt = $this->conn->prepare($query);
+
+        $this->status      = htmlspecialchars(strip_tags($this->status));
+        $this->expectedJOD = htmlspecialchars(strip_tags($this->expectedJOD));
+
+        $stmt->bindParam(':status', $this->status);
+        $stmt->bindParam(':id',     $this->expectedJOD);
+
+        if($stmt->execute()){
+            return true;
+        }
+        return false;
+    }
+
     function approve(){
         $this->modified = date('Y-m-d H:i:s');
 
@@ -212,6 +233,22 @@ class JobOrder{
         return false;
     }
 
+    function getJobOrderFeedbackCount($JODID){
+        $query = "SELECT count(*) AS total
+                FROM " . $this->table3_name . "
+                WHERE `job_order_detailsid` = {$JODID}";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();   
+        $num = $stmt->rowCount();
+    
+        if($num>0){
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $this->answer = $row['total'];
+            return $this->answer;
+        }
+        return false;
+    }
     /*function getJobOrderDetailsCount($JOID){
         $query = "SELECT count(*) AS total FROM job_order_details where job_orderid={$JOID}";
 
@@ -303,7 +340,7 @@ class JobOrder{
     }
 
     function readJODFeedback($val){
-        $query = "SELECT job_order_feedback.`image_url`, job_order_feedback.`note`, `tag`, job_order_feedback.`created`, job_order_feedback.`modified`, users.username, `job_order_detailsid`, job_order_details.code
+        $query = "SELECT job_order_feedback.`image_url`, job_order_feedback.`note`, job_order_feedback.`tag`, job_order_feedback.`created`, job_order_feedback.`modified`, users.username, `job_order_detailsid`, job_order_details.code
         FROM `job_order_feedback`
         JOIN users on job_order_feedback.userid = users.userid
         JOIN job_order_details on job_order_feedback.job_order_detailsid = job_order_details.id
@@ -359,6 +396,7 @@ class JobOrder{
                         job_order_details.type,
                         job_order_details.code,
                         users.username,
+                        job_order_details.tag,
                         job_order_details.note,
                         job_order_details.image_url,
                         job_order_details.modified,
@@ -368,7 +406,8 @@ class JobOrder{
                         JOIN users on job_order.userid = users.userid
                         JOIN job_order_details on job_order.id = job_order_details.job_orderid
                         WHERE job_order_details.type LIKE '%{$typeval}%'
-                            AND job_order_details.isDeleted <> 'Y'";
+                            AND job_order_details.isDeleted <> 'Y'
+                            AND job_order_details.status <> 'Denied'";
                         /*ORDER BY job_order_details.modified DESC
                         LIMIT {$from_record_num}, {$records_per_page}";
                         */
@@ -381,6 +420,7 @@ class JobOrder{
         $query = "SELECT job_order.id,
         job_order_details.type,
         job_order_details.code,
+        job_order_details.id as 'jodid',
         users.username,
         users.nickname,
         job_order_details.note,
@@ -404,6 +444,7 @@ class JobOrder{
         $this->username    = $row['username'];
         $this->nickname    = $row['nickname'];
         $this->note        = $row['note'];
+        $this->joborderdetailsid = $row['jodid'];
         $this->image_url   = $row['image_url'];
         $this->modified    = $row['modified'];
         $this->status      = $row['status'];

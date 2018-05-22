@@ -98,6 +98,7 @@ class JobOrder{
                     image_url = :image_url,
                     note      = :note,
                     tag       = :tag,
+                    status    = :status,
                     created   = :created,
                     modified  = :modified,
                     userid    = :userid,
@@ -107,6 +108,7 @@ class JobOrder{
 
         $this->image_url  = htmlspecialchars(strip_tags($this->image_url));
         $this->note       = htmlspecialchars(strip_tags($this->note));
+        $this->tag        = htmlspecialchars(strip_tags($this->tag));
         $this->status     = htmlspecialchars(strip_tags($this->status));
         $this->created    = htmlspecialchars(strip_tags($this->created));  
         $this->modified   = htmlspecialchars(strip_tags($this->modified));
@@ -115,7 +117,8 @@ class JobOrder{
 
         $stmt->bindParam(':image_url', $this->image_url);        
         $stmt->bindParam(':note',      $this->note);
-        $stmt->bindParam(':tag',       $this->status);
+        $stmt->bindParam(':tag',       $this->tag);
+        $stmt->bindParam(':status',    $this->status);
         $stmt->bindParam(':created',   $this->created);
         $stmt->bindParam(':modified',  $this->modified);
         $stmt->bindParam(':userid',    $this->userid);
@@ -133,17 +136,17 @@ class JobOrder{
     function setTag(){
         $query = "UPDATE " . $this->table2_name . "
                  SET
-                    tag   = :status
+                    tag   = :tag
                  WHERE
                     id    = :id";
 
         $stmt = $this->conn->prepare($query);
 
-        $this->status      = htmlspecialchars(strip_tags($this->status));
+        $this->tag         = htmlspecialchars(strip_tags($this->tag));
         $this->expectedJOD = htmlspecialchars(strip_tags($this->expectedJOD));
 
-        $stmt->bindParam(':status', $this->status);
-        $stmt->bindParam(':id',     $this->expectedJOD);
+        $stmt->bindParam(':tag',  $this->tag);
+        $stmt->bindParam(':id',   $this->expectedJOD);
 
         if($stmt->execute()){
             return true;
@@ -453,15 +456,19 @@ class JobOrder{
     }
 
     function truncate(){
-        $query1 = "TRUNCATE job_order_details";
-        $query2 = "TRUNCATE job_order";
-
-        $stmt = $this->conn->prepare($query1);
-        $stmt->execute();   
-    
-        $stmt = $this->conn->prepare($query2);
-        $stmt->execute();
-        return $stmt;
+        $tables = array("job_order_feedback",
+                        "job_order_details",
+                        "job_order",
+                        "product",
+                        "product_items",
+                        "purchase_order",
+                        "purchase_order_details");
+        $max = sizeof($tables);
+        for($i=0; $i<$max; $i++){
+            $stmt = $this->conn->prepare("TRUNCATE " . $tables[$i]);
+            $stmt->execute(); 
+        }
+        return $stmt;        
     }
 }
 ?>

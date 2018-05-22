@@ -69,7 +69,7 @@
                             &nbsp;&nbsp;<span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="<?php echo $home_url; ?>profile.php">Profile</a></li>
+                            <?php /*<li><a href="<?php echo $home_url; ?>profile.php">Profile</a></li>*/ ?>
                             <?php if($_SESSION['admin']=='Y'){
                                 echo "<li><a href=\"" . $home_url . "settings.php\">Settings</a></li>";
                             }?>

@@ -10,6 +10,10 @@ $job_order = new JobOrder($db);
 
 if($_POST){
     $job_order->expectedJOD = $_POST['jod'];
+    if(isset($_POST['tag']))
+        $job_order->tag = $_POST['tag'];
+    else
+        $job_order->tag = "";
     if(isset($_POST['status']))
         $job_order->status = $_POST['status'];
     else
@@ -94,6 +98,7 @@ $require_login=true;
 include_once "login_check.php";
 include 'template/header.php';
 ?>
+<script src="js/joi_script.js"></script>
 <div class="xd-snip">
     <ol class="breadcrumb">
         <li><a href="<?php echo $home_url ?>">Home</a></li>
@@ -173,7 +178,7 @@ include 'template/header.php';
                     <div class="md-step-bar-right"></div>
                 </div>
                 <?php echo "<div class=\"md-step ";
-                            if ($job_order->status == "Approved") echo "active\">";
+                            if ($job_order->status == "Approved" || $job_order->status == "Done") echo "active\">";
                             else echo "inactive\">"; ?>
                     <div class="md-step-circle"><span>2</span></div>
                     <div class="md-step-title">Proposal</div>
@@ -181,7 +186,9 @@ include 'template/header.php';
                     <div class="md-step-bar-left"></div>
                     <div class="md-step-bar-right"></div>
                 </div>
-                <div class="md-step inactive">
+                <?php echo "<div class=\"md-step ";
+                            if ($job_order->status == "Done") echo "active\">";
+                            else echo "inactive\">"; ?>
                     <div class="md-step-circle"><span>3</span></div>
                     <div class="md-step-title">Launch</div>
                     <div class="md-step-bar-left"></div>
@@ -206,6 +213,15 @@ include 'template/header.php';
                             echo "<a href=\"" . $home_url . "joborderitem.php?code={$page_title}&amp;status=Approve\" class=\"btn btn-primary\"><span class=\"glyphicon glyphicon-ok\"></span> Approve</a>";
                             echo "<a href=\"" . $home_url . "joborderitem.php?code={$page_title}&amp;status=Deny\" class=\"btn btn-default\">Deny</a>";
                         }
+
+                        if($job_order->status=='Approved' && ($role=="hans" || $role=="admin" || $role=="superadmin")){
+                            echo "<a href=\"" . $home_url . "joborderitem.php?code={$page_title}&amp;status=Done\" class=\"btn btn-primary\"><span class=\"glyphicon glyphicon-ok\"></span> Mark As Finish</a>";
+                        }
+
+                        if($job_order->status=='Done' && ($role=="hans" || $role=="admin" || $role=="superadmin")){
+                            //echo "<a href=\"" . $home_url . "joborderitem.php?code={$page_title}&amp;status=Done\" class=\"btn btn-danger\"><span class=\"glyphicon glyphicon-ok\"></span> Publish</a>";
+                            echo "<button type=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#publishModal\" data-whatever=\"@mdo\">Publish</button>";
+                        }
                     ?>
                         <!--
                             <a href="#" class="btn btn-default"><span class="glyphicon glyphicon-print"></span> Print</a>
@@ -218,8 +234,9 @@ include 'template/header.php';
 
    <div class="row xd-page-item-messages">
         <div class="col-md-8">
+
         <div class="col-md-12">
-            <h4>Feedback (<?php echo $job_order->getJobOrderFeedbackCount($jodid) ?>)</h4>
+                <h4>Discussion (<?php echo $job_order->getJobOrderFeedbackCount($jodid) ?>)</h4>
         </div>
         <?php       
                 $stmt = $job_order->readJODFeedback($itemcode);
@@ -235,7 +252,7 @@ include 'template/header.php';
                             //echo "<img class=\"media-object\" src=\"{$home_url}/images/{$image_url}\" width=\"64\" height=\"64\" />";
                             echo "</div>";
                             echo "<div class=\"media-body\">";
-                                echo "<b class=\"media-heading\">{$username}</b> - <span>{$created}</span> <span class='label label-default'>{$tag}</span>";
+                                echo "<b class=\"media-heading\">{$username}</b> - <span class=\"dtime\" data-toggle=\"tooltip\" title=\"" . date_format(date_create($created),"F d, Y h:i:s A") . "\">" . date_format(date_create($created),"m-d-Y h:i:s A") . "</span> <span class='label label-default'>{$tag}</span>";
                                 echo "<p>{$note}</p>";
                                 if(!empty($image_url)){
                                     echo "<p><a href=\"#\"><img src=\"" . $home_url . "images/" . $image_url . "\" width=\"64\" height=\"64\"/></a></p>";
@@ -247,7 +264,14 @@ include 'template/header.php';
                 }
                 else echo "none";
         ?>
+
         <div class="col-md-12 xd-message">
+            <?php if($job_order->status == "Done"){
+                echo "<div class=\"col-md-12\">";
+                echo "<b>Thread is now closed.</b>";
+                echo "</div>";
+            }
+            else{?>
             <div class="media">
                 <div class="media-left media-top">
                     <!--
@@ -263,11 +287,10 @@ include 'template/header.php';
                     </div>
                     <div class="form-group clearfix">
                         <div class="pull-left">
-                        <label for="status" class="control-label">Status</label>
-                        <select name="status">
+                        <label for="tag" class="control-label">Tag</label>
+                        <select name="tag">
                             <option></option>
                             <option>Needs Feedback</option>
-                            <option>Done</option>
                         </select>
                         </div>
                         <div class="pull-right">
@@ -291,14 +314,73 @@ include 'template/header.php';
                     </fieldset>
                     </form>
                 </div>
-        </div>
+            </div>
+        <?php } ?>
         </div>
    </div>
     </div>
-   <div class="row" style="margin-top:25px; margin-bottom:15px">
-        
+<?php
+if($job_order->status=="Done"){
+?>
+<div class="modal fade" id="publishModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+        <h4 class="modal-title">Add to Products</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="name" class="control-label">Product Name:</label>
+            <input type="text" class="form-control" id="name" name="name">
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="control-label">Select Image:</label><br/>
+            <select name="productimage" id="productimage">
+            <?php       
+                /*$stmt = $job_order->readJODFeedback($itemcode);
+                $num  = $stmt->rowCount();
+
+                if($num>0){
+                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                        extract($row);
+                        if(!empty($image_url)){
+                            echo "<option value=\"{$image_url}\" data-class=\"avatar\" data-style=\"background-image: url(&apos;". $home_url . "images/" . $image_url ."&apos;);\">{$image_url}</option>";
+                        }
+                    }
+                }*/
+                ?>
+            </select>
+
+            <?php       
+                $stmt = $job_order->readJODFeedback($itemcode);
+                $num  = $stmt->rowCount();
+
+                if($num>0){
+                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                        extract($row);
+                        if(!empty($image_url)){
+                            echo "<input type=\"radio\" name=\"image\" value=\"{$image_url}\"><img src=\"" . $home_url . "images/" . $image_url . "\" width=\"24\" height=\"24\"/>";
+                        }
+                    }
+                }
+                ?>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Publish</button>
+      </div>
     </div>
+  </div>
+</div>
+<?php    
+}?>
     <?php  ?>
+<script src="js/script.js"></script>
+
 </div>
 <?php
 include 'template/footer.php';

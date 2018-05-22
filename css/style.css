@@ -80,7 +80,8 @@
 	width: 40px;
 	display: block;
 	text-align: center;
-	
+	padding-top: 7px;
+	text-transform: uppercase;
 	border-radius: 50%;
 	background: #006064;
 	color: #fff;
@@ -426,4 +427,14 @@ table.fixedHeader-floating{position:fixed !important;background-color:white}tabl
 
 table.dataTable{
 	margin: 0 !important;
+}
+
+
+/* select with CSS avatar icons */
+option.avatar {
+	background-repeat: no-repeat !important;
+	padding-left: 20px;
+}
+.avatar .ui-icon {
+background-position: left top;
 }

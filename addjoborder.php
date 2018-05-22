@@ -88,7 +88,7 @@ if(isset($_FILES['image']) && $_POST){
     $job_order->expectedJOD = $newJOD;
     
     if(isset($_POST['joid'])){
-        if(empty($errors)==true && $job_order->addJOItem() && $job_order->addJOItemFeedback()) {
+        if(empty($errors)==true && $job_order->addJOItem()) {
             move_uploaded_file($file_tmp,"images/".$file_name);
             echo "<div class=\"row\"><div class=\"col-md-12\"><div class='alert alert-success'>";
                 echo "<h4>Your requested job order is added to Job Order #{$newJO}.</h4>";
@@ -105,7 +105,7 @@ if(isset($_FILES['image']) && $_POST){
     }
 
     else{
-        if(empty($errors)==true && $job_order->addJOItem() && $job_order->createJO() && $job_order->addJOItemFeedback()) {
+        if(empty($errors)==true && $job_order->addJOItem() && $job_order->createJO()) {
             move_uploaded_file($file_tmp,"images/".$file_name);
             echo "<div class=\"row\"><div class=\"col-md-12\"><div class='alert alert-success'>";
                 echo "<h4>Job Order #{$newJO} was created.</h4>";

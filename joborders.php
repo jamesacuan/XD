@@ -109,13 +109,16 @@ else{
                             echo "<td><img src=\"{$home_url}images/{$image_url}\" class=\"xd-thumbnail\" width=\"50\" height=\"35\" /></td>";
                             echo "<td><a href=\"joborderitem.php?&amp;code={$code}\">{$code}</a></td>";
                             echo "<td>{$username}</td>";
-                            echo "<td class=\"clearfix\"><span>{$note}</span> <span class=\"label label-primary\">{$tag}</span>";
-                            if($date_today == $date_created) echo " <span class=\"label label-default\">New</span>";
+                            echo "<td class=\"clearfix\"><span>{$note}</span> <span class=\"label label-warning\">{$tag}</span>";
+                            //if($date_today == $date_created) echo " <span class=\"label label-default\">New</span>";
                             //echo  $date_today . " - " . $date_created;
                             //$datediff = $date_today - $date_created;
                             $diff = (new DateTime($date_today))->diff(new DateTime($date_created));
                             if(($diff->d)>4 && $status!="Denied"){
                                 echo " <span class=\"label label-danger\">Overdue</span>";
+                            }
+                            else if(($diff->d)<2){
+                                echo " <span class=\"label label-primary\">New</span>";
                             }
                             //echo "<span class=\"glyphicon glyphicon-picture pull-right\" data-toggle=\"modal\" data-target=\"#image\" data-file=\"{$image_url}\" title=\"{$image_url}\"></span></td>";
                             //echo "<td><span title=\"" . date_format(date_create($created),"F d, Y h:i:s A") . "\">{$date_created}</span></td>";

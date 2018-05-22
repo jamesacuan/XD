@@ -344,7 +344,8 @@ class JobOrder{
         FROM `job_order_feedback`
         JOIN users on job_order_feedback.userid = users.userid
         JOIN job_order_details on job_order_feedback.job_order_detailsid = job_order_details.id
-        WHERE job_order_details.code LIKE '%$val%'";
+        WHERE job_order_details.code LIKE '%$val%'
+        ORDER BY job_order_feedback.created ASC";
 
         /*$stmt = $this->conn->prepare($query);
         $stmt->bindParam(1, $this->code);

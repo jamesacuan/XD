@@ -27,9 +27,8 @@ if($_POST){
         } 
     }
     else if(isset($_FILES['image'])){
-        echo 'yes';
         $errors = array();
-        echo $file_name = $_FILES['image']['name'];
+        $file_name = $_FILES['image']['name'];
         $file_size = $_FILES['image']['size'];
         $file_tmp  = $_FILES['image']['tmp_name'];
         $file_type = $_FILES['image']['type'];
@@ -104,7 +103,8 @@ include 'template/header.php';
 </div>
 
 <div class="xd-content">
-    <!--
+    <?php 
+    /*
     <div class="row">
         <div class="col-md-9"><h1><?php echo $page_title ?></h1></div>
         <div class="col-md-3 clearfix">
@@ -120,13 +120,13 @@ include 'template/header.php';
                     echo "<a href=\"#\" class=\"btn btn-primary\"><span class=\"glyphicon glyphicon-ok\"></span> Approve</a>";
                     echo "<a href=\"#\" class=\"btn btn-default\">Deny</a>";
                 }
-                */
+                
             ?>
                 <a href="#" class="btn btn-default"><span class="glyphicon glyphicon-print"></span> Print</a>
             </div>
         </div>
     </div>
-    -->
+    -->*/ ?>
     <div class="row" style="margin-top: 40px">
         <div class="col-md-3">
             <div class="row">

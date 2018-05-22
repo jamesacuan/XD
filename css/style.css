@@ -72,12 +72,12 @@
 .xd-message{
 	border: 1px solid #eee;
 	padding: 0;
-	padding: 15px 0;
+	padding: 10px 0;
 }
 
 .xd-circle{
-	height: 64px;
-	width: 64px;
+	height: 40px;
+	width: 40px;
 	display: block;
 	text-align: center;
 	

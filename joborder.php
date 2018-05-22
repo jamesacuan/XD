@@ -35,18 +35,27 @@ include 'template/header.php';
 </div>
 
 <div class="xd-content">
-    <div class="row">
-        <div class="col-md-12">
         <?php      
             $job_order->getJobOrderDetailsCount($id);
             $jocount = $job_order->answer;
 
             $job_order->readJO($id);
-            echo "by " . $job_order->nickname . ". | Created on " . $job_order->created;
         ?>
+    <div class="row" style="margin: 20px 0">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-xs-12"><h2><?php echo $page_title ?></h2></div>
+            </div>
+            <div class="row">
+                <div class="col-xs-3">Requested By:</div>
+                <div class="col-xs-9"><?php echo $job_order->nickname?></div>
+            </div>
+            <div class="row">
+                <div class="col-xs-3">Date added:</div>
+                <div class="col-xs-9"><?php echo date_format(date_create($job_order->modified),"F d, Y h:i:s A"); ?></div>
+            </div>
         </div>
     </div>
-
 <div class="row">
     <div class="col-md-12">
     <?php       

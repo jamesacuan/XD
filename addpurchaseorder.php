@@ -4,6 +4,8 @@ $require_login=true;
 
 include_once "config/core.php";
 include_once "config/database.php";
+//include_once "config/db_sqli.php";
+
 include_once "objects/purchase_order.php";
 
 $database = new Database();

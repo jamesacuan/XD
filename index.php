@@ -50,10 +50,10 @@ echo "</div>";
 
         <div class="pull-right btn-group">
         <?php
-            if($_SESSION['role']=="user"){        
+           /* if($_SESSION['role']=="user"){        
                 echo "<button type=\"button\" onclick=\"location.href='addjoborder.php'\" class=\"btn btn-default\">+ Job Order</button>";
                 echo "<button type=\"button\" onclick=\"location.href='addpurchaseorder.php'\" class=\"btn btn-default\">+ Purchase Order</button>";
-            }
+            }*/
         ?>
         <?php
             if($_SESSION['role']=="superadmin"){

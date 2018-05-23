@@ -47,7 +47,9 @@ $(document).ready( function () {
         }
       });
       */
-     $('[data-toggle="tooltip"]').tooltip(); 
+     $('[data-toggle="tooltip"]').tooltip();
+     $('[data-toggle="popover"]').popover();   
+
 });
 moment().format();
 setMoment();

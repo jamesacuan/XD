@@ -2,12 +2,106 @@
 class Product{
  
     private $conn;
-    private $table_name = "products";
+    private $table1_name  = "products";
+    private $table2_name = "product_items";
+    
+    public $productitemid;
+    public $productitemname;
+    public $visibility;
+    public $image_url;
+    public $created, $modified, $isDeleted;
+    public $jodid; //joborderdetails_id
 
     public function __construct($db){
         $this->conn = $db;
     }
     
+    function setProduct(){
+        $this->created  = date('Y-m-d H:i:s');
+        $this->modified = date('Y-m-d H:i:s');
+        
+        $query = "INSERT INTO " . $this->table1_name . "
+            SET 
+                name = :name,
+                image_url  = :image_url,
+                created    = :created,
+                modified   = :modified,
+                visibility = :visibility,
+                productid  = :productid,
+                jodid      = :jodid";
+
+        $stmt = $this->conn->prepare($query);
+
+        $this->productitemname  = htmlspecialchars(strip_tags($this->productitemname));
+        $this->image_url        = htmlspecialchars(strip_tags($this->image_url));     
+        $this->created    = htmlspecialchars(strip_tags($this->created));
+        $this->modified   = htmlspecialchars(strip_tags($this->modified));
+        $this->visibility = htmlspecialchars(strip_tags($this->visibility));     
+        $this->productid  = htmlspecialchars(strip_tags($this->productid));
+        $this->jodid      = htmlspecialchars(strip_tags($this->jodid));
+
+
+        $stmt->bindParam(':name',       $this->productitemname);        
+        $stmt->bindParam(':image_url',  $this->image_url);
+        //$stmt->bindParam(':note',       $this->note);
+        $stmt->bindParam(':created',    $this->created);
+        $stmt->bindParam(':modified',   $this->modified);
+        $stmt->bindParam(':visibility', $this->visibility);
+        $stmt->bindParam(':productid',  $this->productid);
+        $stmt->bindParam(':jodid',      $this->jodid);
+
+        if($stmt->execute()){
+            return true;
+        }
+        else{
+            $this->showError($stmt);
+            return false;
+        }
+    }
+
+    function setProductItem(){
+        $this->created  = date('Y-m-d H:i:s');
+        $this->modified = date('Y-m-d H:i:s');
+        
+        $query = "INSERT INTO " . $this->table2_name . "
+            SET 
+                name = :name,
+                image_url  = :image_url,
+                created    = :created,
+                modified   = :modified,
+                visibility = :visibility,
+                productid  = :productid,
+                jodid      = :jodid";
+
+        $stmt = $this->conn->prepare($query);
+
+        $this->productitemname  = htmlspecialchars(strip_tags($this->productitemname));
+        $this->image_url        = htmlspecialchars(strip_tags($this->image_url));     
+        $this->created    = htmlspecialchars(strip_tags($this->created));
+        $this->modified   = htmlspecialchars(strip_tags($this->modified));
+        $this->visibility = htmlspecialchars(strip_tags($this->visibility));     
+        $this->productid  = htmlspecialchars(strip_tags($this->productid));
+        $this->jodid      = htmlspecialchars(strip_tags($this->jodid));
+
+
+        $stmt->bindParam(':name',       $this->productitemname);        
+        $stmt->bindParam(':image_url',  $this->image_url);
+        //$stmt->bindParam(':note',       $this->note);
+        $stmt->bindParam(':created',    $this->created);
+        $stmt->bindParam(':modified',   $this->modified);
+        $stmt->bindParam(':visibility', $this->visibility);
+        $stmt->bindParam(':productid',  $this->productid);
+        $stmt->bindParam(':jodid',      $this->jodid);
+
+        if($stmt->execute()){
+            return true;
+        }
+        else{
+            $this->showError($stmt);
+            return false;
+        }
+    }
+
     function readItems(){
         $query = "SELECT `type`, 
                         `code`,
@@ -16,7 +110,7 @@ class Product{
                         `image_url`,
                         `status`, 
                         `modified`,
-                        `productid` FROM `product_items`
+                        `productid` FROM " . $table2_name . "
                         WHERE isDeleted <> 'Y'";
 
         $stmt = $this->conn->prepare($query);

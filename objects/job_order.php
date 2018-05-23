@@ -128,6 +128,15 @@ class JobOrder{
             return true;
         }
         else{
+            echo $this->image_url . " , " . 
+                $this->note . " , " . 
+                $this->tag . " , " . 
+                $this->status . " , " . 
+                $this->created . " , " . 
+                $this->modified . " , " . 
+                $this->userid . " , " . 
+                $this->expectedJOD;
+            
             $this->showError($stmt);
             return false;
         }
@@ -430,7 +439,8 @@ class JobOrder{
         job_order_details.note,
         job_order_details.image_url,
         job_order_details.modified,
-        job_order_details.status
+        job_order_details.status,
+        job_order.userid
         FROM `job_order`
         JOIN users on job_order.userid = users.userid
         JOIN job_order_details on job_order.id = job_order_details.job_orderid
@@ -448,6 +458,7 @@ class JobOrder{
         $this->username    = $row['username'];
         $this->nickname    = $row['nickname'];
         $this->note        = $row['note'];
+        $this->userid      = $row['userid'];
         $this->joborderdetailsid = $row['jodid'];
         $this->image_url   = $row['image_url'];
         $this->modified    = $row['modified'];

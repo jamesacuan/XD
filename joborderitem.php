@@ -9,59 +9,68 @@ $db = $database->getConnection();
 $job_order = new JobOrder($db);
 
 if($_POST){
-    $job_order->expectedJOD = $_POST['jod'];
-    if(isset($_POST['tag']))
-        $job_order->tag = $_POST['tag'];
-    else
-        $job_order->tag = "";
-    if(isset($_POST['status']))
-        $job_order->status = $_POST['status'];
-    else
-        $job_order->status = "";
-    $job_order->note = $_POST['note'];
-    $job_order->userid = $_SESSION['userid'];
+    if($_POST['form']=='Submit'){
+        $job_order->note = $_POST['note'];
+        if(isset($_POST['tag']))
+            $job_order->tag = $_POST['tag'];
+        else
+            $job_order->tag = "";
 
-    if($_FILES["image"]["error"] == 4){
-        $job_order->image_url = "";
-        if($job_order->addJOItemFeedback() && $job_order->setTag()){
+        if(isset($_POST['status']))
+            $job_order->status = $_POST['status'];
+        else
+            $job_order->status = "";
+        $job_order->userid = $_SESSION['userid'];
+        $job_order->expectedJOD = $_POST['jod'];
 
+        if($_FILES["image"]["error"] == 4){
+            $job_order->image_url = "";
+            if($job_order->addJOItemFeedback() && $job_order->setTag()){
+
+            }
+            else{
+                echo "this";
+            } 
         }
-        else{
-            echo "this";
-        } 
+        else if(isset($_FILES['image'])){
+            $errors = array();
+            $file_name = $_FILES['image']['name'];
+            $file_size = $_FILES['image']['size'];
+            $file_tmp  = $_FILES['image']['tmp_name'];
+            $file_type = $_FILES['image']['type'];
+            $tmp       = explode('.',$file_name);
+            $file_ext  = strtolower(end($tmp));
+            $expensions= array("jpeg","jpg","png");
+            if(in_array($file_ext,$expensions)=== false){
+                $errors[]="extension not allowed, please choose a JPEG or PNG file.";
+            }
+            
+            if($file_size > 2097152) {
+                $errors[]='File size must be excately 2 MB';
+            }
+            $tmptoday = new DateTime(date("m/d/Y"));
+            $tmptoday = sha1($tmptoday->format('Y-m-d H:i:s'));
+            $tmpfile_name = substr($tmptoday, -20) . substr(sha1($_POST['note']), -10);
+            $file_name = $tmpfile_name . "." .$file_ext;
+            $job_order->image_url = $file_name;
+
+            if(empty($errors)==true && $job_order->addJOItemFeedback() && $job_order->setTag()){
+                move_uploaded_file($file_tmp,"images/".$file_name);
+            }
+            else{
+                echo "<div class=\"row\"><div class=\"col-md-12\"><div class='alert alert-danger'>";
+                echo "<h4>Unable to create job order.</h4>";
+                print_r($errors);
+                echo "</div></div></div>";
+            }
+        }
     }
-    else if(isset($_FILES['image'])){
-        $errors = array();
-        $file_name = $_FILES['image']['name'];
-        $file_size = $_FILES['image']['size'];
-        $file_tmp  = $_FILES['image']['tmp_name'];
-        $file_type = $_FILES['image']['type'];
-        $tmp       = explode('.',$file_name);
-        $file_ext  = strtolower(end($tmp));
-        $expensions= array("jpeg","jpg","png");
-        if(in_array($file_ext,$expensions)=== false){
-            $errors[]="extension not allowed, please choose a JPEG or PNG file.";
-        }
-        
-        if($file_size > 2097152) {
-            $errors[]='File size must be excately 2 MB';
-        }
-        $tmptoday = new DateTime(date("m/d/Y"));
-        $tmptoday = sha1($tmptoday->format('Y-m-d H:i:s'));
-        $tmpfile_name = substr($tmptoday, -20) . substr(sha1($_POST['note']), -10);
-        $file_name = $tmpfile_name . "." .$file_ext;
-        $job_order->image_url = $file_name;
-
-        if(empty($errors)==true && $job_order->addJOItemFeedback() && $job_order->setTag()){
-            move_uploaded_file($file_tmp,"images/".$file_name);
-        }
-        else{
-            echo "<div class=\"row\"><div class=\"col-md-12\"><div class='alert alert-danger'>";
-            echo "<h4>Unable to create job order.</h4>";
-            print_r($errors);
-            echo "</div></div></div>";
-        }
+    if($_POST['form']=='Publish'){
+        echo $_POST['name'];
+        echo $_POST['image'];
+        echo $_POST['visibility'];
     }
+    header("Location: {$home_url}joborderitem.php?&code=" . $_GET['code'], true, 303);
 }
 
 if(isset($_GET['code'])){
@@ -215,7 +224,7 @@ include 'template/header.php';
                         }
 
                         if($job_order->status=='Approved' && ($role=="hans" || $role=="admin" || $role=="superadmin")){
-                            echo "<a href=\"" . $home_url . "joborderitem.php?code={$page_title}&amp;status=Done\" class=\"btn btn-primary\"><span class=\"glyphicon glyphicon-ok\"></span> Mark As Finish</a>";
+                            echo "<a href=\"" . $home_url . "joborderitem.php?code={$page_title}&amp;status=Done\" class=\"btn btn-primary\" data-toggle=\"tooltip\" title=\"Launched\"><span class=\"glyphicon glyphicon-ok\"></span> Mark As Finish</a>";
                         }
 
                         if($job_order->status=='Done' && ($role=="hans" || $role=="admin" || $role=="superadmin")){
@@ -310,7 +319,7 @@ include 'template/header.php';
                     }*/
                     ?>
                     <input type="hidden" name='jod' value='<?php echo $job_order->joborderdetailsid ?>'/>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <input type="submit" name="form" class="btn btn-primary" value="Submit" />
                     </fieldset>
                     </form>
                 </div>
@@ -327,17 +336,17 @@ if($job_order->status=="Done"){
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-        <h4 class="modal-title">Add to Products</h4>
+        <h4 class="modal-title">Add <?php echo $itemcode; ?> to Products</h4>
       </div>
       <div class="modal-body">
-        <form>
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ."?&code=" . $itemcode;?>" method="post">
           <div class="form-group">
             <label for="name" class="control-label">Product Name:</label>
             <input type="text" class="form-control" id="name" name="name">
           </div>
           <div class="form-group">
             <label for="message-text" class="control-label">Select Image:</label><br/>
-            <select name="productimage" id="productimage">
+            <!--<select name="productimage" id="productimage">
             <?php       
                 /*$stmt = $job_order->readJODFeedback($itemcode);
                 $num  = $stmt->rowCount();
@@ -352,7 +361,7 @@ if($job_order->status=="Done"){
                 }*/
                 ?>
             </select>
-
+            -->
             <?php       
                 $stmt = $job_order->readJODFeedback($itemcode);
                 $num  = $stmt->rowCount();
@@ -361,18 +370,30 @@ if($job_order->status=="Done"){
                     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                         extract($row);
                         if(!empty($image_url)){
-                            echo "<input type=\"radio\" name=\"image\" value=\"{$image_url}\"><img src=\"" . $home_url . "images/" . $image_url . "\" width=\"24\" height=\"24\"/>";
+                            if($username == $_SESSION['username'])
+                                echo "<label class=\"radio-inline\"><input type=\"radio\" name=\"image\" value=\"{$image_url}\"><img title=\"added last {$created}\" src=\"" . $home_url . "images/" . $image_url . "\" style=\"width:100px; height: 100px;\"/></label>";
                         }
                     }
                 }
                 ?>
           </div>
-        </form>
+          <div class="form-group">
+              <b>Visibility:</b>
+              <p class="text-muted">Have this item to be purchased by this requestor only?</p>
+                <div class="radio">
+                    <label><input type="radio" name="visibility" value="<?php echo $job_order->userid ?>">To <?php echo $job_order->nickname ?> only</label>
+                </div>
+                <div class="radio">
+                    <label><input type="radio" name="visibility" value="">Allow others to make purchase order of this product</label>
+               </div>
+            </div>
+        
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Publish</button>
+        <input type="submit" class="btn btn-primary" name="form" value="Publish" />
       </div>
+      </form>
     </div>
   </div>
 </div>

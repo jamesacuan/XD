@@ -2,11 +2,13 @@
 include_once "config/core.php";
 include_once "config/database.php";
 include_once "objects/job_order.php";
+include_once "objects/product.php";
 
 $database = new Database();
 $db = $database->getConnection();
 
 $job_order = new JobOrder($db);
+$product   = new Product($db);
 
 if($_POST){
     if($_POST['form']=='Submit'){
@@ -64,13 +66,16 @@ if($_POST){
                 echo "</div></div></div>";
             }
         }
+        header("Location: {$home_url}joborderitem.php?&code=" . $_GET['code'], true, 303);
     }
     if($_POST['form']=='Publish'){
-        echo $_POST['name'];
-        echo $_POST['image'];
-        echo $_POST['visibility'];
+        $product->productitemname = $_POST['name'];
+        $product->image_url  = $_POST['image'];
+        $product->visibility = $_POST['visibility'];
+        $product->jodid      = $_POST['jod'];
+        $product->setProductItem();
+        header("Location: {$home_url}products.php");
     }
-    header("Location: {$home_url}joborderitem.php?&code=" . $_GET['code'], true, 303);
 }
 
 if(isset($_GET['code'])){
@@ -229,7 +234,7 @@ include 'template/header.php';
 
                         if($job_order->status=='Done' && ($role=="hans" || $role=="admin" || $role=="superadmin")){
                             //echo "<a href=\"" . $home_url . "joborderitem.php?code={$page_title}&amp;status=Done\" class=\"btn btn-danger\"><span class=\"glyphicon glyphicon-ok\"></span> Publish</a>";
-                            echo "<button type=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#publishModal\" data-whatever=\"@mdo\">Publish</button>";
+                            echo "<button type=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#publishModal\" data-whatever=\"@mdo\" id=\"publish\">Publish</button>";
                         }
                     ?>
                         <!--
@@ -390,6 +395,7 @@ if($job_order->status=="Done"){
         
       </div>
       <div class="modal-footer">
+        <input type="hidden" name='jod' value='<?php echo $job_order->joborderdetailsid ?>'/>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         <input type="submit" class="btn btn-primary" name="form" value="Publish" />
       </div>
@@ -403,6 +409,7 @@ if($job_order->status=="Done"){
 <script src="js/script.js"></script>
 
 </div>
+
 <?php
 include 'template/footer.php';
 ?>

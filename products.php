@@ -42,8 +42,8 @@ include 'template/header.php'
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                     extract($row);
                     echo "<div class=\"col-sm-6 col-md-4\">";
-                    echo "<div class=\"thumbnail\">";
-                    echo  "";
+                    echo "<div class=\"thumbnail\">";    
+                    echo  "<img src=\"{$home_url}images/{$image_url}\">";
                     echo  "<div class=\"caption\">";
                     echo    "<h3>{$name}</h3>";
                     echo    "<p>...</p>";

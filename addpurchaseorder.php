@@ -4,7 +4,7 @@ $require_login=true;
 
 include_once "config/core.php";
 include_once "config/database.php";
-//include_once "config/db_sqli.php";
+include_once "objects/functions/dbcon.php";  //for mysqli conn
 
 include_once "objects/purchase_order.php";
 
@@ -104,6 +104,7 @@ include 'template/header.php';
 
 </div>
 <script src="js/po_script.js"></script>
+
 <?php 
 include 'template/footer.php';
 ?>

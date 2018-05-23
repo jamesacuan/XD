@@ -2,13 +2,14 @@
 class Product{
  
     private $conn;
-    private $table1_name  = "products";
+    private $table1_name = "products";
     private $table2_name = "product_items";
     
     public $productitemid;
     public $productitemname;
-    public $visibility;
+    public $visibility; //userid
     public $image_url;
+    public $code; //joborderdetails.code
     public $created, $modified, $isDeleted;
     public $jodid; //joborderdetails_id
 
@@ -23,6 +24,7 @@ class Product{
         $query = "INSERT INTO " . $this->table1_name . "
             SET 
                 name = :name,
+                code = :code,
                 image_url  = :image_url,
                 created    = :created,
                 modified   = :modified,
@@ -33,7 +35,8 @@ class Product{
         $stmt = $this->conn->prepare($query);
 
         $this->productitemname  = htmlspecialchars(strip_tags($this->productitemname));
-        $this->image_url        = htmlspecialchars(strip_tags($this->image_url));     
+        $this->image_url        = htmlspecialchars(strip_tags($this->image_url)); 
+        $this->code       = htmlspecialchars(strip_tags($this->code));    
         $this->created    = htmlspecialchars(strip_tags($this->created));
         $this->modified   = htmlspecialchars(strip_tags($this->modified));
         $this->visibility = htmlspecialchars(strip_tags($this->visibility));     
@@ -83,7 +86,6 @@ class Product{
         $this->productid  = htmlspecialchars(strip_tags($this->productid));
         $this->jodid      = htmlspecialchars(strip_tags($this->jodid));
 
-
         $stmt->bindParam(':name',       $this->productitemname);        
         $stmt->bindParam(':image_url',  $this->image_url);
         //$stmt->bindParam(':note',       $this->note);
@@ -103,15 +105,13 @@ class Product{
     }
 
     function readItems(){
-        $query = "SELECT `type`, 
-                        `code`,
-                        `name`,
-                        `note`,
-                        `image_url`,
-                        `status`, 
-                        `modified`,
-                        `productid` FROM " . $table2_name . "
-                        WHERE isDeleted <> 'Y'";
+        $query = "SELECT 
+                product_items.`name`,
+                product_items.`image_url`,
+                product_items.`modified`,
+                product_items.`productid` FROM product_items
+                JOIN job_order_details ON product_items.jodid = job_order_details.id
+                WHERE product_items.isDeleted <> 'Y'";
 
         $stmt = $this->conn->prepare($query);
         $stmt->execute();

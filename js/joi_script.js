@@ -1,3 +1,9 @@
+$(document).ready(function(){ 
+    $('#publish').click(function(){
+        clearDialog();
+    });
+});
+
 $( function() {
     $.widget( "custom.iconselectmenu", $.ui.selectmenu, {
       _renderItem: function( ul, item ) {
@@ -24,5 +30,12 @@ $( function() {
       .iconselectmenu( "menuWidget")
         .addClass( "ui-menu-icons avatar" );
 
-        
 });
+
+function clearDialog(){
+    $('input[name="name"]').val('');
+    $('input[name="image"]').prop('checked',false);
+    $('input[name="visibility"]').prop('checked',false);
+    $('.form-group').removeClass('has-error');
+ }
+ 

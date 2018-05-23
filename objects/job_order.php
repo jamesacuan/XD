@@ -373,7 +373,6 @@ class JobOrder{
         //$this->nickname    = $row['nickname'];
         //$this->modified    = $row['modified'];
        // $this->status      = $row['status'];
-
        */
 
       $stmt = $this->conn->prepare($query);

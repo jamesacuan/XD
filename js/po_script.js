@@ -188,8 +188,9 @@ $(document).ready(function(){
       success:function(data)
       {
        $('#colors').html(data);
+       $('#colors').html("errororor");
       }
      })
    }
    
-   });
+});

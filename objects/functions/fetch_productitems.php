@@ -1,7 +1,5 @@
 <?php
 //fetch.php
-$connect = mysqli_connect("localhost", "root", "", "xd");
-$output = '';
 $query = "SELECT * FROM `product_items` WHERE `type`= '" . $_POST["type"] ."' ORDER BY name ASC";
 
 $result = mysqli_query($connect, $query);

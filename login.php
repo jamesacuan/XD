@@ -18,11 +18,11 @@ if($_POST){
     $user = new User($db);
 
     $user->username=$_POST['username'];
-    $user_exists = $user->userExists();
+    $user_exists = $user->userExists($_POST['username']);
 
     /*if hashing is applied to password, use this*/
-    /*if ($user_exists && password_verify($_POST['password'], $user->password)){*/
-    if ($user_exists && $_POST['password'] == $user->password){
+    if ($user_exists && password_verify($_POST['password'], $user->password)){
+    //if ($user_exists && $_POST['password'] == $user->password){
 
         $_SESSION['logged_in'] = true;
         $_SESSION['userid']    = $user->id;
@@ -35,11 +35,6 @@ if($_POST){
         $_SESSION['firstname'] = htmlspecialchars($user->firstname, ENT_QUOTES, 'UTF-8') ;
         $_SESSION['lastname'] = $user->lastname;
         */
-
-        // if access level is 'Admin', redirect to admin section
-        /*if($user->access_level=='Admin'){
-            header("Location: {$home_url}admin/index.php?action=login_success");
-        }*/
         if(!$_SESSION['goto']){
             header("Location: {$home_url}index.php?action=login_success");
         }
@@ -48,7 +43,6 @@ if($_POST){
         }
     }
     
-    // if username does not exist or password is wrong
     else{
         $access_denied=true;
     }

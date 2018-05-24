@@ -5,6 +5,7 @@ class JobOrder{
     private $table1_name = "job_order";
     private $table2_name = "job_order_details";
     private $table3_name = "job_order_feedback";
+    
     public $joborderid;
     public $userid;
     public $type;
@@ -463,22 +464,6 @@ class JobOrder{
         $this->modified    = $row['modified'];
         $this->status      = $row['status'];
         //return $stmt;
-    }
-
-    function truncate(){
-        $tables = array("job_order_feedback",
-                        "job_order_details",
-                        "job_order",
-                        "product",
-                        "product_items",
-                        "purchase_order",
-                        "purchase_order_details");
-        $max = sizeof($tables);
-        for($i=0; $i<$max; $i++){
-            $stmt = $this->conn->prepare("TRUNCATE " . $tables[$i]);
-            $stmt->execute(); 
-        }
-        return $stmt;        
     }
 }
 ?>

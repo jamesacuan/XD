@@ -24,6 +24,8 @@ include 'template/header.php';
 </form>
 
 
+
+<?php echo password_hash("!@#$%@Hanc", PASSWORD_BCRYPT); ?>
 </div>
 
 <?php include 'template/header.php';

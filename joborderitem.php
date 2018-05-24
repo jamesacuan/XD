@@ -380,7 +380,10 @@ if($job_order->status=="Done"){
                         }
                     }
                 }
+
                 ?>
+            <label class="radio-inline"><input type="radio" name="image" value="none">none</label>
+
           </div>
           <div class="form-group">
               <b>Visibility:</b>

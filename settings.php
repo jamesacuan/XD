@@ -22,28 +22,41 @@ include 'template/header.php';
 //$temp=0;
 ?>
 <?php
-if(isset($_POST["action"]))  
- {  
-    echo json_encode($data);
-    echo $_POST['displayname'];
-      if($_POST["action"] == "Load")  
-      {  
+if($_POST){ 
+      if($_POST["action"] == "Load"){  
            $user->read();  
       }  
-      if($_POST["action"] == "insert")  
-      {  
-           echo $_POST['displayname'];
+
+      if($_POST["action"] == "Insert"){  
            $user->nickname = $_POST['displayname'];
            $user->username = $_POST['username'];
            $user->role     = $_POST['role'];
-           $user->password = $_POST['password'];
-           $user->addUser();
+           $user->password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+
+          if(!$user->userExists($_POST['username'])){
+            if($user->addUser()){
+                echo "<div class=\"row\"><div class=\"col-md-12\"><div class='alert alert-success'>";
+                    echo "<h4>Success</h4>";
+                echo "</div></div></div>";
+            }
+            else {
+                echo "<div class=\"row\"><div class=\"col-md-12\"><div class='alert alert-danger'>";
+                echo "<h4>Error adding user!</h4>";
+                echo "</div></div></div>"; 
+            }
+          }
+         else{
+            echo "<div class=\"row\"><div class=\"col-md-12\"><div class='alert alert-danger'>";
+                echo "<h4>Username already exist!</h4>";
+            echo "</div></div></div>";  
+         }
       }
 }
 else{
     echo 'what';
 }
 ?>
+
 <div class="container">
 <div class="row">
     <div class="col-md-3 xd-pane-aside">
@@ -94,7 +107,7 @@ else{
                                 </button>
                                 <ul class="dropdown-menu">
                             <?php
-                                echo "<li><a href=\"" . $home_url . "joborders.php?id=&amp;\">Reset Password</a></li>";
+                                echo "<li><a href=\"#\" data-toggle=\"modal\" data-target=\"#passdialog\">Reset Password</a></li>";
                                 echo "<li><a href=\"" . $home_url . "joborders.php?id=&amp;\">Delete</a></li>";
                             ?>
                                 </ul>
@@ -150,7 +163,32 @@ else{
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         <input type="hidden" name="action" id="action" />
         <input type="hidden" name="user_id" id="user_id" />
-        <input type="button" name="button_action" id="button_action" class="btn btn-primary" value="Insert" />
+        <input type="submit" name="action" id="button_action" class="btn btn-primary" value="Insert" />
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="passdialog" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Reset Password</h4>
+      </div>
+      <div class="modal-body">
+      <form method="post" id="pass_form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+            <div class="form-group">            
+                <label>Enter Password</label>
+                <input type="password" name="password" id="password" class="form-control" required />
+            </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <input type="hidden" name="action" id="action" />
+        <input type="hidden" name="user_id" id="user_id" />
+        <input type="submit" name="action" id="button_action" class="btn btn-primary" value="Change Password" />
       </div>
       </form>
     </div>
@@ -166,8 +204,9 @@ else{
             $('#button_action').val("Insert");  
         });
 
-        //$('#user_form').on('submit', function(event){
-        $("#button_action").click(function(event){  
+        $('#user_form').submit(function(){
+        //$("#button_action").click(function(event){  
+            alert("hi");
                 var displayname = $('#displayname').val();  
                 var username = $('#username').val();
                 var password = $('#password').val();
@@ -176,7 +215,7 @@ else{
                 
                 if(displayname != '' && username != '' && password != '')  
                 {  
-                     $.ajax({  
+                    /*$.ajax({  
                           url: post_url,  
                           method: request_method,  
                           //data:new FormData(this),  
@@ -185,13 +224,26 @@ else{
                                $("#ttt").text($("#user_form").serialize());
                                $("#action").val("insert");  
                                $('#button_action').val("Insert");  
-                          } */
+                          } 
                          
                           success: function(data) {
                                 alert('ok');
                                 $("#ttt").text($("#user_form").serialize());
                                 echo json_encode($data)
-                        } 
+                          }*/
+                         // $.ajax({  
+                           // url: 'objects/functions/fetch_user.php',
+
+                        $.post('objects/functions/fetch_user.php',{username: $('#username').val()}, function(data){
+                            if(data.exists){
+                                $("#users").append("error");
+                                //tell user that the username already exists
+                            }else{
+                                //username doesn't exist, do what you need to do
+                            }
+                        }, 'JSON');
+                           
+
                      })
 
                      /*.done(function(response){

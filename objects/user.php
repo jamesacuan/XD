@@ -3,7 +3,7 @@ class User{
  
     private $conn;
     private $table_name = "users";
- 
+
     public $id;
     public $username;
     public $password;
@@ -14,41 +14,51 @@ class User{
     public function __construct($db){
         $this->conn = $db;
     }
+
     function addUser(){
         $this->created  = date('Y-m-d H:i:s');
         $this->modified = date('Y-m-d H:i:s');
-        $query1 = "INSERT INTO " . $this->table_name . "SET 
-                    nickname = :nickname,
-                    username = :username,
-                    role     = :role,
-                    created = :created,
-                    modified = :modified";
+        $query1 = "INSERT INTO users
+                SET 
+                        nickname = :nickname,
+                        username = :username,
+                        password = :password,
+                        role     = :role,
+                        isAdmin  = :isAdmin,
+                        created  = :created,
+                        modified = :modified";
 
         $stmt1 = $this->conn->prepare($query1);
 
         $this->nickname   = htmlspecialchars(strip_tags($this->nickname));
         $this->username   = htmlspecialchars(strip_tags($this->username));
+        $this->password   = htmlspecialchars(strip_tags($this->password));
         $this->role       = htmlspecialchars(strip_tags($this->role));  
         $this->created    = htmlspecialchars(strip_tags($this->created));
         $this->modified   = htmlspecialchars(strip_tags($this->modified));
 
+        if($this->role == "admin") $isAdmin = 'Y';
+        else $isAdmin = '';
+
         $stmt1->bindParam(':nickname', $this->nickname);    
-        $stmt1->bindParam(':username', $this->username); 
-        $stmt1->bindParam(':role', $this->role); 
-        $stmt1->bindParam(':created', $this->created);
+        $stmt1->bindParam(':username', $this->username);
+        $stmt1->bindParam(':password', $this->password);
+        $stmt1->bindParam(':role',     $this->role); 
+        $stmt1->bindParam(':isAdmin',  $isAdmin);
+        $stmt1->bindParam(':created',  $this->created);
         $stmt1->bindParam(':modified', $this->modified);
 
-        if($stmt1->execute()){
+        if($stmt1->execute())
                 return true;
-        }else
+        else
             return false;
     }
 
 
-    function userExists(){
+    function userExists($val){
         $query = "SELECT `userid`, `username`, `nickname`, `password`, `role`, isAdmin, created, modified 
                 FROM " . $this->table_name . "
-                WHERE username = ?
+                WHERE username = '" . $val ."'
                 LIMIT 0,1";
         $stmt = $this->conn->prepare($query);
         $this->username=htmlspecialchars(strip_tags($this->username));
@@ -75,9 +85,7 @@ class User{
         $query = "SELECT * FROM `users`
                     WHERE isDeleted <> 'Y'
                     ORDER BY nickname ASC";
-                        /*ORDER BY job_order_details.modified DESC
-                        LIMIT {$from_record_num}, {$records_per_page}";
-                        */
+
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt;
@@ -90,9 +98,7 @@ class User{
                         FROM `job_order`
                         JOIN users on job_order.userid = users.userid
                         WHERE job_order.id = $uid";
-                        /*ORDER BY job_order_details.modified DESC
-                        LIMIT {$from_record_num}, {$records_per_page}";
-                        */
+
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -101,6 +107,27 @@ class User{
         $this->created   = $row['created'];
         $stmt->execute();
         return $stmt;
+    }
+
+    function setPassword($uid){
+        $query = "UPDATE " . $this->table2_name . "
+                SET
+                tag   = :tag
+                WHERE
+                id    = :id";
+
+        $stmt = $this->conn->prepare($query);
+
+        $this->tag         = htmlspecialchars(strip_tags($this->tag));
+        $this->expectedJOD = htmlspecialchars(strip_tags($this->expectedJOD));
+
+        $stmt->bindParam(':tag',  $this->tag);
+        $stmt->bindParam(':id',   $this->expectedJOD);
+
+        if($stmt->execute()){
+        return true;
+        }
+        return false;
     }
 
 }

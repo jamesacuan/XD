@@ -46,7 +46,7 @@ include 'template/header.php'
                     echo  "<img src=\"{$home_url}images/{$image_url}\">";
                     echo  "<div class=\"caption\">";
                     echo    "<h3>{$name}</h3>";
-                    echo    "<p>...</p>";
+                    echo    "<p>{$type}<br/>{$code}</p>";
                     //echo   "<p><a href=\"#\" class=\"btn btn-primary\" role=\"button\">Button</a>";
                     echo  "</div>";
                     echo "</div>";

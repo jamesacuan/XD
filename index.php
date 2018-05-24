@@ -3,11 +3,13 @@
 include_once "config/core.php";
 include_once "config/database.php";
 include_once "objects/job_order.php";
+include_once "objects/settings.php";
 
 $database = new Database();
 $db = $database->getConnection();
 
 $job_order = new JobOrder($db);
+$settings =  new Settings($db);
 
 $page_title= "Dashboard";
 
@@ -19,7 +21,7 @@ $yesterday = date("m/d/Y", strtotime($today . ' -1 days'));
 
 if($_SESSION['role']=="superadmin" && isset($_GET['truncate'])){
     if(isset($_GET['truncate'])){
-        $job_order->truncate();
+        $settings->truncate();
     }
     $current_url = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
     $current_url = explode('?', $current_url);

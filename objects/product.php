@@ -109,8 +109,14 @@ class Product{
                 product_items.`name`,
                 product_items.`image_url`,
                 product_items.`modified`,
-                product_items.`productid` FROM product_items
+                /*product_items.`productid`,*/
+                users.nickname,
+                job_order_details.code,
+                job_order_details.type
+                FROM product_items
                 JOIN job_order_details ON product_items.jodid = job_order_details.id
+                JOIN job_order ON job_order_details.job_orderid = job_order.id
+                JOIN users ON users.userid = job_order.userid
                 WHERE product_items.isDeleted <> 'Y'";
 
         $stmt = $this->conn->prepare($query);

@@ -25,7 +25,7 @@ include 'template/header.php';
 
 
 
-<?php echo password_hash("!@#$%@Hanc", PASSWORD_BCRYPT); ?>
+<?php echo password_hash("H4milton", PASSWORD_BCRYPT); ?>
 </div>
 
 <?php include 'template/header.php';

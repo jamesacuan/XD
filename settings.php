@@ -27,14 +27,38 @@ if($_POST){
            $user->read();  
       }  
 
-      if($_POST["action"] == "Insert"){  
-           $user->nickname = $_POST['displayname'];
-           $user->username = $_POST['username'];
-           $user->role     = $_POST['role'];
-           $user->password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+      if($_POST["action"] == "Save"){  //add user
+        $user->nickname = $_POST['displayname'];
+        $user->username = $_POST['username'];
+        $user->role     = $_POST['role'];
+        $user->password = password_hash($_POST['password'], PASSWORD_BCRYPT);
 
-          if(!$user->userExists($_POST['username'])){
+        if(!$user->userExists($_POST['username'])){
             if($user->addUser()){
+                echo "<div class=\"row\"><div class=\"col-md-12\"><div class='alert alert-success'>";
+                    echo "<h4>Success</h4>";
+                echo "</div></div></div>";
+            }
+            else {
+                echo "<div class=\"row\"><div class=\"col-md-12\"><div class='alert alert-danger'>";
+                echo "<h4>Error adding user!</h4>";
+                echo "</div></div></div>"; 
+            }
+        }
+        else{
+            echo "<div class=\"row\"><div class=\"col-md-12\"><div class='alert alert-danger'>";
+                echo "<h4>Username already exist!</h4>";
+            echo "</div></div></div>";  
+        }
+      }
+      if($_POST["action"] == "Save Changes"){  //edit
+        //1. Check if username exist, 2. Check if new username is old username 3. Save changes.
+        $user->nickname = $_POST['displayname'];
+        $user->username = $_POST['username'];
+        $user->role     = $_POST['role'];
+
+        if(!$user->userExists($_POST['username'])){
+            if($user->updateUser($_POST['username'])){
                 echo "<div class=\"row\"><div class=\"col-md-12\"><div class='alert alert-success'>";
                     echo "<h4>Success</h4>";
                 echo "</div></div></div>";
@@ -51,7 +75,23 @@ if($_POST){
             echo "</div></div></div>";  
          }
       }
+
+    if($_POST["action"] == "Change Password"){  //change pass
+        $user->password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+        $user->username = $_POST['username'];
+        if($user->updatePassword()){
+            echo "<div class=\"row\"><div class=\"col-md-12\"><div class='alert alert-success'>";
+                echo "<h4>Success!!</h4>";
+            echo "</div></div></div>";
+        }
+        else {
+            echo "<div class=\"row\"><div class=\"col-md-12\"><div class='alert alert-danger'>";
+            echo "<h4>Error updating password!</h4>";
+            echo "</div></div></div>"; 
+        }
+    }
 }
+
 else{
     echo 'what';
 }
@@ -97,9 +137,11 @@ else{
                             echo "<td>{$nickname}</td>";
                             echo "<td>{$username}</td>";
                             echo "<td>{$role}</td>";
-                            echo "<td>{$modified}</td>";
-                            echo "<td><div class=\"btn-group\">";
-                            echo "<a href=\"joborderitem.php?&amp;code=\" class=\"btn btn-xs btn-default\">Change Profile</a>";
+                            echo "<td>{$created}</td>";
+                            echo "<td>";
+                            if($role!="superadmin"){
+                                echo "<div class=\"btn-group\">";
+                            echo "<button id=\"edit{$num}\" data-toggle=\"modal\" data-target=\"#editdialog\" data-value=\"{$username}\" class=\"btn btn-xs btn-default btn-update\">Change Profile</button>";
                             ?>
                                 <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
                                 <span class="glyphicon glyphicon-option-vertical"></span>
@@ -107,10 +149,11 @@ else{
                                 </button>
                                 <ul class="dropdown-menu">
                             <?php
-                                echo "<li><a href=\"#\" data-toggle=\"modal\" data-target=\"#passdialog\">Reset Password</a></li>";
+                                echo "<li><a href=\"#\" data-toggle=\"modal\" data-target=\"#passdialog\" class=\"btn-change\">Reset Password</a></li>";
                                 echo "<li><a href=\"" . $home_url . "joborders.php?id=&amp;\">Delete</a></li>";
                             ?>
                                 </ul>
+                            <?php }else{} ?>
                             <?php
                             echo "</div>";
                             //echo "<a href=\"#\" class=\"btn btn-xs btn-default\"></a><a href=\"#\" class=\"btn btn-xs btn-default\">Reset Password</a><a href=\"#\" class=\"btn btn-xs btn-default\"></a>";
@@ -131,13 +174,13 @@ else{
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Add User</h4>
+        <h4 class="modal-title">Add User</h4>
       </div>
       <div class="modal-body">
       <form method="post" id="user_form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
             <div class="form-group">
                 <label>Enter Name</label>
-                <input type="text" name="displayname" id="displayname" class="form-control" />
+                <input type="text" name="displayname" class="form-control" />
             </div>
             <div class="form-group">
                 <label>Select Role</label>
@@ -152,7 +195,7 @@ else{
             </div>
             <div class="form-group">  
                 <label>Enter Username</label>
-                <input type="text" name="username" id="username" class="form-control" />
+                <input type="text" name="username" class="form-control" />
             </div>
             <div class="form-group">            
                 <label>Enter Password</label>
@@ -163,12 +206,52 @@ else{
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         <input type="hidden" name="action" id="action" />
         <input type="hidden" name="user_id" id="user_id" />
-        <input type="submit" name="action" id="button_action" class="btn btn-primary" value="Insert" />
+        <input type="submit" name="action" id="button_action" class="btn btn-primary" value="Save" />
       </div>
       </form>
     </div>
   </div>
 </div>
+
+<div class="modal fade" id="editdialog" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Edit User</h4>
+      </div>
+      <div class="modal-body">
+      <form method="post" id="user_form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+            <div class="form-group">
+                <label>Enter Name</label>
+                <input type="text" name="displayname" id="displayname" class="form-control" />
+            </div>
+            <div class="form-group">  
+                <label>Enter Username</label>
+                <input type="text" name="username" id="username" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label>Select Role</label>
+                <div>
+                    <label class="radio-inline">
+                    <input type="radio" name="role" value="user"> user
+                    </label>
+                    <label class="radio-inline">
+                    <input type="radio" name="role" value="admin"> admin
+                    </label>
+                </div>
+            </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <input type="hidden" name="action" id="action" />
+        <input type="submit" name="action" id="button_action" class="btn btn-primary" value="Save Changes" />
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 
 <div class="modal fade" id="passdialog" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-sm" role="document">
@@ -186,8 +269,7 @@ else{
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <input type="hidden" name="action" id="action" />
-        <input type="hidden" name="user_id" id="user_id" />
+        <input type="hidden" name="username" id="namechange" />
         <input type="submit" name="action" id="button_action" class="btn btn-primary" value="Change Password" />
       </div>
       </form>
@@ -196,70 +278,5 @@ else{
 </div>
 
 
-<script type="text/javascript">  
-    $(document).ready(function(){
-        $('#btnadduser').click(function(){  
-            $('#user_form')[0].reset();
-            $('#action').val('insert');
-            $('#button_action').val("Insert");  
-        });
-
-        $('#user_form').submit(function(){
-        //$("#button_action").click(function(event){  
-            alert("hi");
-                var displayname = $('#displayname').val();  
-                var username = $('#username').val();
-                var password = $('#password').val();
-                var post_url = $('#user_form').attr("action"); //get form action url
-                var request_method = $('#user_form').attr("method");
-                
-                if(displayname != '' && username != '' && password != '')  
-                {  
-                    /*$.ajax({  
-                          url: post_url,  
-                          method: request_method,  
-                          //data:new FormData(this),  
-                          data: $("#user_form").serialize(),
-                          /*success:function(data){  
-                               $("#ttt").text($("#user_form").serialize());
-                               $("#action").val("insert");  
-                               $('#button_action').val("Insert");  
-                          } 
-                         
-                          success: function(data) {
-                                alert('ok');
-                                $("#ttt").text($("#user_form").serialize());
-                                echo json_encode($data)
-                          }*/
-                         // $.ajax({  
-                           // url: 'objects/functions/fetch_user.php',
-
-                        $.post('objects/functions/fetch_user.php',{username: $('#username').val()}, function(data){
-                            if(data.exists){
-                                $("#users").append("error");
-                                //tell user that the username already exists
-                            }else{
-                                //username doesn't exist, do what you need to do
-                            }
-                        }, 'JSON');
-                           
-
-                     })
-
-                     /*.done(function(response){
-                        if(response.type == 'error'){ //load json data from server and output message    
-                            output = '<div class="error">ERR'+response.text+'</div>';
-                        }else{
-                            output = '<div class="success">SCC'+response.text+'</div>';
-                        }
-                        $("#users").append(output);
-                    });*/
-                }  
-                else{  
-                     alert("All Fields are Required");  
-                }
-                event.preventDefault();   
-           });  
-    })
-</script>
+<script type="text/javascript" src="js/settings.js"> </script>
 <?php include 'template/footer.php' ?>

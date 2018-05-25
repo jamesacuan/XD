@@ -10,6 +10,7 @@ class User{
     public $type;
     public $created;
     public $modified;
+    public $isDeleted;
  
     public function __construct($db){
         $this->conn = $db;
@@ -54,6 +55,39 @@ class User{
             return false;
     }
 
+    function updateUser($uname){
+        $this->modified = date('Y-m-d H:i:s');
+        $query1 = "UPDATE users
+            SET 
+                `nickname` = :nickname,
+                `username` = :username,
+                `role`     = :role,
+                `isAdmin`  = :isAdmin,
+                `modified` = :modified,
+            WHERE
+                `username` = '". $uname . "'";
+
+        $stmt1 = $this->conn->prepare($query1);
+
+        $this->nickname   = htmlspecialchars(strip_tags($this->nickname));
+        $this->username   = htmlspecialchars(strip_tags($this->username));
+        $this->role       = htmlspecialchars(strip_tags($this->role));  
+        $this->modified   = htmlspecialchars(strip_tags($this->modified));
+
+        if($this->role == "admin") $isAdmin = 'Y';
+        else $isAdmin = '';
+
+        $stmt1->bindParam(':nickname', $this->nickname);    
+        $stmt1->bindParam(':username', $this->username);
+        $stmt1->bindParam(':role',     $this->role); 
+        $stmt1->bindParam(':isAdmin',  $isAdmin);
+        $stmt1->bindParam(':modified', $this->modified);
+
+        if($stmt1->execute())
+                return true;
+        else
+            return false;
+    }
 
     function userExists($val){
         $query = "SELECT `userid`, `username`, `nickname`, `password`, `role`, isAdmin, created, modified 
@@ -126,6 +160,56 @@ class User{
 
         if($stmt->execute()){
         return true;
+        }
+        return false;
+    }
+
+    function updatePassword(){
+        $this->modified = date('Y-m-d');
+        $query = "UPDATE `users`
+            SET
+                `password` = :password,
+                `modified` = :modified
+            WHERE
+                `username` = :username";
+
+        $stmt = $this->conn->prepare($query);
+
+        $this->password  = htmlspecialchars(strip_tags($this->password));
+        $this->modified  = htmlspecialchars(strip_tags($this->modified));
+        $this->username  = htmlspecialchars(strip_tags($this->username));
+
+        $stmt->bindParam(':password',  $this->password);
+        $stmt->bindParam(':modified',  $this->modified);
+        $stmt->bindParam(':username',  $this->username);
+
+        if($stmt->execute()){
+            return true;
+        }
+        return false;
+    }
+
+    function deleteUser(){
+        $this->modified = date('Y-m-d');
+        $query = "UPDATE `users`
+            SET
+                `isDeleted` = :isDeleted,
+                `modified` = :modified
+            WHERE
+                `username` = :username";
+
+        $stmt = $this->conn->prepare($query);
+
+        $this->isDeleted  = htmlspecialchars(strip_tags($this->isDeleted));
+        $this->modified  = htmlspecialchars(strip_tags($this->modified));
+        $this->username  = htmlspecialchars(strip_tags($this->username));
+
+        $stmt->bindParam(':isDeleted',  $this->isDeleted);
+        $stmt->bindParam(':modified',  $this->modified);
+        $stmt->bindParam(':username',  $this->username);
+
+        if($stmt->execute()){
+            return true;
         }
         return false;
     }

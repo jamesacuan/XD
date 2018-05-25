@@ -6,35 +6,26 @@ $query = "SELECT `userid`, `username`, `nickname`, `password`, `role`, isAdmin, 
                 FROM users
                 WHERE username = ?
                 LIMIT 0,1";
-
-$result = mysqli_query($connect, $query);
-$row = mysqli_fetch_array($result);
-
-if($row.count() > 0){
-    return true;
-}
-else return false;
 */
-//set the headers to be a json string
-header('content-type: text/json');
+include('database_connection.php');
 
-//no need to continue if there is no value in the POST username
-if(!isset($_POST['username']))
-    exit;
+$query = "SELECT * FROM users 
+        WHERE username = '".$_POST["username"]."'
+";
+$statement = $connect->prepare($query);
+$statement->execute();
+$result = $statement->fetchAll();
 
-//initialize our PDO class. You will need to replace your database credentials respectively
-$db = new PDO('mysql:host=localhost;dbname=xd','root','',array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
+foreach($result as $row)
+{
+ //$user = explode(".", $row["image_name"]);
+ //$output['image_name'] = $file_array[0];
+ $output['displayname'] = $row["nickname"];
+ $output['username'] = $row["username"];
+ $output['role'] = $row["role"];
 
-//prepare our query.
-$query = $db->prepare('SELECT * FROM users WHERE username = :name');
-//let PDO bind the username into the query, and prevent any SQL injection attempts.
-$query->bindParam(':name', $_POST['username']);
-//execute the query
-$query->execute();
+}
 
-//return the json object containing the result of if the username exists or not. The $.post in our jquery will access it.
-echo json_encode(array('exists' => $query->rowCount() > 0));
-
-
+echo json_encode($output);
 
 ?>

@@ -91,6 +91,9 @@ if(isset($_FILES['image']) && $_POST){
         if(empty($errors)==true && $job_order->addJOItem()) {
             move_uploaded_file($file_tmp,"images/".$file_name);
             echo "<div class=\"row\"><div class=\"col-md-12\"><div class='alert alert-success'>";
+            echo "<button type=\"button\" class=\"close\" data-dismiss=\"alert\">";
+            echo "<span>&times;</span>";
+            echo "</button>";
                 echo "<h4>Your requested job order is added to Job Order #{$newJO}.</h4>";
                 echo "<span>You may continue to request an image for render by adding it below, or go back to dashboard.</span>";
             echo "</div></div></div>";

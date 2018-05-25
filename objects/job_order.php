@@ -5,7 +5,8 @@ class JobOrder{
     private $table1_name = "job_order";
     private $table2_name = "job_order_details";
     private $table3_name = "job_order_feedback";
-    
+    private $table4_name = "job_order_status";
+
     public $joborderid;
     public $userid;
     public $type;
@@ -29,7 +30,6 @@ class JobOrder{
                     code = :code,
                     note = :note,
                     image_url = :image_url,
-                    status = :status,
                     created = :created,
                     modified = :modified,
                     job_orderid = :job_orderid";
@@ -40,7 +40,6 @@ class JobOrder{
         $this->code       = htmlspecialchars(strip_tags($this->code));
         $this->note       = htmlspecialchars(strip_tags($this->note));  
         $this->image_url  = htmlspecialchars(strip_tags($this->image_url));
-        $this->status  = htmlspecialchars(strip_tags($this->status));
         $this->expectedJO = htmlspecialchars(strip_tags($this->expectedJO));     
         $this->created    = htmlspecialchars(strip_tags($this->created));
         $this->modified   = htmlspecialchars(strip_tags($this->modified));
@@ -49,7 +48,6 @@ class JobOrder{
         $stmt2->bindParam(':code', $this->code);
         $stmt2->bindParam(':note', $this->note);
         $stmt2->bindParam(':image_url',  $this->image_url);
-        $stmt2->bindParam(':status',     $this->status);
         $stmt2->bindParam(':created',    $this->created);
         $stmt2->bindParam(':modified',   $this->modified);
         $stmt2->bindParam(':job_orderid', $this->expectedJO);
@@ -128,16 +126,7 @@ class JobOrder{
         if($stmt->execute()){
             return true;
         }
-        else{
-            echo $this->image_url . " , " . 
-                $this->note . " , " . 
-                $this->tag . " , " . 
-                $this->status . " , " . 
-                $this->created . " , " . 
-                $this->modified . " , " . 
-                $this->userid . " , " . 
-                $this->expectedJOD;
-            
+        else{           
             $this->showError($stmt);
             return false;
         }
@@ -404,7 +393,7 @@ class JobOrder{
 
 
     function read($typeval){
-        $query = "SELECT job_order.id as JOID,
+        /*$query = "SELECT job_order.id as JOID,
                         job_order_details.id as JODID,
                         job_order_details.type,
                         job_order_details.code,
@@ -414,16 +403,41 @@ class JobOrder{
                         job_order_details.image_url,
                         job_order_details.modified,
                         job_order_details.created,
-                        job_order_details.status
+                        /*job_order_details.status
+                        job_order_status.status
                         FROM `job_order`
                         JOIN users on job_order.userid = users.userid
                         JOIN job_order_details on job_order.id = job_order_details.job_orderid
+                        JOIN job_order_status  on job_order_status.job_order_code = job_order_details.code
                         WHERE job_order_details.type LIKE '%{$typeval}%'
                             AND job_order_details.isDeleted <> 'Y'
                             AND job_order_details.status <> 'Denied'";
                         /*ORDER BY job_order_details.modified DESC
                         LIMIT {$from_record_num}, {$records_per_page}";
                         */
+
+        $query = "SELECT job_order.id as JOID,
+                job_order_details.id as JODID,
+                job_order_details.type,
+                job_order_details.code,
+                users.username,
+                job_order_details.tag,
+                job_order_details.note,
+                job_order_details.image_url,
+                job_order_details.modified,
+                job_order_details.created,
+                s1.status
+                FROM `job_order`
+                JOIN users on job_order.userid = users.userid
+                JOIN job_order_details on job_order.id = job_order_details.job_orderid
+                JOIN job_order_status s1 on s1.job_order_code = job_order_details.code
+                WHERE job_order_details.type LIKE '%{$typeval}%'
+                    AND job_order_details.isDeleted <> 'Y'
+                    AND s1.status <> 'Denied'
+                    AND s1.created = (SELECT MAX(s2.created)
+                                    FROM job_order_status s2
+                                    WHERE s2.job_order_code = s1.job_order_code)
+                ORDER BY job_order_details.created ASC";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt;
@@ -439,12 +453,16 @@ class JobOrder{
         job_order_details.note,
         job_order_details.image_url,
         job_order_details.modified,
-        job_order_details.status,
+        s1.status,
         job_order.userid
         FROM `job_order`
         JOIN users on job_order.userid = users.userid
         JOIN job_order_details on job_order.id = job_order_details.job_orderid
-        WHERE job_order_details.code LIKE ?";
+        JOIN job_order_status s1 on s1.job_order_code = job_order_details.code
+        WHERE job_order_details.code LIKE ?
+        	AND s1.created = (SELECT MAX(s2.created)
+                              FROM job_order_status s2
+                              WHERE s2.job_order_code = s1.job_order_code)";
         /*ORDER BY job_order_details.modified DESC*/
         
         $stmt = $this->conn->prepare($query);
@@ -464,6 +482,36 @@ class JobOrder{
         $this->modified    = $row['modified'];
         $this->status      = $row['status'];
         //return $stmt;
+    }
+    function setStatus(){
+        if(!empty($this->status)){
+            $this->created  = date('Y-m-d H:i:s');
+            $query = "INSERT INTO `job_order_status`
+                SET
+                    `status` = :status, 
+                    `userid` = :userid, 
+                    `job_order_code` = :joborderdetailscode, 
+                    `created` = :created";
+
+            $stmt = $this->conn->prepare($query);
+
+            $this->status   = htmlspecialchars(strip_tags($this->status));
+            $this->userid   = htmlspecialchars(strip_tags($this->userid)); //updated by
+            $this->code     = htmlspecialchars(strip_tags($this->code));
+            $this->created  = htmlspecialchars(strip_tags($this->created));
+
+            $stmt->bindParam(':status',  $this->status);
+            $stmt->bindParam(':userid',  $this->userid);
+            $stmt->bindParam(':joborderdetailscode',  $this->code);
+            $stmt->bindParam(':created', $this->created);
+
+            if($stmt->execute()){
+                return true;
+            }
+                return false;
+        }
+        else
+            return true;
     }
 }
 ?>

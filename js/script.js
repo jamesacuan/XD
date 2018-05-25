@@ -32,21 +32,6 @@ $(document).ready( function () {
         "pageLength": 25
     });
 
-    /*
-    $({property: 0}).animate({property: 105}, {
-        duration: 1000,
-        step: function() {
-          var _percent = Math.round(this.property);
-          $("#progressBar").css("width",  _percent+"%");
-          if(_percent == 105) {
-            $("#progressBar").addClass("done");
-          }
-        },
-        complete: function() {
-            
-        }
-      });
-      */
      $('[data-toggle="tooltip"]').tooltip();
      $('[data-toggle="popover"]').popover();   
 

@@ -27,7 +27,8 @@ if(($role=="admin" || $role=="superadmin" || $role=="hans") && isset($_GET['stat
             $job_order->status = "Approved";
         else
             $job_order->status = $_GET['status'];
-        $job_order->approve();
+        if($job_order->approve() && $job_order->setStatus())
+            echo "Done";
     }
 }
 

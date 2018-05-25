@@ -86,9 +86,10 @@ if(isset($_FILES['image']) && $_POST){
     $job_order->status     = "For Approval";
     $job_order->expectedJO  = $newJO;
     $job_order->expectedJOD = $newJOD;
-    
+    $job_order->userid     = $_SESSION['userid'];
+
     if(isset($_POST['joid'])){
-        if(empty($errors)==true && $job_order->addJOItem()) {
+        if(empty($errors)==true && $job_order->addJOItem() && $job_order->setStatus()) {
             move_uploaded_file($file_tmp,"images/".$file_name);
             echo "<div class=\"row\"><div class=\"col-md-12\"><div class='alert alert-success'>";
             echo "<button type=\"button\" class=\"close\" data-dismiss=\"alert\">";
@@ -108,7 +109,7 @@ if(isset($_FILES['image']) && $_POST){
     }
 
     else{
-        if(empty($errors)==true && $job_order->addJOItem() && $job_order->createJO()) {
+        if(empty($errors)==true && $job_order->addJOItem() && $job_order->createJO() && $job_order->setStatus()) {
             move_uploaded_file($file_tmp,"images/".$file_name);
             echo "<div class=\"row\"><div class=\"col-md-12\"><div class='alert alert-success'>";
                 echo "<h4>Job Order #{$newJO} was created.</h4>";

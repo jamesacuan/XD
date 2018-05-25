@@ -3,7 +3,7 @@ class Settings{
 
     private $conn;
     private $supername = "admin";
-    private $superpass = "12345";
+    private $superpass = "";
     private $suprole   = "superadmin";
     private $isAdmin   = "Y";
 
@@ -16,8 +16,9 @@ class Settings{
     function truncate(){
         $this->created  = date('Y-m-d H:i:s');
         $this->modified = date('Y-m-d H:i:s');
-
-        $tmppass = password_hash($this->$superpass, PASSWORD_BCRYPT);
+        $this->password  = "$2y$10$PGyDtm3efQwftrblni9Gku6MvX0Z2k/F9eK5HXsm5BLwpOre9nBvS"; //H4mil
+        
+        //$tmppass = password_hash($this->$superpass, PASSWORD_BCRYPT);
         
         $tables = array("job_order_feedback",
                         "job_order_details",
@@ -26,7 +27,9 @@ class Settings{
                         "product_items",
                         "purchase_order",
                         "purchase_order_details",
-                        "users");
+                        "users",
+                        "job_order_status");
+                        
         $max = sizeof($tables);
         for($i=0; $i<$max; $i++){
             $stmt = $this->conn->prepare("TRUNCATE " . $tables[$i]);
@@ -35,19 +38,19 @@ class Settings{
 
         $query = "INSERT INTO `users`
             SET 
-                nickname = :nickname, 
-                username = :username,
-                password = :password,
-                role     = :role, 
-                isAdmin  = :isAdmin,
-                created  = :created, 
-                modified = :modified";
+                `nickname` = :nickname, 
+                `username` = :username,
+                `password` = :password,
+                `role`     = :role, 
+                `isAdmin`  = :isAdmin,
+                `created`  = :created, 
+                `modified` = :modified";
 
         $stmt2 = $this->conn->prepare($query);
        
         $stmt2->bindParam(':nickname', $this->supername);
         $stmt2->bindParam(':username', $this->supername);
-        $stmt2->bindParam(':password', $tmppass);
+        $stmt2->bindParam(':password',  $this->superpass);
         $stmt2->bindParam(':role',     $this->suprole);
         $stmt2->bindParam(':isAdmin',  $this->isAdmin);
         $stmt2->bindParam(':created',  $this->created);

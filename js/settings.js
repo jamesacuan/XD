@@ -1,8 +1,16 @@
 $(document).ready(function(){
-$('#editdialog').on('shown.bs.modal', function (event) {
+    $('#editdialog').on('shown.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var output = button.data('value');
         var modal  = $(this);
+        //modal.find('#username').val(output);        
+    })
+
+    $('#deldialog').on('shown.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var output = button.data('value');
+        var modal  = $(this);
+        $("#del_form span").innerHTML = output;
         //modal.find('#username').val(output);        
     })
 

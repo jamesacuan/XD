@@ -171,26 +171,22 @@ $(document).ready(function(){
    
    function fetch_products(type){
      $.ajax({
-      url:"objects/products/fetch.php",
+      url:"objects/functions/fetch_productitems.php",
       method:"POST",
       data:{type:type},
-      success:function(data)
-      {
+      success:function(data){
        $('#custom').html(data);
       }
      })
    }
    
    function fetch_colors(type){
-     $.ajax({
-      url:"objects/products/fetch_colors.php",
-      method:"POST",
-      success:function(data)
-      {
-       $('#colors').html(data);
-       $('#colors').html("errororor");
-      }
-     })
+    $.ajax({
+        url:"objects/functions/fetch_colors.php",
+        method:"POST",
+        success:function(data){
+            $('#colors').html(data);
+        }
+    })
    }
-   
 });

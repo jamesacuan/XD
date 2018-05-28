@@ -60,11 +60,11 @@ $(document).ready(function(){
     
     $('#save').click(function(){
        var err=0;
+       var color = "";
+       var custom = "";
        var product = "";
        var type = "";
-       var color = "";
        var quantity = "";
-       var custom = "";
        var note   = "";
    
        if($("input[name='product']").is(":checked")==false){
@@ -97,8 +97,13 @@ $(document).ready(function(){
        if (err==0){
            if($('#save').text() == 'Save'){
                count = count + 1;
-               color = $("#colors option:selected").text();
-               custom = $("#custom option:selected").text();
+               color  = $("#colors option:selected").val();
+               custom = $("#custom option:selected").val();
+               product = $("input[name='product']:checked").val();
+               type   = $("input[name='type']:checked").val();
+               quantity = $("input[name='quantity']").val();
+               note     = $("textarea[name='note']").val();
+               
                output = '<tr id="row_'+count+'">';
                output += '<td></td>';
                if(type=='custom'){
@@ -109,13 +114,22 @@ $(document).ready(function(){
                if(note=="")
                    output += "";
                else
-                   output += '<br/><span>'+note+'</span>';
-               output += '<input type="hidden" name="hidden_product[]" id="product'+count+'" value="'+$("input[name='product']:checked").val()+'" /></td>';
+                   output += '<br/><span>'+note+'</span>'           
+               
+               
+               output += '</td>';
                output += '<td>'+color+'</td>';
                output += '<td>'+quantity+'</td>';
-               output += '<td><button type="button" name="view_details" class="btn btn-warning btn-xs view_details" id="'+count+'">View</button>';
-               output += '<button type="button" name="remove_details" class="btn btn-danger btn-xs remove_details" id="'+count+'">Remove</button></td>';
-               output += '</tr>';
+               //output += '<td><button type="button" name="view_details" class="btn btn-warning btn-xs view_details" id="'+count+'">View</button>';
+
+               output += '<td><button type="button" name="remove_details" class="btn btn-danger btn-xs remove_details" id="'+count+'">Remove</button>';
+               output += '<input type="hidden" name="color[]" value="' + color + '" />';
+               output += '<input type="hidden" name="custom[]" value="' + custom + '" />';
+               output += '<input type="hidden" name="product[]" value="' + product + '" />';
+               output += '<input type="hidden" name="type[]" value="' + type + '" />';
+               output += '<input type="hidden" name="quantity[]" value="' + quantity + '" />';
+               output += '<input type="hidden" name="note[]" value="' + note + '" />';
+               output += '</td>';
                $('#po_table').append(output);
                
                /*
@@ -144,6 +158,8 @@ $(document).ready(function(){
                    output += '<td><button type="button" name="remove_details" class="btn btn-danger btn-xs remove_details" id="'+count+'">Remove</button></td>';
                    output += '</tr>';
                    */
+
+
                }
                else
                {
@@ -171,12 +187,12 @@ $(document).ready(function(){
    
    function fetch_products(type){
      $.ajax({
-      url:"objects/functions/fetch_productitems.php",
-      method:"POST",
-      data:{type:type},
-      success:function(data){
-       $('#custom').html(data);
-      }
+        url:"objects/functions/fetch_productitems.php",
+        method:"POST",
+        data:{type:type},
+        success:function(data){
+            $('#custom').html(data);
+        }
      })
    }
    

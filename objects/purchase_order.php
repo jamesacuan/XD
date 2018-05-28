@@ -3,14 +3,21 @@ class PurchaseOrder{
 
     private $conn;
     private $table1_name = "purchase_order";
+    private $table2_name = "purchase_order_details";
+    private $table3_name = "purchase_order_status";
 
     public $userid;
-    public $note;
     public $image_url;
     public $expectedJO;
-    public $created;
-    public $modified;
-    public $isDeleted;
+    public $created, $modified, $isDeleted;
+    public $productitemid;
+    public $quantity;
+    public $color;
+    public $note;
+    public $status;
+    public $total;
+    public $type;
+    public $purchase_orderid;
 
     public $count;
 
@@ -22,59 +29,109 @@ class PurchaseOrder{
         $this->created  = date('Y-m-d H:i:s');
         $this->modified = date('Y-m-d H:i:s');
 
-        $query1 = "INSERT INTO " . $this->table1_name . "
+        $query = "INSERT INTO " . $this->table1_name . "
                 SET 
-                    userid = :userid,
-                    created = :created,
+                    userid   = :userid,
+                    created  = :created,
                     modified = :modified";
 
-        $query2 = "INSERT INTO " . $this->table2_name . "
-                SET 
-                    type = :type,
-                    code = :code,
-                    note = :note,
-                    image_url = :image_url,
-                    status = :status,
-                    created = :created,
-                    modified = :modified,
-                    job_orderid = :job_orderid";
+        $stmt = $this->conn->prepare($query1);
 
-        $stmt1 = $this->conn->prepare($query1);
-        $stmt2 = $this->conn->prepare($query2);
-
-        $this->userid     = htmlspecialchars(strip_tags($this->userid));
-        $this->type       = htmlspecialchars(strip_tags($this->type));
-        $this->code       = htmlspecialchars(strip_tags($this->code));
-        $this->note       = htmlspecialchars(strip_tags($this->note));  
-        $this->image_url  = htmlspecialchars(strip_tags($this->image_url));
-        $this->status  = htmlspecialchars(strip_tags($this->status));
-        $this->expectedJO = htmlspecialchars(strip_tags($this->expectedJO));     
+        $this->userid     = htmlspecialchars(strip_tags($this->userid));     
         $this->created    = htmlspecialchars(strip_tags($this->created));
         $this->modified   = htmlspecialchars(strip_tags($this->modified));
 
-        $stmt1->bindParam(':userid', $this->userid);        
-        $stmt1->bindParam(':created', $this->created);
-        $stmt1->bindParam(':modified', $this->modified);
+        $stmt->bindParam(':userid', $this->userid);        
+        $stmt->bindParam(':created', $this->created);
+        $stmt->bindParam(':modified', $this->modified);
 
-        $stmt2->bindParam(':type', $this->type);        
-        $stmt2->bindParam(':code', $this->code);
-        $stmt2->bindParam(':note', $this->note);
-        $stmt2->bindParam(':image_url',  $this->image_url);
-        $stmt2->bindParam(':status',     $this->status);
-        $stmt2->bindParam(':created',    $this->created);
-        $stmt2->bindParam(':modified',   $this->modified);
-        $stmt2->bindParam(':job_orderid', $this->expectedJO);
+        if($stmt->execute()){
+            return true;
+        }
+        else{
+            $this->showError($stmt);
+            return false;
+        }
+    }
 
-        if($stmt1->execute()){
-            if($stmt2->execute()){
-                return true;
-            }
-            else{
-                $this->showError($stmt2);
-                return false;
-            }
-        }else{
-            $this->showError($stmt1);
+    function addItem(){
+        $this->created  = date('Y-m-d H:i:s');
+        $this->modified = date('Y-m-d H:i:s');
+        $query = "INSERT INTO " . $this->table2_name . "
+            SET
+                type       = :type,
+                productitemid = :productitemid,
+                quantity   = :quantity,
+                color      = :color,
+                note       = :note";
+
+        $stmt = $this->conn->prepare($query);
+
+        $this->productitemid = htmlspecialchars(strip_tags($this->productitemid));
+        $this->quantity   = htmlspecialchars(strip_tags($this->quantity));
+        $this->color      = htmlspecialchars(strip_tags($this->color));
+        $this->note       = htmlspecialchars(strip_tags($this->note));  
+        $this->type   = htmlspecialchars(strip_tags($this->type));
+
+        $stmt->bindParam(':productitemid', $this->productitemid);        
+        $stmt->bindParam(':quantity', $this->quantity);
+        $stmt->bindParam(':note', $this->note);
+        $stmt->bindParam(':color', $this->color);
+        $stmt->bindParam(':type', $this->type);
+
+        if($stmt->execute()){
+            return true;
+        }
+        else{
+            $this->showError($stmt);
+            return false;
+        }
+    }
+
+    function addStatus(){
+        $this->created  = date('Y-m-d H:i:s');
+        $query = "INSERT INTO " . $this->table3_name . "
+            SET 
+                status     = :status,
+                purchase_orderid = :purchase_orderid,
+                userid     = :userid,
+                created    = :created";
+
+        $stmt = $this->conn->prepare($query);
+
+        $this->status = htmlspecialchars(strip_tags($this->status));
+        $this->purchase_orderid   = htmlspecialchars(strip_tags($this->purchase_orderid));
+        $this->userid      = htmlspecialchars(strip_tags($this->userid));
+        $this->created       = htmlspecialchars(strip_tags($this->created));  
+
+        $stmt->bindParam(':status', $this->status);        
+        $stmt->bindParam(':purchase_orderid', $this->purchase_orderid);
+        $stmt->bindParam(':userid', $this->userid);
+        $stmt->bindParam(':created', $this->created);
+
+        if($stmt->execute()){
+            return true;
+        }
+        else{
+            $this->showError($stmt);
+            return false;
+        }
+    }
+
+    function getLastPurchaseOrder(){
+        $query = "SELECT max(id) AS total FROM " . $this->table1_name;
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();   
+        $num = $stmt->rowCount();
+    
+        if($num>0){
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $this->total = $row['total'];
+            return $this->total;
+        }
+        else{
+            $this->showError($stmt);
             return false;
         }
     }

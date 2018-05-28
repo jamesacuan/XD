@@ -73,6 +73,9 @@
             $product->image_url  = $_POST['image'];
             $product->visibility = $_POST['visibility'];
             $product->jodid      = $_POST['jod'];
+            $product->type       = $_POST['type'];
+            $product->code       = $_POST['code'];
+
             $product->setProductItem();
             header("Location: {$home_url}products.php");
         }
@@ -109,7 +112,6 @@
             $job_order->setStatus();
         }
     }
-
 
     $require_login=true;
 
@@ -403,6 +405,8 @@
         </div>
         <div class="modal-footer">
             <input type="hidden" name='jod' value='<?php echo $job_order->joborderdetailsid ?>'/>
+            <input type="hidden" name='type' value='<?php echo $job_order->type ?>'/>
+            <input type="hidden" name='code' value='<?php echo $itemcode ?>'/>
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             <input type="submit" class="btn btn-primary" name="form" value="Publish" />
         </div>

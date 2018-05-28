@@ -16,6 +16,17 @@ $page_title="Create New Purchase Order";
 
 include 'template/header.php';
 ?>
+
+<?php
+
+if($_POST){
+    $note = $_POST['note'];
+    $quantity = $_POST['quantity'];
+        foreach( $note as $key => $n ) {
+            print "The note is ".$n.", quantity is ".$quantity[$key];
+        }
+}
+?>
 <div class="row xd-heading">
     <div class="clearfix">
         <div class="page-header pull-left">

@@ -1,13 +1,12 @@
 <?php
-// core configuration
 include_once "config/core.php";
 include_once "config/database.php";
-include_once "objects/job_order.php";
+include_once "objects/purchase_order.php";
 
 $database = new Database();
 $db = $database->getConnection();
 
-$job_order = new JobOrder($db);
+$purchase_order = new PurchaseOrder($db);
 
 $page_title="Purchase Orders";
 
@@ -35,13 +34,31 @@ include 'template/header.php'
                 <thead>
                     <tr>
                         <th class="col-xs-1">PO</th>
-                        <th class="col-xs-3">By</th>
-                        <th class="col-xs-3">Date</th>
+                        <th class="col-xs-4">By</th>
+                        <th class="col-xs-4">Date</th>
                         <th class="col-xs-2">Status</th>
-                        <th class="col-xs-3">Action</th>
+                        <th class="col-xs-1">Action</th>
                     </tr>
                 </thead>
-                <tbody>      
+                <tbody> 
+                <?php
+                $stmt = $purchase_order->read();
+                $num  = $stmt->rowCount();
+                $date_today   = date("m/d/Y");
+                
+                if($num>0){
+                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                        extract($row);
+                        echo "<tr>";
+                        echo "<td>{$id}</td>";
+                        echo "<td>{$nickname}</td>";
+                        echo "<td>{$created}</td>";
+                        echo "<td>{$status}</td>";
+                        echo "<td><a href=\"purchaseorder.php?&amp;id={$id}\" class=\"btn btn-xs btn-default\">View</a></td>";
+                        echo "</tr>";
+                    }
+                }//
+                ?>    
                 </tbody>
             </table> 
         </div>

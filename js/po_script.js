@@ -103,14 +103,16 @@ $(document).ready(function(){
                type   = $("input[name='type']:checked").val();
                quantity = $("input[name='quantity']").val();
                note     = $("textarea[name='note']").val();
-               
+               if(product=="HH")       prodname = "Helmet Holder";
+               else if(product=="TH")  prodname = "Ticket Holder";
+
                output = '<tr id="row_'+count+'">';
                output += '<td></td>';
                if(type=='custom'){
-                   output += '<td><b>'+product+' - '+custom+'</b>';
+                   output += '<td><b>'+prodname+' - '+ $("#custom option:selected").text() +'</b>';
                }
                else
-                   output += '<td><b>'+product+' - '+type+'</b>';
+                   output += '<td><b>'+prodname+' - '+type+'</b>';
                if(note=="")
                    output += "";
                else
@@ -118,7 +120,7 @@ $(document).ready(function(){
                
                
                output += '</td>';
-               output += '<td>'+color+'</td>';
+               output += '<td>'+ $("#colors option:selected").text() +'</td>';
                output += '<td>'+quantity+'</td>';
                //output += '<td><button type="button" name="view_details" class="btn btn-warning btn-xs view_details" id="'+count+'">View</button>';
 
@@ -171,6 +173,7 @@ $(document).ready(function(){
                    $('#row_'+row_id+'').html(output);
                }
                $('#item_dialog').dialog('close');
+               $('#addItemModal').modal('toggle');
        }
     });
    
@@ -183,6 +186,7 @@ $(document).ready(function(){
        $('input[name="quantity"]').val('');
        $('.form-group').removeClass('has-error');
        $('#dialog_warn').text('');
+       $("textarea[name='note']").val('');
    }
    
    function fetch_products(type){

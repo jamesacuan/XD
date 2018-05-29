@@ -1,7 +1,4 @@
 <?php
-include_once "login_check.php";
-$require_login=true;
-
 include_once "config/core.php";
 include_once "config/database.php";
 include_once "objects/job_order.php";
@@ -12,6 +9,9 @@ $db = $database->getConnection();
 $job_order = new JobOrder($db);
 $page_title="Create New Job Order";
 $page_theme="";
+
+$require_login=true;
+include_once "login_check.php";
 
 include 'template/header.php';
 $newJO ="";

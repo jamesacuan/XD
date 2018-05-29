@@ -28,7 +28,8 @@ class Settings{
                         "purchase_order",
                         "purchase_order_details",
                         "users",
-                        "job_order_status");
+                        "job_order_status",
+                        "purchase_order_status");
                         
         $max = sizeof($tables);
         for($i=0; $i<$max; $i++){

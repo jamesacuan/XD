@@ -30,7 +30,7 @@ include 'template/header.php'
 
 <div class="row xd-content">
     <div class="col-md-12">
-        <table id="purchaseorders" class="table table-hover table-bordered table-striped">
+        <table id="purchaseorders" class="table table-hover table-striped">
                 <thead>
                     <tr>
                         <th class="col-xs-1">PO</th>
@@ -52,7 +52,15 @@ include 'template/header.php'
                         echo "<tr>";
                         echo "<td>{$id}</td>";
                         echo "<td>{$nickname}</td>";
-                        echo "<td>{$created}</td>";
+                        $date_created = date_format(date_create($created),"m/d/Y");
+                        $diff = (new DateTime($date_today))->diff(new DateTime($date_created));
+                        echo "<td><span class=\"dtime\"  data-toggle=\"tooltip\" title=\"" . date_format(date_create($created),"F d, Y h:i:s A") . "\">" . date_format(date_create($created),"m-d-Y h:i:s A") . "</span>";
+                        if(($diff->d)>4 && $status!="Denied"){
+                            echo " <span class=\"label label-danger\">Overdue</span>";
+                        }else if(($diff->d)<2){
+                            echo " <span class=\"label label-primary\">New</span>";
+                        }
+                        echo "</td>";
                         echo "<td>{$status}</td>";
                         echo "<td><a href=\"purchaseorder.php?&amp;id={$id}\" class=\"btn btn-xs btn-default\">View</a></td>";
                         echo "</tr>";

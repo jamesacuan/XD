@@ -69,12 +69,12 @@
             header("Location: {$home_url}joborderitem.php?&code=" . $_GET['code'], true, 303);
         }
         if($_POST['form']=='Publish'){
-            $product->productitemname = $_POST['name'];
-            $product->image_url  = $_POST['image'];
-            $product->visibility = $_POST['visibility'];
-            $product->jodid      = $_POST['jod'];
-            //$product->type       = $_POST['type'];
-            $product->code       = $_POST['code'];
+            echo $product->productitemname = $_POST['name'];
+            echo $product->image_url  = $_POST['image'];
+            echo $product->visibility = $_POST['visibility'];
+            echo $product->jodid      = $_POST['jod'];
+            echo $product->type       = $_POST['type'];
+            echo $product->code       = $_POST['code'];
 
             $product->setProductItem();
             header("Location: {$home_url}products.php");
@@ -232,7 +232,7 @@
             </div>
             <div class="col-md-3">
                 <div class="row">
-                    <div class="col-sm-3 clearfix">
+                    <div class="col-sm-12 clearfix">
                         <div class="pull-right btn-group xd-joitem-details-btngroup">
                         <?php
                             if ($job_order->username==$_SESSION['username'] && $job_order->status=='For Approval'){
@@ -256,9 +256,10 @@
                                 echo "<button type=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#publishModal\" id=\"publish\">Publish</button>";
                             }
                         ?>
-                            <!--
-                                <a href="#" class="btn btn-default"><span class="glyphicon glyphicon-print"></span> Print</a>
-                        -->
+                    
+                                <?php
+                                //<button type="button" class="btn btn-default" data-toggle="modal" data-target="#publishModal" id="publish"><span class="glyphicon glyphicon-share"></span>Share</button>
+                                ?>
                         </div>
                     </div>
                 </div>

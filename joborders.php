@@ -107,7 +107,10 @@ else{
                             //if($date_today == $date_created) $date_created = date_format(date_create($created),"h:i A");
                             //else $date_created = date_format(date_create($created),"F d");;
                             echo "<th scope=\"row\"><a href=\"joborder.php?&amp;id={$JOID}\">{$JOID}</a></th>";
-                            echo "<td><img src=\"{$home_url}images/{$image_url}\" class=\"xd-thumbnail\" width=\"50\" height=\"35\" data-toggle=\"modal\" data-target=\"#image\" data-file=\"{$image_url}\"  /></td>";
+                            if(!empty($image_url))
+                                echo "<td><img src=\"{$home_url}images/{$image_url}\" class=\"xd-thumbnail\" width=\"50\" height=\"35\" data-toggle=\"modal\" data-target=\"#image\" data-file=\"{$image_url}\"  /></td>";
+                            else
+                                echo "<td><img src=\"{$home_url}images/def.png\" class=\"xd-thumbnail\" width=\"50\" height=\"35\"/></td>";
                             echo "<td><a href=\"joborderitem.php?&amp;code={$code}\">{$code}</a></td>";
                             echo "<td>{$username}</td>";
                             echo "<td class=\"clearfix\"><span>{$note}</span> <span class=\"label label-warning\">{$tag}</span>";
@@ -118,7 +121,7 @@ else{
                             if(($diff->d)>4 && $status!="Denied"){
                                 echo " <span class=\"label label-danger\">Overdue</span>";
                             }
-                            else if(($diff->d)<2){
+                            else if(($diff->d)<2 && strcmp($status,"For Approval")==0){
                                 echo " <span class=\"label label-primary\">New</span>";
                             }
                             //echo "<span class=\"glyphicon glyphicon-picture pull-right\" data-toggle=\"modal\" data-target=\"#image\" data-file=\"{$image_url}\" title=\"{$image_url}\"></span></td>";

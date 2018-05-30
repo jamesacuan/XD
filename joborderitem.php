@@ -153,6 +153,7 @@
         </div>
         -->*/ ?>
         <div class="row" style="margin-top: 40px">
+        <?php if(!empty($job_order->image_url)){ ?>
             <div class="col-md-3">
                 <div class="row">
                     <div class="col-xs-12"><img src="<?php echo $home_url . "images/" . $job_order->image_url?>" width="250" height="250"/>
@@ -160,6 +161,8 @@
                 </div>
             </div>
             <div class="col-md-6">
+        <?php }
+              else{ ?> <div class="col-md-9"> <?php } ?>
                 <div class="row">
                     <div class="col-xs-12"><h2><?php echo $page_title ?></h2></div>
                 </div>
@@ -275,14 +278,13 @@
                                     echo "<b class=\"media-heading\">{$username}</b> - <span class=\"dtime\" data-toggle=\"tooltip\" title=\"" . date_format(date_create($created),"F d, Y h:i:s A") . "\">" . date_format(date_create($created),"m-d-Y h:i:s A") . "</span> <span class='label label-default'>{$tag}</span>";
                                     echo "<p>{$note}</p>";
                                     if(!empty($image_url)){
-                                        echo "<p><a href=\"#\"><img src=\"" . $home_url . "images/" . $image_url . "\" width=\"64\" height=\"64\"/></a></p>";
+                                        echo "<p><img src=\"" . $home_url . "images/" . $image_url . "\" width=\"64\" height=\"64\" data-toggle=\"modal\" data-target=\"#preview\" data-value=\"". $image_url . "\" /></p>";
                                     }
                                 echo "</div>";
                             echo "</div>";
                             echo "</div>";
                         }
                     }
-                    else echo "none";
             ?>
 
             <div class="col-md-12 xd-message">
@@ -349,77 +351,97 @@
             <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
             <h4 class="modal-title">Add <?php echo $itemcode; ?> to Products</h4>
         </div>
-        <div class="modal-body">
-            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ."?&code=" . $itemcode;?>" method="post">
-            <div class="form-group">
-                <label for="name" class="control-label">Product Name:</label>
-                <input type="text" class="form-control" id="name" name="name">
-            </div>
-            <div class="form-group">
-                <label for="message-text" class="control-label">Select Image:</label><br/>
-                <!--<select name="productimage" id="productimage">
-                <?php       
-                    /*$stmt = $job_order->readJODFeedback($itemcode);
-                    $num  = $stmt->rowCount();
+            <div class="modal-body">
+                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ."?&code=" . $itemcode;?>" method="post">
+                <div class="form-group">
+                    <label for="name" class="control-label">Product Name:</label>
+                    <input type="text" class="form-control" id="name" name="name">
+                </div>
+                <div class="form-group">
+                    <label for="message-text" class="control-label">Select Image:</label><br/>
+                    <!--<select name="productimage" id="productimage">
+                    <?php       
+                        /*$stmt = $job_order->readJODFeedback($itemcode);
+                        $num  = $stmt->rowCount();
 
-                    if($num>0){
-                        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-                            extract($row);
-                            if(!empty($image_url)){
-                                echo "<option value=\"{$image_url}\" data-class=\"avatar\" data-style=\"background-image: url(&apos;". $home_url . "images/" . $image_url ."&apos;);\">{$image_url}</option>";
+                        if($num>0){
+                            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                                extract($row);
+                                if(!empty($image_url)){
+                                    echo "<option value=\"{$image_url}\" data-class=\"avatar\" data-style=\"background-image: url(&apos;". $home_url . "images/" . $image_url ."&apos;);\">{$image_url}</option>";
+                                }
+                            }
+                        }*/
+                        ?>
+                    </select>
+                    -->
+                    <?php       
+                        $stmt = $job_order->readJODFeedback($itemcode);
+                        $num  = $stmt->rowCount();
+
+                        if($num>0){
+                            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                                extract($row);
+                                if(!empty($image_url)){
+                                    if($username == $_SESSION['username'])
+                                        echo "<label class=\"radio-inline\"><input type=\"radio\" name=\"image\" value=\"{$image_url}\" checked /><img title=\"added last {$created}\" src=\"" . $home_url . "images/" . $image_url . "\" style=\"width:100px; height: 100px;\"/></label>";
+                                }
                             }
                         }
-                    }*/
-                    ?>
-                </select>
-                -->
-                <?php       
-                    $stmt = $job_order->readJODFeedback($itemcode);
-                    $num  = $stmt->rowCount();
 
-                    if($num>0){
-                        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-                            extract($row);
-                            if(!empty($image_url)){
-                                if($username == $_SESSION['username'])
-                                    echo "<label class=\"radio-inline\"><input type=\"radio\" name=\"image\" value=\"{$image_url}\" checked /><img title=\"added last {$created}\" src=\"" . $home_url . "images/" . $image_url . "\" style=\"width:100px; height: 100px;\"/></label>";
-                            }
-                        }
-                    }
+                        ?>
+                    <label class="radio-inline"><input type="radio" name="image" value="none">none</label>
 
-                    ?>
-                <label class="radio-inline"><input type="radio" name="image" value="none">none</label>
-
-            </div>
-            <div class="form-group">
-                <b>Visibility:</b>
-                <p class="text-muted">Have this item to be purchased by this requestor only?</p>
-                    <div class="radio">
-                        <label><input checked type="radio" name="visibility" value="<?php echo $job_order->userid ?>" />To <?php echo $job_order->nickname ?> only</label>
+                </div>
+                <div class="form-group">
+                    <b>Visibility:</b>
+                    <p class="text-muted">Have this item to be purchased by this requestor only?</p>
+                        <div class="radio">
+                            <label><input checked type="radio" name="visibility" value="<?php echo $job_order->userid ?>" />To <?php echo $job_order->nickname ?> only</label>
+                        </div>
+                        <div class="radio">
+                            <label><input type="radio" name="visibility" value="" />Allow others to make purchase order of this product</label>
                     </div>
-                    <div class="radio">
-                        <label><input type="radio" name="visibility" value="" />Allow others to make purchase order of this product</label>
-                </div>
-                </div>
-            
+                    </div>
+                
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" name='jod' value='<?php echo $job_order->joborderdetailsid ?>'/>
+                <input type="hidden" name='type' value='<?php echo $job_order->type ?>'/>
+                <input type="hidden" name='code' value='<?php echo $itemcode ?>'/>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <input type="submit" class="btn btn-primary" name="form" value="Publish" />
+            </div>
+            </form>
+            </div>
         </div>
-        <div class="modal-footer">
-            <input type="hidden" name='jod' value='<?php echo $job_order->joborderdetailsid ?>'/>
-            <input type="hidden" name='type' value='<?php echo $job_order->type ?>'/>
-            <input type="hidden" name='code' value='<?php echo $itemcode ?>'/>
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <input type="submit" class="btn btn-primary" name="form" value="Publish" />
         </div>
-        </form>
-        </div>
-    </div>
-    </div>
+</div>
+
+  
     <?php    
     }?>
+<div class="modal fade" id="preview" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <img class="preview" />
+      </div>
+      <div class="modal-footer">
+      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <a href="#" class="btn btn-primary xd-download" download="proposal.jpg">Download</a>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+
     <script src="js/script.js"></script>
 
     </div>
-
     <?php
     include 'template/footer.php';
     ?>

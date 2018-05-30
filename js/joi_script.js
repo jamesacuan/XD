@@ -2,6 +2,16 @@ $(document).ready(function(){
     $('#publish').click(function(){
         clearDialog();
     });
+
+    $('#preview').on('shown.bs.modal', function (event) {
+      var button   = $(event.relatedTarget);
+      var filename = button.data('value');
+      var modal    = $(this);
+      modal.find('.preview').attr('src', home_url + "images/" + filename);
+      modal.find('.xd-download').attr('href', home_url + "images/" + filename);
+      modal.find('.xd-download').attr('download', filename);
+    })
+
 });
 
 $( function() {
@@ -38,4 +48,3 @@ function clearDialog(){
     $('input[name="visibility"]').prop('checked',false);
     $('.form-group').removeClass('has-error');
  }
- 

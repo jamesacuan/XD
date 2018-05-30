@@ -29,7 +29,151 @@ $newJOD ="";
 <div class="row xd-content">
 
 <?php
-if(isset($_FILES['image']) && $_POST){
+if($_POST){
+    /*
+    
+    type = :type,
+    code = :code,
+    note = :note,
+    image_url = :image_url,
+    job_orderid = :job_orderid";
+    userid = :userid,
+    `status` = :status, 
+    `userid` = :userid, 
+    `job_order_code` = :joborderdetailscode, */
+
+
+    if(isset($_POST['joid'])){
+        $newJO = $_POST['joid'];
+    }
+    else{
+        $job_order->getJobOrderCount();
+        $newJO = $job_order->jocount + 1;
+    }
+
+    $newJOD = $job_order->getJobOrderDetailsCount() + 1;
+
+    $job_order->getTypeCount($_POST['type']);
+    $newTY = $job_order->tycount + 1;
+    
+    if($newTY<10)         $job_order->code = $_POST['type'] . "-000" . $newTY;
+    elseif($newTY<100)    $job_order->code = $_POST['type'] . "-00" . $newTY;
+    elseif($newTY<1000)   $job_order->code = $_POST['type'] . "-0" . $newTY;
+    else                  $job_order->code = $_POST['type'] . "-" . $newTY;
+    
+    $job_order->type        = $_POST['type'];
+    $job_order->note        = $_POST['note'];
+    $job_order->status      = "For Approval";
+    $job_order->expectedJO  = $newJO;
+    $job_order->expectedJOD = $newJOD;
+    $job_order->userid      = $_SESSION['userid'];
+
+    if($_FILES["image"]["error"] == 4){
+        $job_order->image_url = "";
+        if(isset($_POST['joid'])){
+            if($job_order->addJOItem() && $job_order->setStatus()) {
+                echo "<div class=\"row\"><div class=\"col-md-12\"><div class='alert alert-success'>";
+                echo "<button type=\"button\" class=\"close\" data-dismiss=\"alert\">";
+                echo "<span>&times;</span>";
+                echo "</button>";
+                    echo "<h4>Your requested job order is added to Job Order #{$newJO}.</h4>";
+                    echo "<span>You may continue to request an image for render by adding it below, or go back to dashboard.</span>";
+                echo "</div></div></div>";
+            }
+        
+            else{
+                echo "<div class=\"row\"><div class=\"col-md-12\"><div class='alert alert-danger'>";
+                echo "<h4>Unable to create job order.</h4>";
+                print_r($errors);
+                echo "</div></div></div>";
+            }
+        }
+        else{
+            if($job_order->addJOItem() && $job_order->createJO() && $job_order->setStatus()) {
+                echo "<div class=\"row\"><div class=\"col-md-12\"><div class='alert alert-success'>";
+                    echo "<h4>Job Order #{$newJO} was created.</h4>";
+                    echo "<span>You may continue to request an image for render by adding it below, or go back to dashboard.</span>";
+                echo "</div></div></div>";
+            }
+        
+            else{
+                echo "<div class=\"row\"><div class=\"col-md-12\"><div class='alert alert-danger'>";
+                echo "<h4>Unable to create job order.</h4>";
+                print_r($errors);
+                echo "</div></div></div>";
+            }
+        }
+        
+    }
+
+    else if(isset($_FILES['image']) && $_POST){
+        $errors= array();
+        $file_name = $_FILES['image']['name'];
+        $file_size = $_FILES['image']['size'];
+        $file_tmp  = $_FILES['image']['tmp_name'];
+        $file_type = $_FILES['image']['type'];
+        $tmp       = explode('.',$file_name);
+        $file_ext  = strtolower(end($tmp));
+        $expensions= array("jpeg","jpg","png");
+
+        if(in_array($file_ext,$expensions)=== false){
+            $errors[]="extension not allowed, please choose a JPEG or PNG file.";
+        }
+         
+        if($file_size > 2097152) {
+            $errors[]='File size must be excately 2 MB';
+        }
+        //rename file
+        $tmpfile_name = substr(sha1($job_order->code), -20) . substr(sha1($_POST['note']), -10);
+        $file_name = $tmpfile_name . "." .$file_ext;
+
+        $job_order->image_url  = $file_name;
+
+        if(isset($_POST['joid'])){
+            if(empty($errors)==true && $job_order->addJOItem() && $job_order->setStatus()) {
+                move_uploaded_file($file_tmp,"images/".$file_name);
+                echo "<div class=\"row\"><div class=\"col-md-12\"><div class='alert alert-success'>";
+                echo "<button type=\"button\" class=\"close\" data-dismiss=\"alert\">";
+                echo "<span>&times;</span>";
+                echo "</button>";
+                    echo "<h4>Your requested job order is added to Job Order #{$newJO}.</h4>";
+                    echo "<span>You may continue to request an image for render by adding it below, or go back to dashboard.</span>";
+                echo "</div></div></div>";
+            }
+        
+            else{
+                echo "<div class=\"row\"><div class=\"col-md-12\"><div class='alert alert-danger'>";
+                echo "<h4>Unable to create job order.</h4>";
+                print_r($errors);
+                echo "</div></div></div>";
+            }
+        }
+    
+        else{
+            if(empty($errors)==true && $job_order->addJOItem() && $job_order->createJO() && $job_order->setStatus()) {
+                move_uploaded_file($file_tmp,"images/".$file_name);
+                echo "<div class=\"row\"><div class=\"col-md-12\"><div class='alert alert-success'>";
+                    echo "<h4>Job Order #{$newJO} was created.</h4>";
+                    echo "<span>You may continue to request an image for render by adding it below, or go back to dashboard.</span>";
+                echo "</div></div></div>";
+            }
+        
+            else{
+                echo "<div class=\"row\"><div class=\"col-md-12\"><div class='alert alert-danger'>";
+                echo "<h4>Unable to create job order.</h4>";
+                print_r($errors);
+                echo "</div></div></div>";
+            }
+        }
+    }
+
+}
+
+
+
+
+
+/*if(isset($_FILES['image']) && $_POST){
     $errors= array();
     $file_name = $_FILES['image']['name'];
     $file_size = $_FILES['image']['size'];
@@ -125,6 +269,81 @@ if(isset($_FILES['image']) && $_POST){
         }
     }
 }
+
+else if(!isset($_FILES['image']) && $_POST){    
+    if(isset($_POST['joid'])){
+        $newJO = $_POST['joid'];
+    }
+    else{
+        $job_order->getJobOrderCount();
+        $newJO = $job_order->jocount + 1;
+    }
+
+    $newJOD = $job_order->getJobOrderDetailsCount() + 1;
+
+    $job_order->getTypeCount($_POST['type']);
+    $newTY = $job_order->tycount + 1;
+
+    $job_order->userid = $_SESSION['userid'];
+    $job_order->type = $_POST['type'];
+    
+    
+    if($newTY<10){
+        $job_order->code = $_POST['type'] . "-000" . $newTY;
+    }
+    elseif($newTY<100){
+        $job_order->code = $_POST['type'] . "-00" . $newTY;
+    }
+    elseif($newTY<1000){
+        $job_order->code = $_POST['type'] . "-0" . $newTY;
+    }
+    else{
+        $job_order->code = $_POST['type'] . "-" . $newTY;
+    }
+    $job_order->code;
+
+    $job_order->note       = $_POST['note'];
+    $job_order->image_url  = "";
+    $job_order->status     = "For Approval";
+    $job_order->expectedJO  = $newJO;
+    $job_order->expectedJOD = $newJOD;
+    $job_order->userid     = $_SESSION['userid'];
+
+    if(isset($_POST['joid'])){
+        if($job_order->addJOItem() && $job_order->setStatus()) {
+            echo "<div class=\"row\"><div class=\"col-md-12\"><div class='alert alert-success'>";
+            echo "<button type=\"button\" class=\"close\" data-dismiss=\"alert\">";
+            echo "<span>&times;</span>";
+            echo "</button>";
+                echo "<h4>Your requested job order is added to Job Order #{$newJO}.</h4>";
+                echo "<span>You may continue to request an image for render by adding it below, or go back to dashboard.</span>";
+            echo "</div></div></div>";
+        }
+    
+        else{
+            echo "<div class=\"row\"><div class=\"col-md-12\"><div class='alert alert-danger'>";
+            echo "<h4>Unable to create job order.</h4>";
+            print_r($errors);
+            echo "</div></div></div>";
+        }
+    }
+
+    else{
+        if($job_order->addJOItem() && $job_order->createJO() && $job_order->setStatus()) {
+            echo "<div class=\"row\"><div class=\"col-md-12\"><div class='alert alert-success'>";
+                echo "<h4>Job Order #{$newJO} was created.</h4>";
+                echo "<span>You may continue to request an image for render by adding it below, or go back to dashboard.</span>";
+            echo "</div></div></div>";
+        }
+    
+        else{
+            echo "<div class=\"row\"><div class=\"col-md-12\"><div class='alert alert-danger'>";
+            echo "<h4>Unable to create job order.</h4>";
+            print_r($errors);
+            echo "</div></div></div>";
+        }
+    }
+}*/
 ?>
 <?php if($_SESSION['role']=="hans"||$_SESSION['role']=="designer"){
     echo "<div class=\"row\"><div class=\"col-md-12\"><div class='alert alert-danger'>";
@@ -159,7 +378,7 @@ if(isset($_FILES['image']) && $_POST){
     <span class="help-block">Please upload supported images (.jpg or .png) of up to 2MB.</span>
 
     <div>
-        <input type="file" name="image" id="url" required/>
+        <input type="file" name="image" id="url"/>
         <!--
             <input type="text" name="url" class="form-control" id="url" placeholder="image url" required>
         -->

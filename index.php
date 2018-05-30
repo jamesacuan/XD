@@ -82,7 +82,11 @@ echo "</div>";
     <h3>Activity</h3>
 
         <?php       
-            $stmt = $job_order->readJODwithUserandStatus($_SESSION['userid'], "For Approval");
+            
+            if($_SESSION["admin"]=='Y')
+                $stmt = $job_order->readJODActivityStream();
+            else
+                $stmt = $job_order->readJODwithUserandStatus($_SESSION['userid'], "For Approval");
             $num  = $stmt->rowCount();
             $temp=0;
 
@@ -148,7 +152,7 @@ echo "</div>";
 </div>
 
 <div class="modal fade" id="image" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>

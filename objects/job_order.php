@@ -393,6 +393,29 @@ class JobOrder{
         return $stmt;
     }
 
+    function readJODActivityStream(){
+        $query = "SELECT job_order.id as JOID,
+        job_order_details.id as JODID,
+        job_order_details.type,
+        job_order_details.code,
+        users.username,
+        job_order_details.note,
+        job_order_details.image_url,
+        job_order_details.modified,
+        s1.status
+        FROM `job_order`
+        JOIN users on job_order.userid = users.userid
+        JOIN job_order_details on job_order.id = job_order_details.job_orderid
+        JOIN job_order_status s1 on s1.job_order_code = job_order_details.code
+        WHERE s1.status = 'for approval'
+        AND s1.created = (SELECT MAX(s2.created) FROM job_order_status s2
+                          WHERE s2.job_order_code = s1.job_order_code)
+        ORDER BY job_order_details.modified DESC";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt;
+    }
+
 
     function read($typeval){
         /*$query = "SELECT job_order.id as JOID,

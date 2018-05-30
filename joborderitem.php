@@ -73,7 +73,7 @@
             $product->image_url  = $_POST['image'];
             $product->visibility = $_POST['visibility'];
             $product->jodid      = $_POST['jod'];
-            $product->type       = $_POST['type'];
+            //$product->type       = $_POST['type'];
             $product->code       = $_POST['code'];
 
             $product->setProductItem();
@@ -111,6 +111,15 @@
             $job_order->approve();
             $job_order->setStatus();
         }
+    }
+    else if(isset($_GET['status']) && $_GET['status']=="Done"){
+           $job_order->userid = $_SESSION["userid"];
+           $job_order->code   = $itemcode;
+           $job_order->joborderdetailsid = $jodid;
+           $job_order->status = $_GET['status'];
+
+            $job_order->approve();
+            $job_order->setStatus();
     }
 
     $require_login=true;
@@ -237,13 +246,14 @@
                                 echo "<a href=\"" . $home_url . "joborderitem.php?code={$page_title}&amp;status=Deny\" class=\"btn btn-default\">Deny</a>";
                             }
 
-                            if($job_order->status=='Approved' && ($role=="hans" || $role=="admin" || $role=="superadmin")){
-                                echo "<a href=\"" . $home_url . "joborderitem.php?code={$page_title}&amp;status=Done\" class=\"btn btn-primary\" data-toggle=\"tooltip\" title=\"Launched\"><span class=\"glyphicon glyphicon-ok\"></span> Mark As Finish</a>";
+                            if($job_order->status=='Approved' && ($job_order->username==$_SESSION['username'] || $role=="superadmin")){
+                                //echo "<a href=\"" . $home_url . "joborderitem.php?code={$page_title}&amp;status=Done\" class=\"btn btn-primary\" data-toggle=\"tooltip\" title=\"Launched\"><span class=\"glyphicon glyphicon-ok\"></span> Mark As Finish</a>";
+                                echo "<button type=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#finishModal\" id=\"finish\"><span class=\"glyphicon glyphicon-ok\"></span> Mark As Finish</button>";
                             }
 
                             if($job_order->status=='Done' && ($role=="hans" || $role=="admin" || $role=="superadmin")){
                                 //echo "<a href=\"" . $home_url . "joborderitem.php?code={$page_title}&amp;status=Done\" class=\"btn btn-danger\"><span class=\"glyphicon glyphicon-ok\"></span> Publish</a>";
-                                echo "<button type=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#publishModal\" data-whatever=\"@mdo\" id=\"publish\">Publish</button>";
+                                echo "<button type=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#publishModal\" id=\"publish\">Publish</button>";
                             }
                         ?>
                             <!--
@@ -341,9 +351,9 @@
             </div>
     </div>
         </div>
-    <?php
-    if($job_order->status=="Done"){
-    ?>
+<?php
+if($job_order->status=="Done"){
+?>
     <div class="modal fade" id="publishModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -421,6 +431,68 @@
   
     <?php    
     }?>
+
+<?php
+if($job_order->status=='Approved' && ($job_order->username==$_SESSION['username'] || $role=="superadmin")){
+?>
+<div class="modal fade" id="finishModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+        <b>Heads Up!</b>
+      </div>
+      <div class="modal-body">
+        <p>You are about to close this job order (<?php echo $itemcode ?>). Make sure you have reviewed
+        everything as this will be considered final.</p>
+
+        <p>Be informed, that:</p>
+
+        <?php
+        $stmt = $job_order->readJODFeedback($itemcode);
+        $num  = $stmt->rowCount();
+        $imagecount = 0;
+        if($num>0){
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                extract($row);
+                if(!empty($image_url)){
+                    //if($username == $_SESSION['username'])
+                    //echo "<img title=\"added last {$created}\" src=\"" . $home_url . "images/" . $image_url . "\" style=\"width:100px; height: 100px;\"/>";
+                    $imagecount += 1;
+                }
+            }
+        }
+        echo "<ul>";
+        echo "<li>";
+        $stmt1 = $job_order->getFeedbackReviewer($itemcode);
+        $num1  = $stmt1->rowCount();
+        if($num1>0){
+            echo "This has been reviewed by ";
+            while ($row = $stmt1->fetch(PDO::FETCH_ASSOC)){
+                extract($row);
+                echo $nickname;
+            }
+        }
+        else echo "No one had reviewed this job order.";
+        echo "</li>";
+        echo "<li>There are " . $imagecount . " image/s in the discussion.</li>";
+        echo "<li>This needs to be published, before you could proceed adding this item to purchase order.</li>";
+        echo "</ul>";
+        ?>
+      </div>
+      <div class="modal-footer">
+      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      <?php
+      echo "<a href=\"" . $home_url . "joborderitem.php?code={$page_title}&amp;status=Done\" class=\"btn btn-primary\"><span class=\"glyphicon glyphicon-ok\"></span> Mark As Finish</a>";
+      ?>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+
+<?php } ?>
+
 <div class="modal fade" id="preview" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">

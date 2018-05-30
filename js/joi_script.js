@@ -12,6 +12,10 @@ $(document).ready(function(){
       modal.find('.xd-download').attr('download', filename);
     })
 
+    $('#finish').on('shown.bs.modal', function (event) {
+      var button   = $(event.relatedTarget);
+
+    })
 });
 
 $( function() {

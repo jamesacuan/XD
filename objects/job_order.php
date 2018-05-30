@@ -371,6 +371,36 @@ class JobOrder{
       return $stmt;
     }
 
+    function getFeedbackReviewer($val){
+        $query = "SELECT DISTINCT users.nickname, users.username
+        FROM `job_order_feedback`
+        JOIN users on job_order_feedback.userid = users.userid
+        JOIN job_order_details on job_order_feedback.job_order_detailsid = job_order_details.id
+        WHERE job_order_details.code LIKE '%$val%'
+        AND users.role LIKE 'hans'
+        ORDER BY job_order_feedback.created ASC";
+
+        /*$stmt = $this->conn->prepare($query);
+        $stmt->bindParam(1, $this->code);
+        $stmt->execute();
+
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $this->image_url   = $row['image_url'];
+        $this->note        = $row['note'];
+        $this->tag         = $row['tag'];
+        //$this->type        = $row['type'];
+        $this->username    = $row['username'];
+        //$this->nickname    = $row['nickname'];
+        //$this->modified    = $row['modified'];
+       // $this->status      = $row['status'];
+       */
+
+      $stmt = $this->conn->prepare($query);
+      $stmt->execute();
+      return $stmt;
+    }
+
     function readJODwithUserandStatus($userid, $status){
         $query = "SELECT job_order.id as JOID,
         job_order_details.id as JODID,

@@ -53,9 +53,6 @@ if($_POST){
     $purchase_order->status = "New";
     $purchase_order->addStatus();
 }
-if($_POST){
-    header("Location: {$home_url}purchaseorders.php");
-}
 ?>
 <div class="row xd-heading">
     <div class="clearfix">

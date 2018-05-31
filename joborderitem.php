@@ -1,14 +1,14 @@
-    <?php
-    include_once "config/core.php";
-    include_once "config/database.php";
-    include_once "objects/job_order.php";
-    include_once "objects/product.php";
+<?php
+include_once "config/core.php";
+include_once "config/database.php";
+include_once "objects/job_order.php";
+include_once "objects/product.php";
 
-    $database = new Database();
-    $db = $database->getConnection();
+$database = new Database();
+$db = $database->getConnection();
 
-    $job_order = new JobOrder($db);
-    $product   = new Product($db);
+$job_order = new JobOrder($db);
+$product   = new Product($db);
 
     if($_POST){
         if($_POST['form']=='Submit'){
@@ -27,7 +27,7 @@
 
             if($_FILES["image"]["error"] == 4){
                 $job_order->image_url = "";
-                if($job_order->addJOItemFeedback() && $job_order->setTag() && $job_order->setStatus()){
+                if($job_order->addJOItemFeedback() && $job_order->setTag()){
 
                 }
                 else{
@@ -56,7 +56,7 @@
                 $file_name = $tmpfile_name . "." .$file_ext;
                 $job_order->image_url = $file_name;
 
-                if(empty($errors)==true && $job_order->addJOItemFeedback() && $job_order->setTag() && $job_order->setStatus()){
+                if(empty($errors)==true && $job_order->addJOItemFeedback() && $job_order->setTag()){
                     move_uploaded_file($file_tmp,"images/".$file_name);
                 }
                 else{
@@ -76,6 +76,12 @@
             echo $product->type       = $_POST['type'];
             echo $product->code       = $_POST['code'];
 
+            $job_order->userid = $_SESSION["userid"];
+            $job_order->code   = $_POST['code'];
+            $job_order->joborderdetailsid = $_POST['jod'];
+            $job_order->status = "Published";
+
+            $job_order->setStatus();
             $product->setProductItem();
             header("Location: {$home_url}products.php");
         }
@@ -90,7 +96,7 @@
 
     $page_title      = $itemcode;
     $job_order->code = $itemcode;
-    $role = $_SESSION['role'];
+    $role            = $_SESSION['role'];
 
     echo $job_order->getJOItem();
 
@@ -108,7 +114,7 @@
                 $job_order->status = "Approved";
             else
                 $job_order->status = $_GET['status'];
-            $job_order->approve();
+            //$job_order->approve();
             $job_order->setStatus();
         }
     }
@@ -118,15 +124,26 @@
            $job_order->joborderdetailsid = $jodid;
            $job_order->status = $_GET['status'];
 
-            $job_order->approve();
+            //$job_order->approve();
             $job_order->setStatus();
     }
 
-    $require_login=true;
+    else if($role=="user" && isset($_GET['delete']) || ($role=="superadmin" && isset($_GET['delete']))){
+        //$id = $_GET['id'];
+        if(isset($_GET['delete'])){
+            $job_order->joborderdetailsid = $jodid;
+            $job_order->status = 'Y';
+            $job_order->delete();
+        }
+        //$current_url = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        //$current_url = explode('?', $current_url);
+        header("Location: {$home_url}joborders.php");
+    }
 
-    include_once "login_check.php";
-    include 'template/header.php';
-    ?>
+$require_login=true;
+include_once "login_check.php";
+include 'template/header.php';
+?>
     <script src="js/joi_script.js"></script>
     <div class="xd-snip">
         <ol class="breadcrumb">
@@ -236,7 +253,7 @@
                         <div class="pull-right btn-group xd-joitem-details-btngroup">
                         <?php
                             if ($job_order->username==$_SESSION['username'] && $job_order->status=='For Approval'){
-                                echo "<a href=\"#\" class=\"btn btn-danger\"><span class=\"glyphicon glyphicon-trash\"></span> Delete</a>";
+                                echo "<a href=\"#\" class=\"btn btn-danger\" data-id=" . $jodid . " data-toggle=\"modal\" data-target=\"#warn\">Delete</a>";
                             }
                             //else{
                                 //echo "<a href=\"#\" class=\"btn btn-danger disabled\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"You can no longer delete your request, once approved.\"><span class=\"glyphicon glyphicon-trash\"></span>Delete</a>";
@@ -256,10 +273,15 @@
                                 echo "<button type=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#publishModal\" id=\"publish\">Publish</button>";
                             }
                         ?>
-                    
-                                <?php
-                                //<button type="button" class="btn btn-default" data-toggle="modal" data-target="#publishModal" id="publish"><span class="glyphicon glyphicon-share"></span>Share</button>
-                                ?>
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" onclick="window.print();">Print...</a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#share">Share...</a></li>
+                    </ul>
+
                         </div>
                     </div>
                 </div>
@@ -512,6 +534,44 @@ if($job_order->status=='Approved' && ($job_order->username==$_SESSION['username'
   </div>
 </div>
 
+<?php if ($job_order->username==$_SESSION['username'] && $job_order->status=='For Approval'){ ?>
+<div class="modal fade" id="warn" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+        <h4 class="modal-title">Are you sure</h4>
+      </div>
+      <div class="modal-footer">
+        <a href="#" class="btn btn-sm btn-default delmodal">Yes</a>
+        <a href="#" class="btn btn-primary" data-dismiss="modal">No</a>
+      </div>
+    </div>
+  </div>
+</div>
+<?php } ?>
+
+<div class="modal fade" id="share" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+        <h4 class="modal-title">Share</h4>
+      </div>
+      <div class="modal-body">
+                <div class="btn-group" role="group">
+                <button class="btn btn-default btn-lg">FB</button>
+                <button class="btn btn-default btn-lg">Messenger</button>
+                <button class="btn btn-default btn-lg">Email</button>
+            
+                </div>
+      </div>
+      <div class="modal-footer">
+          <div data-dismiss="modal" class="btn btn-default">Close</div>
+      </div>
+    </div>
+  </div>
+</div>
     <script src="js/script.js"></script>
 
     </div>

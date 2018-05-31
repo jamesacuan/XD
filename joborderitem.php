@@ -35,7 +35,7 @@ $product   = new Product($db);
                 } 
             }
             else if(isset($_FILES['image'])){
-                $errors = array();
+                $errors = array();  
                 $file_name = $_FILES['image']['name'];
                 $file_size = $_FILES['image']['size'];
                 $file_tmp  = $_FILES['image']['tmp_name'];
@@ -80,9 +80,9 @@ $product   = new Product($db);
             $job_order->code   = $_POST['code'];
             $job_order->joborderdetailsid = $_POST['jod'];
             $job_order->status = "Published";
-
             $job_order->setStatus();
             $product->setProductItem();
+
             header("Location: {$home_url}products.php");
         }
     }
@@ -90,8 +90,9 @@ $product   = new Product($db);
     if(isset($_GET['code'])){
         $itemcode = $_GET['code'];
     }
+
     else{
-        header("Location: {$home_url}404.php");
+        header("Location: {$home_url}404.php"); ////////////WORK ON THIS
     }
 
     $page_title      = $itemcode;
@@ -116,6 +117,7 @@ $product   = new Product($db);
                 $job_order->status = $_GET['status'];
             //$job_order->approve();
             $job_order->setStatus();
+            header("Location: {$home_url}joborderitem.php?&code={$itemcode}");
         }
     }
     else if(isset($_GET['status']) && $_GET['status']=="Done"){
@@ -126,6 +128,7 @@ $product   = new Product($db);
 
             //$job_order->approve();
             $job_order->setStatus();
+            header("Location: {$home_url}joborderitem.php?&code={$itemcode}");
     }
 
     else if($role=="user" && isset($_GET['delete']) || ($role=="superadmin" && isset($_GET['delete']))){
@@ -218,31 +221,49 @@ include 'template/header.php';
                     <div class="col-xs-12">
                     <div class="md-stepper-horizontal">
                     <div class="md-step active">
-                        <div class="md-step-circle"><span>1</span></div>
-                        <div class="md-step-title">
-                        <?php if ($job_order->status == "Approved") echo "Approved";
-                            else echo "Request"; ?>
+                        <div class="md-step-circle">
+                        <?php if ($job_order->status == "Approved" || $job_order->status == "Done" || $job_order->status == "Published") echo "<span class=\"glyphicon glyphicon-ok\"></span>";
+                            else echo "<span>1</span>"; ?>
                         </div>
-                        <div class="md-step-bar-left"></div>
-                        <div class="md-step-bar-right"></div>
-                    </div>
-                    <?php echo "<div class=\"md-step ";
-                                if ($job_order->status == "Approved" || $job_order->status == "Done") echo "active\">";
-                                else echo "inactive\">"; ?>
-                        <div class="md-step-circle"><span>2</span></div>
-                        <div class="md-step-title">Proposal</div>
+                        <div class="md-step-title">
+                        <?php if ($job_order->status == "Approved" || $job_order->status == "Done" || $job_order->status == "Published") echo "Approved Request";
+                            else echo "New Request"; ?>
+                        </div>
                         <!--<div class="md-step-optional">Rendered Image</div>-->
                         <div class="md-step-bar-left"></div>
                         <div class="md-step-bar-right"></div>
                     </div>
                     <?php echo "<div class=\"md-step ";
-                                if ($job_order->status == "Done") echo "active\">";
+                                if ($job_order->status == "Approved" || $job_order->status == "Done" || $job_order->status == "Published") echo "active\">";
                                 else echo "inactive\">"; ?>
-                        <div class="md-step-circle"><span>3</span></div>
-                        <div class="md-step-title">Launch</div>
+                        <div class="md-step-circle">
+                            <?php if ($job_order->status == "Done" || $job_order->status == "Published") echo "<span class=\"glyphicon glyphicon-ok\"></span>";
+                                else echo "<span>2</span>"; ?>
+                        </div>
+                        <div class="md-step-title">
+                        <?php if ($job_order->status == "Done" || $job_order->status == "Published") echo "Accept Rendered";
+                            else echo "For Render"; ?>
+                        </div>
+                        <!--<div class="md-step-optional">Rendered Image</div>-->
                         <div class="md-step-bar-left"></div>
                         <div class="md-step-bar-right"></div>
                     </div>
+                    <?php echo "<div class=\"md-step ";
+                                if ($job_order->status == "Done" || $job_order->status == "Published") echo "active\">";
+                                else echo "inactive\">"; ?>
+
+                        <div class="md-step-circle">
+                            <?php if ($job_order->status == "Published") echo "<span class=\"glyphicon glyphicon-ok\"></span>";
+                                else echo "<span>3</span>"; ?>
+                        </div>
+                        <div class="md-step-title">
+                        <?php if ($job_order->status == "Published") echo "Published";
+                              else echo "For Publish"; ?>
+                        </div>
+                        <div class="md-step-bar-left"></div>
+                        <div class="md-step-bar-right"></div>
+                    </div>
+                    
                     </div>
                 </div>
                 </div>
@@ -268,7 +289,8 @@ include 'template/header.php';
                                 echo "<button type=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#finishModal\" id=\"finish\"><span class=\"glyphicon glyphicon-ok\"></span> Mark As Finish</button>";
                             }
 
-                            if($job_order->status=='Done' && ($role=="hans" || $role=="admin" || $role=="superadmin")){
+                            //if($job_order->status=='Done' && ($role=="hans" || $role=="admin" || $role=="superadmin")){
+                            if($job_order->status=='Done'){
                                 //echo "<a href=\"" . $home_url . "joborderitem.php?code={$page_title}&amp;status=Done\" class=\"btn btn-danger\"><span class=\"glyphicon glyphicon-ok\"></span> Publish</a>";
                                 echo "<button type=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#publishModal\" id=\"publish\">Publish</button>";
                             }
@@ -297,18 +319,18 @@ include 'template/header.php';
             <?php       
                     $stmt = $job_order->readJODFeedback($itemcode);
                     $num  = $stmt->rowCount();
-
+                    $i = 1;
                     if($num>0){
                         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                             extract($row);
-                            echo "<div class=\"col-md-12 xd-message\">";
+                            echo "<div class=\"col-md-12 xd-message\" id=\"discuss{$i}\">";
                             echo "<div class=\"media\">";
                                 echo "<div class=\"media-left media-top\">";
                                 echo "<div class=\"xd-circle\">" . substr($username, 0, 1) . "</div>";
                                 //echo "<img class=\"media-object\" src=\"{$home_url}/images/{$image_url}\" width=\"64\" height=\"64\" />";
                                 echo "</div>";
                                 echo "<div class=\"media-body\">";
-                                    echo "<b class=\"media-heading\">{$username}</b> - <span class=\"dtime\" data-toggle=\"tooltip\" title=\"" . date_format(date_create($created),"F d, Y h:i:s A") . "\">" . date_format(date_create($created),"m-d-Y h:i:s A") . "</span> <span class='label label-default'>{$tag}</span>";
+                                    echo "<b class=\"media-heading\">{$username}</b> - <a href=\"" . $home_url . "joborderitem.php?code={$page_title}#discuss{$i}\"><span class=\"dtime\" data-toggle=\"tooltip\" title=\"" . date_format(date_create($created),"F d, Y h:i:s A") . "\">" . date_format(date_create($created),"m-d-Y h:i:s A") . "</span> </a> <span class='label label-default'>{$tag}</span>";
                                     echo "<p>{$note}</p>";
                                     if(!empty($image_url)){
                                         echo "<p><img src=\"" . $home_url . "images/" . $image_url . "\" width=\"64\" height=\"64\" data-toggle=\"modal\" data-target=\"#preview\" data-value=\"". $image_url . "\" /></p>";
@@ -316,12 +338,13 @@ include 'template/header.php';
                                 echo "</div>";
                             echo "</div>";
                             echo "</div>";
+                            $i++;
                         }
                     }
             ?>
 
             <div class="col-md-12 xd-message">
-                <?php if($job_order->status == "Done"){
+                <?php if($job_order->status == "Done" || $job_order->status == "Published"){
                     echo "<div class=\"col-md-12\">";
                     echo "<b>Thread is now closed.</b>";
                     echo "</div>";
@@ -416,7 +439,7 @@ if($job_order->status=="Done"){
                             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                                 extract($row);
                                 if(!empty($image_url)){
-                                    if($username == $_SESSION['username'])
+                                    if($role == "hans")
                                         echo "<label class=\"radio-inline\"><input type=\"radio\" name=\"image\" value=\"{$image_url}\" checked /><img title=\"added last {$created}\" src=\"" . $home_url . "images/" . $image_url . "\" style=\"width:100px; height: 100px;\"/></label>";
                                 }
                             }

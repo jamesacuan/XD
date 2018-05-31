@@ -42,11 +42,13 @@ include 'template/header.php'
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                     extract($row);
                     echo "<div class=\"col-sm-6 col-md-4\">";
-                    echo "<div class=\"thumbnail\">";    
-                    echo  "<img src=\"{$home_url}images/{$image_url}\">";
+                    echo "<div class=\"thumbnail\">";
+                    if($image_url=="none") echo  "<img src=\"{$home_url}images/def.png\">";
+                    else   echo  "<img src=\"{$home_url}images/{$image_url}\">";
                     echo  "<div class=\"caption\">";
-                    echo    "<h3>{$name}</h3>";
+                    echo    "<h3>{$name} <small>tes</small></h3>";
                     echo    "<p>{$type}<br/>{$code}</p>";
+                    if($visibility==$_SESSION['userid']) echo    "<p>Visible only to you</p>";
                     //echo   "<p><a href=\"#\" class=\"btn btn-primary\" role=\"button\">Button</a>";
                     echo  "</div>";
                     echo "</div>";

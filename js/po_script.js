@@ -27,7 +27,8 @@ $(document).ready(function(){
     $('#csm').click(function(){
        $('#item_custom').show();
        type=$('input[name="product"]:checked').val();
-       fetch_products(type);
+       userid=$('input[id="uid"').val();
+       fetch_products(type, userid);
     });
 
     $('#pln').click(function(){
@@ -83,12 +84,18 @@ $(document).ready(function(){
        }else{
            type = $("input[name='type']:checked").val();
        }
-       if($("input[name='quantity']").val()==""){
+       if($("input[name='quantity']").val()=="" || $("input[name='quantity']").val()<1){
            $('#item_quantity').addClass('has-error');
            err+=1;
        }else{
            quantity = $("input[name='quantity']").val();
        }
+
+       if(!$('#custom').val() && $("input[name='type']:checked").val()=="custom") { 
+            $('#item_custom').addClass('has-error');
+            err+=1;
+       }
+
        if(err!=0){
            $('#dialog_warn').text('Please fill-in required fields');
        }
@@ -189,11 +196,11 @@ $(document).ready(function(){
        $("textarea[name='note']").val('');
    }
    
-   function fetch_products(type){
+   function fetch_products(type, id){
      $.ajax({
         url:"objects/functions/fetch_productitems.php",
         method:"POST",
-        data:{type:type},
+        data:{type:type, id:id},
         success:function(data){
             $('#custom').html(data);
         }

@@ -89,6 +89,11 @@
 	color: #fff;
 	font-size: 18px;
 }
+
+#xd-jo-search{
+	padding: 5px 15px 5px 0 !important;
+}
+
 /*
 *   MATERIALIZING
 */
@@ -108,7 +113,7 @@ body{
 	color: #ccc !important;
 }
 .navbar-nav a{
-	border-bottom: transparent 2px solid !important;
+	border-top: transparent 2px solid !important;
 	transition: all .1s ease-in-out;
 }
 .navbar .container{
@@ -117,11 +122,11 @@ body{
 .navbar li.active a,
 .navbar li.open .dropdown-toggle{
 	background-color: rgba(245, 245, 245, .05) !important;
-	border-bottom: 2px solid #18FFFF !important;
+	border-top: 2px solid #18FFFF !important;
 	color: #fff !important;
 }
 .navbar-nav a:hover{
-	border-bottom: 2px solid #18FFFF !important;
+	border-top: 2px solid #18FFFF !important;
 	color: #fff !important;
 }
 .navbar .dropdown-menu a{
@@ -319,8 +324,10 @@ html {
 }
 .md-stepper-horizontal .md-step .md-step-title {
 	margin-top:16px;
-	font-size:16px;
+	font-size:14px;
 	font-weight:600;
+	width: 100px;
+	margin: 10px auto;
 }
 .md-stepper-horizontal .md-step .md-step-title,
 .md-stepper-horizontal .md-step .md-step-optional {

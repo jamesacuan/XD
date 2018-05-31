@@ -69,6 +69,7 @@ class PurchaseOrder{
                 color      = :color,
                 note       = :note,
                 purchase_orderid = :purchase_orderid";
+                //////////////id 	product_id 	quantity 	type 	additional_detail 	purchaseorder_code 
 
         $stmt = $this->conn->prepare($query);
 

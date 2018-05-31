@@ -35,6 +35,7 @@ if($_POST){
 
     foreach($product as $key => $n ) {
         print "The product is ".$n."<br>";
+        print "&nbsp;&nbsp;&nbsp;&nbsp;product is ".$product[$key];
         print "&nbsp;&nbsp;&nbsp;&nbsp;custom is ".$custom[$key];
         print "<br>&nbsp;&nbsp;&nbsp;&nbsp;type is ".$type[$key];
         print "<br>&nbsp;&nbsp;&nbsp;&nbsp;color is ".$color[$key];
@@ -43,7 +44,10 @@ if($_POST){
         print "<br><br><br>";
         $purchase_order->product  = $product[$key];
         $purchase_order->type     = $type[$key];
-        $purchase_order->productitemid = $custom[$key];
+        if($custom[$key]=="undefined")
+        print    $purchase_order->productitemid = 0;
+        else
+        print    $purchase_order->productitemid = $custom[$key];
         $purchase_order->quantity = $quantity[$key];
         $purchase_order->color    = $color[$key];
         $purchase_order->note     = $note[$key];
@@ -81,6 +85,7 @@ if($_POST){
         </tbody>
     </table> 
     <div>
+     <input type="hidden" id="uid" value="<?php echo $_SESSION['userid'] ?>" /> 
      <input type="submit" name="insert" id="insert" class="btn btn-primary" value="Save" />
     </div>
 </form>
@@ -132,7 +137,7 @@ if($_POST){
             <div class="form-group" id="item_quantity">
                 <label class="control-label col-sm-3">Quantity</label>
                 <div class="col-sm-9">
-                    <input type="number" name="quantity" class="form-control" />
+                    <input type="number" name="quantity" class="form-control" min="1" />
                 </div>
             </div>
             <div class="form-group" id="item_note">

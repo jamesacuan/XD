@@ -116,7 +116,8 @@ class Product{
                 /*product_items.`productid`,*/
                 users.nickname,
                 job_order_details.code,
-                job_order_details.type
+                job_order_details.type,
+                product_items.visibility
                 FROM product_items
                 JOIN job_order_details ON product_items.jodid = job_order_details.id
                 JOIN job_order ON job_order_details.job_orderid = job_order.id

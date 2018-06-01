@@ -208,7 +208,7 @@ class PurchaseOrder{
         p2.`productitemid` as image_url
         FROM purchase_order_details p2
         JOIN product_color ON product_color.id = p2.color
-        WHERE (p2.productitemid = '' OR p2.productitemid = 'undefined') AND
+        WHERE (p2.productitemid = '0' OR p2.productitemid = 'undefined') AND
         p2.`purchase_orderid` = $POID";
 
         $stmt = $this->conn->prepare($query);
@@ -221,7 +221,6 @@ class PurchaseOrder{
         $this->color        = $row['color'];
         $this->note         = $row['note'];
         $this->productname  = $row['productname'];
-
 
         $stmt->execute();
         return $stmt;

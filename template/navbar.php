@@ -47,9 +47,7 @@
             if(isset($_SESSION['logged_in']) && $_SESSION['logged_in']==true){
                 ?>
                 <ul class="nav navbar-nav navbar-right">
-                <?php
-                    if($_SESSION['role']=="user"){
-                    ?>
+                
                     <li>
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                             <span class=""></span>
@@ -57,11 +55,20 @@
                             &nbsp;&nbsp;<span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu" role="menu">
+                        <?php
+                            if($_SESSION['role']=="user"){
+                        ?>
                             <li><a href="<?php echo $home_url; ?>addjoborder.php">Job Order</a></li>
                             <li><a href="<?php echo $home_url; ?>addpurchaseorder.php">Purchase Order</a></li>
+                        <?php }
+                            if(!empty($_SESSION['admin'])){
+                             ?>
+                                <li><a href="<?php echo $home_url; ?>addproduct.php">New Product</a></li>
+                        <?php } ?>
+                            
+
                         </ul>
                     </li>
-                <?php } ?>
                     <li <?php echo $page_title=="Edit Profile" ? "class='active'" : ""; ?>>
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                             <span class=""></span>

@@ -43,21 +43,101 @@ include 'template/header.php';
             */
             $purchase_order->readPOD($id);
         ?>
-    <div class="row" style="margin: 20px 0">
-        <div class="col-md-12">
-            <div class="row">
-                <div class="col-xs-12"><h2><?php echo $page_title ?></h2></div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="row" style="margin: 20px 0">
+            <div class="col-md-9">
+                <div class="row">
+                    <div class="col-xs-12"><h2><?php echo $page_title ?></h2></div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-3">Requested By:</div>
+                    <div class="col-xs-9"><?php echo $purchase_order->nickname?></div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-3">Date added:</div>
+                    <div class="col-xs-9"><?php echo date_format(date_create($purchase_order->created),"F d, Y h:i A"); ?></div>
+                </div>
             </div>
-            <div class="row">
-                <div class="col-xs-3">Requested By:</div>
-                <div class="col-xs-9"><?php echo $purchase_order->nickname?></div>
+    
+    <div class="col-md-3">
+                <div class="row">
+                    <div class="col-sm-12 clearfix">
+                        <div class="pull-right btn-group xd-joitem-details-btngroup">
+                        <a href="http://localhost/xd/joborderitem.php?code=HH-0004&amp;status=Approve" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> Approve</a><a href="http://localhost/xd/joborderitem.php?code=HH-0004&amp;status=Deny" class="btn btn-default">Deny</a>                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="glyphicon glyphicon-option-vertical"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" onclick="window.print();">Print...</a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#share">Share...</a></li>
+                    </ul>
+
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="row">
-                <div class="col-xs-3">Date added:</div>
-                <div class="col-xs-9"><?php echo date_format(date_create($purchase_order->created),"F d, Y h:i A"); ?></div>
-            </div>
-        </div>
-    </div>
+</div>
+</div>
+
+    <div class="row">
+                    <div class="col-xs-12">
+                    <div class="md-stepper-horizontal xd-po-status">
+                    <div class="md-step active">
+                        <div class="md-step-circle">
+                        <?php //if ($job_order->status == "Approved" || $job_order->status == "Done" || $job_order->status == "Published") echo "<span class=\"glyphicon glyphicon-ok\"></span>";
+                            //else echo "<span>1</span>";
+                            echo "<span>1</span>" ?>
+                        </div>
+                        <div class="md-step-title">
+                        <?php //if ($job_order->status == "Approved" || $job_order->status == "Done" || $job_order->status == "Published") echo "Approved Request";
+                            //else echo "For Approval";
+                            echo "For Approval" ?>
+                        </div>
+                        <!--<div class="md-step-optional">Rendered Image</div>-->
+                        <div class="md-step-bar-left"></div>
+                        <div class="md-step-bar-right"></div>
+                    </div>
+                    <?php echo "<div class=\"md-step ";
+                                //if ($job_order->status == "Approved" || $job_order->status == "Done" || $job_order->status == "Published") echo "active\">";
+                                //else echo "inactive\">";
+                                echo "inactive\">"; ?>
+                        <div class="md-step-circle">
+                            <?php //if ($job_order->status == "Done" || $job_order->status == "Published") echo "<span class=\"glyphicon glyphicon-ok\"></span>";
+                                //else echo "<span>2</span>";
+                                echo "<span>2</span>"; ?>
+                        </div>
+                        <div class="md-step-title">
+                        <?php //if ($job_order->status == "Done" || $job_order->status == "Published") echo "Accept Rendered";
+                            //else echo "For Render";
+                            echo "For Deliver"; ?>
+                        </div>
+                        <!--<div class="md-step-optional">Rendered Image</div>-->
+                        <div class="md-step-bar-left"></div>
+                        <div class="md-step-bar-right"></div>
+                    </div>
+                    <?php echo "<div class=\"md-step ";
+                                //if ($job_order->status == "Done" || $job_order->status == "Published") echo "active\">";
+                                //else echo "inactive\">";
+                                echo "inactive\">"; ?>
+
+                        <div class="md-step-circle">
+                            <?php //if ($job_order->status == "Published") echo "<span class=\"glyphicon glyphicon-ok\"></span>";
+                                //else echo "<span>3</span>";
+                                echo "<span>3</span>"; ?>
+                        </div>
+                        <div class="md-step-title">
+                        <?php //if ($job_order->status == "Published") echo "Published";
+                              //else echo "To Publish";
+                              echo "For Payment"; ?>
+                        </div>
+                        <div class="md-step-bar-left"></div>
+                        <div class="md-step-bar-right"></div>
+                    </div>
+                    
+                    </div>
+                </div>
+</div>
 <div class="row">
     <div class="col-md-12">
     <table id="purchaseorder" class="table table-hover table-bordered table-striped">

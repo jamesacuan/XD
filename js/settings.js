@@ -1,4 +1,8 @@
 $(document).ready(function(){
+    $('.xd-products-info').affix({
+        offset: 105
+      })
+
     $('#editdialog').on('shown.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var output = button.data('value');
@@ -38,7 +42,7 @@ $(document).ready(function(){
         });
         $("#namechange").val(values[1]);
     });
-
+    
     //var image_id = $(this).attr("id");
     /*$('#btnadduser').click(function(){  
         $('#user_form')[0].reset();

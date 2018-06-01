@@ -76,10 +76,14 @@ $product   = new Product($db);
             echo $product->type       = $_POST['type'];
             echo $product->code       = $_POST['code'];
 
-            $job_order->userid = $_SESSION["userid"];
-            $job_order->code   = $_POST['code'];
+            $job_order->userid        = $_SESSION["userid"];
+            $job_order->code          = $_POST['code'];
             $job_order->joborderdetailsid = $_POST['jod'];
-            $job_order->status = "Published";
+            $job_order->status        = "Published";
+            $job_order->expectedJOD   = $_POST['jod'];
+            $job_order->tag           = "";
+
+            $job_order->setTag();
             $job_order->setStatus();
             $product->setProductItem();
 
@@ -103,7 +107,7 @@ $product   = new Product($db);
 
     $jodid = $job_order->joborderdetailsid;
 
-    if(($role=="admin" || $role=="superadmin" || $role=="hans") && isset($_GET['status'])){
+    if(($role=="admin" || $role=="superadmin" || $role=="hans" || $_SESSION['admin']=="Y") && isset($_GET['status'])){
         if(isset($_GET['status'])){
             $job_order->userid = $_SESSION["userid"];
             $job_order->code   = $itemcode;
@@ -227,7 +231,7 @@ include 'template/header.php';
                         </div>
                         <div class="md-step-title">
                         <?php if ($job_order->status == "Approved" || $job_order->status == "Done" || $job_order->status == "Published") echo "Approved Request";
-                            else echo "New Request"; ?>
+                            else echo "For Approval"; ?>
                         </div>
                         <!--<div class="md-step-optional">Rendered Image</div>-->
                         <div class="md-step-bar-left"></div>
@@ -258,7 +262,7 @@ include 'template/header.php';
                         </div>
                         <div class="md-step-title">
                         <?php if ($job_order->status == "Published") echo "Published";
-                              else echo "For Publish"; ?>
+                              else echo "To Publish"; ?>
                         </div>
                         <div class="md-step-bar-left"></div>
                         <div class="md-step-bar-right"></div>
@@ -279,7 +283,7 @@ include 'template/header.php';
                             //else{
                                 //echo "<a href=\"#\" class=\"btn btn-danger disabled\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"You can no longer delete your request, once approved.\"><span class=\"glyphicon glyphicon-trash\"></span>Delete</a>";
                             //} 
-                            if($job_order->status=='For Approval' && ($role=="hans" || $role=="admin" || $role=="superadmin")){
+                            if($job_order->status=='For Approval' && ($role=="hans" || $role=="admin" || $role=="superadmin" || $_SESSION['admin']=="Y")){
                                 echo "<a href=\"" . $home_url . "joborderitem.php?code={$page_title}&amp;status=Approve\" class=\"btn btn-primary\"><span class=\"glyphicon glyphicon-ok\"></span> Approve</a>";
                                 echo "<a href=\"" . $home_url . "joborderitem.php?code={$page_title}&amp;status=Deny\" class=\"btn btn-default\">Deny</a>";
                             }
@@ -296,7 +300,7 @@ include 'template/header.php';
                             }
                         ?>
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="caret"></span>
+                        <span class="glyphicon glyphicon-option-vertical"></span>
                         <span class="sr-only">Toggle Dropdown</span>
                     </button>
                     <ul class="dropdown-menu">
@@ -369,6 +373,7 @@ include 'template/header.php';
                             <select name="tag">
                                 <option></option>
                                 <option>Needs Feedback</option>
+                                <option>For Revision</option>
                             </select>
                             </div>
                             <div class="pull-right">
@@ -411,7 +416,7 @@ if($job_order->status=="Done"){
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ."?&code=" . $itemcode;?>" method="post">
                 <div class="form-group">
                     <label for="name" class="control-label">Product Name:</label>
-                    <input type="text" class="form-control" id="name" name="name">
+                    <input type="text" class="form-control" id="name" name="name" required>
                 </div>
                 <div class="form-group">
                     <label for="message-text" class="control-label">Select Image:</label><br/>
@@ -439,24 +444,24 @@ if($job_order->status=="Done"){
                             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                                 extract($row);
                                 if(!empty($image_url)){
-                                    if($role == "hans")
+                                    //if($role == "hans")
                                         echo "<label class=\"radio-inline\"><input type=\"radio\" name=\"image\" value=\"{$image_url}\" checked /><img title=\"added last {$created}\" src=\"" . $home_url . "images/" . $image_url . "\" style=\"width:100px; height: 100px;\"/></label>";
                                 }
                             }
                         }
 
                         ?>
-                    <label class="radio-inline"><input type="radio" name="image" value="none">none</label>
+                    <label class="radio-inline"><input type="radio" name="image" value="none" required>none</label>
 
                 </div>
                 <div class="form-group">
                     <b>Visibility:</b>
                     <p class="text-muted">Have this item to be purchased by this requestor only?</p>
                         <div class="radio">
-                            <label><input checked type="radio" name="visibility" value="<?php echo $job_order->userid ?>" />To <?php echo $job_order->nickname ?> only</label>
+                            <label><input checked type="radio" name="visibility" value="<?php echo $job_order->userid ?>" required />To <?php echo $job_order->nickname ?> only <span class="label label-primary"><span class="glyphicon glyphicon-lock"></span> Private</span></label>
                         </div>
                         <div class="radio">
-                            <label><input type="radio" name="visibility" value="" />Allow others to make purchase order of this product</label>
+                            <label><input type="radio" name="visibility" value="" />Allow others to make purchase order of this product <span class="label label-default"><span class="glyphicon glyphicon-globe"></span> Public</span></label>
                     </div>
                     </div>
                 

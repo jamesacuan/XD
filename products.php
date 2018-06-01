@@ -20,7 +20,7 @@ include 'template/header.php'
 <div class="container">
 <div class="row">
     <div class="col-md-3">
-        <div class="thumbnail panel panel-default">
+        <div class="thumbnail panel panel-default xd-products-info data-spy="affix" data-offset-top="60" data-offset-bottom="200"">
             <div class="caption">
                 <span><?php echo $product->getItemCount('')?></span>
                 <h3>Products</h3>
@@ -42,13 +42,14 @@ include 'template/header.php'
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                     extract($row);
                     echo "<div class=\"col-sm-6 col-md-4\">";
-                    echo "<div class=\"thumbnail\">";
+                    echo "<div class=\"thumbnail  xd-product-thumbnail\">";
                     if($image_url=="none") echo  "<img src=\"{$home_url}images/def.png\">";
                     else   echo  "<img src=\"{$home_url}images/{$image_url}\">";
                     echo  "<div class=\"caption\">";
-                    echo    "<h3>{$name} <small>tes</small></h3>";
-                    echo    "<p>{$type}<br/>{$code}</p>";
-                    if($visibility==$_SESSION['userid']) echo    "<p>Visible only to you</p>";
+                    echo    "<h3>{$name}</h3>";
+                    echo    "<p>{$type}<br/>{$code}";
+                    if($visibility==$_SESSION['userid']) echo    " - <span>Visible only to you</span>";
+                    echo "</p>";
                     //echo   "<p><a href=\"#\" class=\"btn btn-primary\" role=\"button\">Button</a>";
                     echo  "</div>";
                     echo "</div>";
@@ -60,3 +61,4 @@ include 'template/header.php'
     </div>
 </div>
 </div>
+<script src="js/script.js"></script>

@@ -471,28 +471,40 @@ class JobOrder{
                         LIMIT {$from_record_num}, {$records_per_page}";
                         */
 
-        $query = "SELECT job_order.id as JOID,
-                job_order_details.id as JODID,
-                job_order_details.type,
-                job_order_details.code,
-                users.username,
-                job_order_details.tag,
-                job_order_details.note,
-                job_order_details.image_url,
-                job_order_details.modified,
-                job_order_details.created,
-                s1.status
-                FROM `job_order`
-                JOIN users on job_order.userid = users.userid
-                JOIN job_order_details on job_order.id = job_order_details.job_orderid
-                JOIN job_order_status s1 on s1.job_order_code = job_order_details.code
-                WHERE job_order_details.type LIKE '%{$typeval}%'
-                    AND job_order_details.isDeleted <> 'Y'
-                    AND s1.status <> 'Denied'
-                    AND s1.created = (SELECT MAX(s2.created)
-                                    FROM job_order_status s2
-                                    WHERE s2.job_order_code = s1.job_order_code)
-                ORDER BY job_order_details.created ASC";
+        $query = "SELECT * FROM
+        (SELECT a.id AS JOID, b.id AS JODID, b.type, b.code, c.username, b.tag, b.note, b.image_url, b.modified, b.created, s1.status
+        FROM `job_order` a
+        JOIN users c ON a.userid = c.userid
+        JOIN job_order_details b ON a.id = b.job_orderid
+        JOIN job_order_status s1 ON s1.job_order_code = b.code
+        WHERE b.type LIKE '%{$typeval}%'
+        AND b.isDeleted <> 'Y'
+        AND s1.status <> 'Published'
+        AND s1.status <> 'Denied'
+        AND s1.created = (
+        SELECT MAX( s2.created )
+        FROM job_order_status s2
+        WHERE s2.job_order_code = s1.job_order_code )
+        ORDER BY b.created ASC 
+        )DUMMY_ALIAS1
+        
+        UNION
+        
+        SELECT * FROM (
+        SELECT e.id AS JOID, f.id AS JODID, f.type, f.code, g.username, f.tag, f.note, f.image_url, f.modified, f.created, t1.status
+        FROM `job_order` e
+        JOIN users g ON e.userid = g.userid
+        JOIN job_order_details f ON e.id = f.job_orderid
+        JOIN job_order_status t1 ON t1.job_order_code = f.code
+        WHERE f.type LIKE '%{$typeval}%'
+        AND f.isDeleted <> 'Y'
+        AND t1.status = 'Published'
+        AND t1.created = (
+        SELECT MAX( t2.created )
+        FROM job_order_status t2
+        WHERE t2.job_order_code = t1.job_order_code )
+        ORDER BY f.created ASC
+        )DUMMY_ALIAS2";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt;

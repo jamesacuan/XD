@@ -46,7 +46,14 @@
 #joborders.table{
 	font-size: 13px;
 }
+.xd-product-thumbnail img{
+  height: 250px;
+  width: 250px;
+}
 
+.xd-po-status{
+	width: 50% !important;
+}
 .xd-settings-content,
 .xd-pane-content table,
 .xd-settings-content tr{
@@ -92,6 +99,15 @@
 
 #xd-jo-search{
 	padding: 5px 15px 5px 0 !important;
+}
+
+#colors,
+#colors option{
+	text-transform: capitalize;
+}
+
+tr.new{
+	/*font-weight:bold;*/
 }
 
 /*

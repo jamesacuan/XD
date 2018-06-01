@@ -44,9 +44,9 @@ if($_POST){
         print "<br><br><br>";
         $purchase_order->product  = $product[$key];
         $purchase_order->type     = $type[$key];
-        if($custom[$key]=="undefined")
-        print    $purchase_order->productitemid = 0;
-        else
+        ////if($custom[$key]=="undefined")
+       ////// print    $purchase_order->productitemid = 0;
+        //////else
         print    $purchase_order->productitemid = $custom[$key];
         $purchase_order->quantity = $quantity[$key];
         $purchase_order->color    = $color[$key];

@@ -89,6 +89,23 @@ function truncate($string, $length, $dots = "...") {
         <li role="presentation" <?php if($type=="") echo "class=\"active\"" ?>><a href="<?php echo $home_url ?>joborders.php">View All</a></li>
         <li role="presentation" <?php if($type=="HH") echo "class=\"active\"" ?>><a href="<?php echo $home_url ?>joborders.php?type=HH">Helmet Holder</a></li>
         <li role="presentation" <?php if($type=="TH") echo "class=\"active\"" ?>><a href="<?php echo $home_url ?>joborders.php?type=TH">Ticket Holder</a></li>
+        <li role="presentation" <?php if($type=="NA") echo "class=\"active\"" ?>><a href="<?php echo $home_url ?>joborders.php?published=1">Published</a></li>
+        <div class="pull-right form-inline">
+            <div class="checkbox form-group">
+                <label><input type="checkbox" /> Mine</label>
+            </div>
+            <div class="form-group">
+            <select>
+                    <option></option>
+                    <option>Include Published</option>
+                    <option>Show Published only</option>
+                </select>
+            </div>
+            <div class="checkbox form-group">
+                <label><input type="checkbox" id="publishedtoggle"/> Published</label>
+            </div>  
+            <input type="search" placeholder="search" class="form-control input-sm" />
+        </div>
     </ul>
 
 
@@ -96,11 +113,11 @@ function truncate($string, $length, $dots = "...") {
     <table id="joborders" class="table table-hover table-striped">
             <thead style="background-color: #fff">
                 <tr>
-                    <!--<th class="col-xs-1">JO</th>-->
+                    <th class="col-xs-1">JO</th>
                     <th class="col-xs-1">Image</th>
                     <th class="col-xs-1">Code</th>
                     <th class="col-xs-1">By</th>
-                    <th class="col-xs-5">Note</th>
+                    <th class="col-xs-4">Note</th>
                     <th class="col-xs-2">Last Modified</th>
                     <th class="col-xs-1">Status</th>
                     <th class="col-xs-1">Actions</th>
@@ -126,7 +143,7 @@ function truncate($string, $length, $dots = "...") {
                         echo ">";
                             //if($date_today == $date_created) $date_created = date_format(date_create($created),"h:i A");
                             //else $date_created = date_format(date_create($created),"F d");;
-                            //////////echo "<th scope=\"row\"><a href=\"joborder.php?&amp;id={$JOID}\">{$JOID}</a></th>";
+                            echo "<th scope=\"row\"><a href=\"joborder.php?&amp;id={$JOID}\">{$JOID}</a></th>";
                             if(!empty($image_url))
                                 echo "<td><img src=\"{$home_url}images/{$image_url}\" class=\"xd-thumbnail\" width=\"50\" height=\"35\" data-toggle=\"modal\" data-target=\"#image\" data-file=\"{$image_url}\"  /></td>";
                             else

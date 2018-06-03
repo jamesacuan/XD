@@ -20,12 +20,23 @@ $('#clear').on('shown.bs.modal', function (event) {
 })
 
 $(document).ready( function () {
-    $('#joborders').DataTable({
+    var jobordertable = $('#joborders').DataTable({
         fixedHeader: {
             header: true
         },
         "pageLength": 25
     });
+    var filteredjotable = jobordertable
+        .columns(6)
+        .data()
+        //.search('^(?:(?!Published).)*$\r?\n?', true, false) //The RegExp search all string that not cointains USA
+        .filter( function ( value, index ) {
+            //return value != 20 ? true : false;
+            if(value != "Published")
+                return true;
+            else return false;
+        } )
+        .draw();
 
     $('#purchaseorders').DataTable({
         "aLengthMenu": [[10, 25, 50, 75, -1], [10, 25, 50, 75, "All"]],

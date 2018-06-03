@@ -81,15 +81,17 @@ echo "</div>";
     <div class="col-md-9">
     <h3>Activity</h3>
 
-        <?php       
-            
+        <?php
+            echo "<div class=\"panel-group\" id=\"accordion\" role=\"tablist\">";
             if($_SESSION["admin"]=='Y')
                 $stmt = $job_order->readJODActivityStream();
             else
                 $stmt = $job_order->readJODwithUserandStatus($_SESSION['userid'], "For Approval");
             $num  = $stmt->rowCount();
             $temp=0;
-
+            $first = 0;
+            $i=0;
+            $tempjoid=0;
             if($num>0){
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                     extract($row);
@@ -106,7 +108,7 @@ echo "</div>";
                         $temp = 1;
                     }
 
-                    echo "<div class=\"row\" style=\"background-color:#fff\">";
+                    /*echo "<div class=\"row\" style=\"background-color:#fff\">";
                         echo "<div class=\"col-sm-1\" style='text-align:center'>";
                         echo "<span class=\"glyphicon glyphicon-picture\" data-toggle=\"modal\" data-target=\"#image\" data-file=\"{$image_url}\" title=\"{$image_url}\"></span>";
                         echo "</div>";
@@ -123,11 +125,60 @@ echo "</div>";
                         echo "<div class=\"col-sm-2\">";
                          echo "</div>";
                     echo "</div>";
+                    */
+                    if($tempjoid != $JOID && $first!=0){
+                        echo "</table>";
+                        echo "</div>";
+                        //echo "</div>";
+                        //echo "</div>";
+                    }
+                    if($tempjoid != $JOID){
+                        echo "<div class=\"panel panel-default\" style=\"margin:30px 0\">";
+                        echo "<div class=\"panel-heading clearfix\" role=\"tab\" id=\"heading{$i}\">";
+                        //echo "<div class=\"xd-circle pull-left\">T</div>";
+                        echo "<div class=\"pull-left\"><h4 class=\"panel-title\">";
+                        echo "<a role=\"button\" data-toggle=\"collase\" data-parent=\"#accordion\" href=\"#collapse{$i}\">";
+                        echo "Job Order #{$JOID}";
+                        echo   "</a>";
+                        echo "</h4>";
+                        echo "<span class=\"text-muted\">By {$nickname} | On " . date_format(date_create($modified),"F d, Y") . "</span>";
+                        echo "</div></div>";
+                        /*
+                            echo "<div id=\"collapse{$i}\" class=\"panel-collapse collapse in\" role=\"tabpanel\">";
+                            echo "<div class=\"panel-body\">";
+                        
+                        //echo "<div class=\"row\">";
+                        */
+                        echo "<table class=\"table table-hover\">";
+                        /*echo "<tr>";
+                        echo "<th class=\"col-xs-1\">#</th>";
+                        echo "<th class=\"col-xs-2\">Code</th>";
+                        echo "<th class=\"col-xs-7\">Note</th>";
+                        echo "<th class=\"col-xs-2\">Status</th>";
+                        echo "</tr>";*/
+                        $temp = 1;
+                        }
+                        /*echo "<div class=\"col-sm-6 col-md-4\">";
+                        echo "<div class=\"thumbnail\">";
+                            echo "<img src=\"{$home_url}images/{$image_url}\" width=\"100\" height=\"100\" />";
+                            echo "<div class=\"caption\"><h3>{$code}</h3> <p>{$note}</p></div>";
+                        echo "</div></div>";
+                        */
+                        echo "<tr>";
+                        echo "<td class=\"col-xs-1\"><img src=\"{$home_url}images/{$image_url}\" width=\"40\" height=\"40\" /></td>";
+                        echo "<td class=\"col-xs-2\">{$code}</td>";
+                        echo "<td class=\"col-xs-7\">{$note}</td>";
+                        echo "<td class=\"col-xs-2\">{$status}</td>";
+                        echo "</tr>";
+                    $first=1;
+                    $tempjoid = $JOID;
+                    $i++;
                 }
             }
             else{
                 echo "<div class='alert alert-info'>No recent activity.</div>";
             }
+            echo "</div>";
         ?>
   
   </div>

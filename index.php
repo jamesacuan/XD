@@ -141,7 +141,7 @@ echo "</div>";
                         echo "Job Order #{$JOID}";
                         echo   "</a>";
                         echo "</h4>";
-                        echo "<span class=\"text-muted\">By {$nickname} | On " . date_format(date_create($modified),"F d, Y") . "</span>";
+                        echo "<span class=\"text-muted\">By {$nickname} | On " . date_format(date_create($created),"F d, Y") . " at " . date_format(date_create($created),"H:i a") . "</span>";
                         echo "</div></div>";
                         /*
                             echo "<div id=\"collapse{$i}\" class=\"panel-collapse collapse in\" role=\"tabpanel\">";
@@ -165,7 +165,7 @@ echo "</div>";
                         echo "</div></div>";
                         */
                         echo "<tr>";
-                        echo "<td class=\"col-xs-1\"><img src=\"{$home_url}images/{$image_url}\" width=\"40\" height=\"40\" /></td>";
+                        echo "<td class=\"col-xs-1\"><img class=\"img-circle\" src=\"{$home_url}images/{$image_url}\" width=\"40\" height=\"40\" /></td>";
                         echo "<td class=\"col-xs-2\">{$code}</td>";
                         echo "<td class=\"col-xs-7\">{$note}</td>";
                         echo "<td class=\"col-xs-2\">{$status}</td>";

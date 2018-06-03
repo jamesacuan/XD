@@ -30,6 +30,7 @@ if($_POST){
         $_SESSION['username']  = $user->username;
         $_SESSION['role']      = $user->role;
         $_SESSION['admin']     = $user->isAdmin;
+        $_SESSION['beta']      = 0;
  
          /*
         $_SESSION['firstname'] = htmlspecialchars($user->firstname, ENT_QUOTES, 'UTF-8') ;

@@ -433,13 +433,15 @@ class JobOrder{
         users.nickname,
         job_order_details.note,
         job_order_details.image_url,
+        job_order_details.created,
         job_order_details.modified,
-        s1.status
+        s1.status,
+        job_order_details.isDeleted
         FROM `job_order`
         JOIN users on job_order.userid = users.userid
         JOIN job_order_details on job_order.id = job_order_details.job_orderid
         JOIN job_order_status s1 on s1.job_order_code = job_order_details.code
-        WHERE s1.status = 'for approval'
+        WHERE job_order_details.isDeleted <> 'Y'
         AND s1.created = (SELECT MAX(s2.created) FROM job_order_status s2
                           WHERE s2.job_order_code = s1.job_order_code)
         ORDER BY job_order_details.modified DESC";

@@ -1,3 +1,16 @@
+    <?php
+    $action = isset($_GET['action']) ? $_GET['action'] : "";
+    $beta = isset($_GET['betagree']) ? $_GET['betagree'] : "";
+    
+    if($beta == 1 && $page_title != "Login"){
+        $_SESSION['beta'] = 1;
+    }
+    if($page_title != "Login"){
+    if($_SESSION['beta'] != 1){
+        include "infobar.php";
+    }
+}
+    ?>
     <div class="navbar navbar-default navbar-static-top" role="navigation">
     <div class="container">
          <div class="navbar-header">

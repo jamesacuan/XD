@@ -85,10 +85,10 @@ echo "</div>";
 
         <?php
         echo "<div class=\"panel-group\" id=\"accordion\" role=\"tablist\">";
-        if($_SESSION["admin"]=='Y')
+        //if($_SESSION["admin"]=='Y')
             $stmt = $job_order->readJODActivityStream();
-        else
-            $stmt = $job_order->readJODwithUserandStatus($_SESSION['userid'], "For Approval");
+        //else
+            //$stmt = $job_order->readJODwithUserandStatus($_SESSION['userid'], "For Approval");
         $num  = $stmt->rowCount();
 
         if($num>0){
@@ -103,7 +103,7 @@ echo "</div>";
                             echo "<a href=\"{$home_url}joborder.php?&id={$ID}\" >";
                             echo "<h4 style=\"margin: 2px 0\">Job Order #{$ID}</h4>";
                             echo "</a>";
-                            echo "<span class=\"text-muted\">By {$nickname} | On " . date_format(date_create($created),"F d, Y") . " at " . date_format(date_create($created),"H:i a") . "</span>";
+                            echo "<span class=\"text-muted\">By {$nickname} | On " . date_format(date_create($created),"F d, Y") . " at " . date_format(date_create($created),"h:i a") . "</span>";
                         echo "</div></div>";
                         //echo "<div class=\"panel-body\">";
                         echo "<table class=\"table table-hover\">";
@@ -136,7 +136,7 @@ echo "</div>";
                 else if($XTABLE == "PO"){
                     echo "<div class=\"panel panel-success\" style=\"margin:30px 0\">";
                         echo "<div class=\"panel-heading clearfix\" role=\"tab\">";
-                        echo "<div class=\"xd-circle pull-left\">" . substr($nickname, 0, 1) . "</div>";
+                        echo "<div class=\"xd-circle pull-left\" style=\"background-color: #" . $settings->getColor(substr($nickname, 0, 1)) . "\">" . substr($nickname, 0, 1) . "</div>";
                         echo "<div class=\"pull-left\" style=\"margin-left:20px\">";
                             echo "<a href=\"{$home_url}purchaseorder.php?&id={$ID}\">";
                             echo "<h4 style=\"margin: 2px 0\">Purchase Order #{$ID}</h4>";

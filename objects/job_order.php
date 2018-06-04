@@ -488,7 +488,7 @@ class JobOrder{
        JOIN users ON users.userid = purchase_order.userid
        WHERE purchase_order.isDeleted <> 'Y'
        ORDER BY created DESC
-       LIMIT 6";
+       LIMIT 20";
 
         $stmt = $this->conn->prepare($query);
         $stmt->execute();

@@ -321,6 +321,13 @@ include 'template/header.php';
             <div class="col-md-12">
                     <h4>Discussion (<?php echo $job_order->getJobOrderFeedbackCount($jodid) ?>)</h4>
             </div>
+            <?php
+            if($job_order->username != $_SESSION["username"] && $_SESSION['role'] != 'hans'){
+                echo "<div class=\"col-md-12 xd-message bg-danger\">";
+                echo "This page is not intended for you. Be civil.";
+                echo "</div>";
+            }?>
+
             <?php       
                     $stmt = $job_order->readJODFeedback($itemcode);
                     $num  = $stmt->rowCount();

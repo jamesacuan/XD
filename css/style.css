@@ -154,6 +154,10 @@ body{
 	border: none;
 }
 
+#joborders_wrapper div.row:first-child{
+	display: none
+}
+
 /*start of */
 .margin-bottom-1em{ margin-bottom:1em; }
 .width-30-percent{ width:30%; }

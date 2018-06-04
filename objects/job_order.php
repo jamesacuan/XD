@@ -328,12 +328,16 @@ class JobOrder{
                 job_order_details.note,
                 job_order_details.image_url,
                 job_order_details.modified,
-                job_order_status.status
+                s1.status
                 FROM `job_order`
                 JOIN users on job_order.userid = users.userid
                 JOIN job_order_details on job_order.id = job_order_details.job_orderid
-                JOIN job_order_status on job_order_status.job_order_code = job_order_details.code
-                WHERE job_order.id = $JOID";
+                JOIN job_order_status s1 on s1.job_order_code = job_order_details.code
+                WHERE job_order.id = $JOID
+                
+                AND s1.created = (SELECT MAX(s2.created) FROM job_order_status s2
+                          WHERE s2.job_order_code = s1.job_order_code)";
+
                         /*ORDER BY job_order_details.modified DESC
                         LIMIT {$from_record_num}, {$records_per_page}";
                         */
@@ -402,7 +406,7 @@ class JobOrder{
     }
 
     function readJODwithUserandStatus($userid, $status){
-        $query = "SELECT job_order.id as JOID,
+        /*$query = "SELECT job_order.id as JOID,
         job_order_details.id as JODID,
         job_order_details.type,
         job_order_details.code,
@@ -418,14 +422,36 @@ class JobOrder{
         JOIN job_order_status on job_order_status.job_order_code = job_order_details.code
         WHERE users.userid = $userid
         ORDER BY job_order_details.modified DESC";
+        */
+        $query = "SELECT job_order.id as ID,
+        CONCAT('JO') as XTABLE,
+        users.nickname,
+        job_order.created as created
+        FROM job_order
+        JOIN users ON users.userid = job_order.userid
+        WHERE users.userid = $userid
+        AND job_order.isDeleted <> 'Y'
+ UNION
+ SELECT purchase_order.id as ID,
+        CONCAT('PO') as XTABLE,
+       users.nickname,
+       purchase_order.created as created
+       FROM purchase_order
+       JOIN users ON users.userid = purchase_order.userid
+       WHERE users.userid = $userid
+       AND purchase_order.isDeleted <> 'Y'
+       ORDER BY created DESC";
+
 
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt;
     }
 
+
+
     function readJODActivityStream(){
-        $query = "SELECT job_order.id as JOID,
+        /*$query = "SELECT job_order.id as JOID,
         job_order_details.id as JODID,
         job_order_details.type,
         job_order_details.code,
@@ -444,7 +470,26 @@ class JobOrder{
         WHERE job_order_details.isDeleted <> 'Y'
         AND s1.created = (SELECT MAX(s2.created) FROM job_order_status s2
                           WHERE s2.job_order_code = s1.job_order_code)
-        ORDER BY job_order_details.modified DESC";
+        ORDER BY job_order_details.modified DESC";*/
+
+        $query = "SELECT job_order.id as ID,
+        CONCAT('JO') as XTABLE,
+        users.nickname,
+        job_order.created as created
+        FROM job_order
+        JOIN users ON users.userid = job_order.userid
+        WHERE job_order.isDeleted <> 'Y'
+ UNION
+ SELECT purchase_order.id as ID,
+        CONCAT('PO') as XTABLE,
+       users.nickname,
+       purchase_order.created as created
+       FROM purchase_order
+       JOIN users ON users.userid = purchase_order.userid
+       WHERE purchase_order.isDeleted <> 'Y'
+       ORDER BY created DESC
+       LIMIT 6";
+
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt;
@@ -452,30 +497,7 @@ class JobOrder{
 
 
     function read($typeval){
-        /*$query = "SELECT job_order.id as JOID,
-                        job_order_details.id as JODID,
-                        job_order_details.type,
-                        job_order_details.code,
-                        users.username,
-                        job_order_details.tag,
-                        job_order_details.note,
-                        job_order_details.image_url,
-                        job_order_details.modified,
-                        job_order_details.created,
-                        /*job_order_details.status
-                        job_order_status.status
-                        FROM `job_order`
-                        JOIN users on job_order.userid = users.userid
-                        JOIN job_order_details on job_order.id = job_order_details.job_orderid
-                        JOIN job_order_status  on job_order_status.job_order_code = job_order_details.code
-                        WHERE job_order_details.type LIKE '%{$typeval}%'
-                            AND job_order_details.isDeleted <> 'Y'
-                            AND job_order_details.status <> 'Denied'";
-                        /*ORDER BY job_order_details.modified DESC
-                        LIMIT {$from_record_num}, {$records_per_page}";
-                        */
-
-        $query = "SELECT * FROM
+        /*$query = "SELECT * FROM
         (SELECT a.id AS JOID, b.id AS JODID, b.type, b.code, c.username, b.tag, b.note, b.image_url, b.modified, b.created, s1.status
         FROM `job_order` a
         JOIN users c ON a.userid = c.userid
@@ -509,6 +531,22 @@ class JobOrder{
         WHERE t2.job_order_code = t1.job_order_code )
         ORDER BY f.created ASC
         )DUMMY_ALIAS2";
+        */
+        $query = "SELECT a.id AS JOID, b.id AS JODID, b.type, b.code, c.username, b.tag, b.note, b.image_url, b.modified, b.created, s1.status
+        FROM `job_order` a
+        JOIN users c ON a.userid = c.userid
+        JOIN job_order_details b ON a.id = b.job_orderid
+        JOIN job_order_status s1 ON s1.job_order_code = b.code
+        WHERE b.type LIKE '%{$typeval}%'
+        AND b.isDeleted <> 'Y'
+        /*AND s1.status <> 'Published'
+        */AND s1.status <> 'Denied'
+        AND s1.created = (
+        SELECT MAX( s2.created )
+        FROM job_order_status s2
+        WHERE s2.job_order_code = s1.job_order_code )
+        ORDER BY b.created ASC ";
+
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt;

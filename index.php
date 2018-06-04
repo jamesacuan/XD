@@ -3,6 +3,7 @@
 include_once "config/core.php";
 include_once "config/database.php";
 include_once "objects/job_order.php";
+include_once "objects/purchase_order.php";
 include_once "objects/settings.php";
 
 $database = new Database();
@@ -10,6 +11,7 @@ $db = $database->getConnection();
 
 $job_order = new JobOrder($db);
 $settings =  new Settings($db);
+$purchase_order = new PurchaseOrder($db);
 
 $page_title= "Dashboard";
 
@@ -82,103 +84,85 @@ echo "</div>";
     <h3>Activity</h3>
 
         <?php
-            echo "<div class=\"panel-group\" id=\"accordion\" role=\"tablist\">";
-            if($_SESSION["admin"]=='Y')
-                $stmt = $job_order->readJODActivityStream();
-            else
-                $stmt = $job_order->readJODwithUserandStatus($_SESSION['userid'], "For Approval");
-            $num  = $stmt->rowCount();
-            $temp=0;
-            $first = 0;
-            $i=0;
-            $tempjoid=0;
-            if($num>0){
-                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-                    extract($row);
-                    if    ($today == date_format(date_create($modified),"m/d/Y") && ($temp!=1)){
-                        echo "<b>Today</b>";
-                        $temp = 1;
-                    }
-                    if($temp!=2 && $yesterday == date_format(date_create($modified),"m/d/Y")){ 
-                        $temp=2;
-                        echo "<b>Yesterday</b>";
-                    }
-                    if($yesterday != date_format(date_create($modified),"m/d/Y") && ($temp!=1)){ 
-                        echo "<b>Past</b>";
-                        $temp = 1;
-                    }
+        echo "<div class=\"panel-group\" id=\"accordion\" role=\"tablist\">";
+        if($_SESSION["admin"]=='Y')
+            $stmt = $job_order->readJODActivityStream();
+        else
+            $stmt = $job_order->readJODwithUserandStatus($_SESSION['userid'], "For Approval");
+        $num  = $stmt->rowCount();
 
-                    /*echo "<div class=\"row\" style=\"background-color:#fff\">";
-                        echo "<div class=\"col-sm-1\" style='text-align:center'>";
-                        echo "<span class=\"glyphicon glyphicon-picture\" data-toggle=\"modal\" data-target=\"#image\" data-file=\"{$image_url}\" title=\"{$image_url}\"></span>";
-                        echo "</div>";
-                        echo "<div class=\"col-sm-9\">";
-                            echo "<div class=\"title\"><a href=\"joborderitem.php?&amp;code={$code}\">{$code}</a>";
-                            echo " - <span class=\"note\">{$note}</span> <span class=\"label ";
-                                if     ($status=="For Approval") echo "label-primary";
-                                elseif ($status=="Approve") echo "label-success";
-                                elseif ($status=="Deny") echo "label-danger";
-                                else   echo "label-default";
-                            echo "\">{$status}</span></div>";
-                            echo "<div class=\"info\"><span class=\"text-muted\">From <a href=\"joborder.php?&amp;id={$JOID}\">Job Order #{$JOID}</a> on " . date_format(date_create($modified),"F d") . "</div>";
-                        echo "</div>";
-                        echo "<div class=\"col-sm-2\">";
-                         echo "</div>";
-                    echo "</div>";
-                    */
-                    if($tempjoid != $JOID && $first!=0){
-                        echo "</table>";
-                        echo "</div>";
-                        //echo "</div>";
-                        //echo "</div>";
-                    }
-                    if($tempjoid != $JOID){
-                        echo "<div class=\"panel panel-default\" style=\"margin:30px 0\">";
-                        echo "<div class=\"panel-heading clearfix\" role=\"tab\" id=\"heading{$i}\">";
-                        //echo "<div class=\"xd-circle pull-left\">T</div>";
-                        echo "<div class=\"pull-left\"><h4 class=\"panel-title\">";
-                        echo "<a role=\"button\" data-toggle=\"collase\" data-parent=\"#accordion\" href=\"#collapse{$i}\">";
-                        echo "Job Order #{$JOID}";
-                        echo   "</a>";
-                        echo "</h4>";
-                        echo "<span class=\"text-muted\">By {$nickname} | On " . date_format(date_create($created),"F d, Y") . " at " . date_format(date_create($created),"H:i a") . "</span>";
+        if($num>0){
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                extract($row);
+
+                if($XTABLE=="JO"){
+                    echo "<div class=\"panel panel-info\" style=\"margin:30px 0\">";
+                        echo "<div class=\"panel-heading clearfix\" role=\"tab\">";
+                        echo "<div class=\"xd-circle pull-left\" style=\"background-color: #" . $settings->getColor(substr($nickname, 0, 1)) . "\">" . substr($nickname, 0, 1) . "</div>";
+                        echo "<div class=\"pull-left\" style=\"margin-left:20px\">";
+                            echo "<a href=\"{$home_url}joborder.php?&id={$ID}\" >";
+                            echo "<h4 style=\"margin: 2px 0\">Job Order #{$ID}</h4>";
+                            echo "</a>";
+                            echo "<span class=\"text-muted\">By {$nickname} | On " . date_format(date_create($created),"F d, Y") . " at " . date_format(date_create($created),"H:i a") . "</span>";
                         echo "</div></div>";
-                        /*
-                            echo "<div id=\"collapse{$i}\" class=\"panel-collapse collapse in\" role=\"tabpanel\">";
-                            echo "<div class=\"panel-body\">";
-                        
-                        //echo "<div class=\"row\">";
-                        */
+                        //echo "<div class=\"panel-body\">";
                         echo "<table class=\"table table-hover\">";
-                        /*echo "<tr>";
-                        echo "<th class=\"col-xs-1\">#</th>";
-                        echo "<th class=\"col-xs-2\">Code</th>";
-                        echo "<th class=\"col-xs-7\">Note</th>";
-                        echo "<th class=\"col-xs-2\">Status</th>";
-                        echo "</tr>";*/
-                        $temp = 1;
+                    $stmt2 = $job_order->readJOD($ID);
+                    $num2 = $stmt2->rowCount();
+                    $i = 0;
+                    $tempjod = $ID;
+                    if($num2>0){
+                        while ($row2 = $stmt2->fetch(PDO::FETCH_ASSOC)){
+                            extract($row2);
+                            if($i < 4){
+                                echo "<tr>";
+                                echo "<td class=\"col-xs-1\"><a href=\"{$home_url}joborderitem.php?&code={$code}\"><img class=\"img-circle\" src=\"{$home_url}images/{$image_url}\" width=\"40\" height=\"40\" /></a></td>";
+                                echo "<td class=\"col-xs-9\"><a href=\"{$home_url}joborderitem.php?&code={$code}\">{$code}</a><br/>{$note}</td>";
+                                echo "<td class=\"col-xs-2\">{$status}</td>";
+                                echo "</tr>";
+                            }
+                            else{
+                                echo "<tr>";
+                                echo "<td colspan=\"3\"><a href=\"{$home_url}joborder.php?&id={$tempjod}\" >Show All...</a></td>";
+                                echo "</tr>";
+                                break;
+                            }
+                            $i++;
                         }
-                        /*echo "<div class=\"col-sm-6 col-md-4\">";
-                        echo "<div class=\"thumbnail\">";
-                            echo "<img src=\"{$home_url}images/{$image_url}\" width=\"100\" height=\"100\" />";
-                            echo "<div class=\"caption\"><h3>{$code}</h3> <p>{$note}</p></div>";
+                    }
+                    echo "</table>";
+                    echo "</div>";
+                }
+                else if($XTABLE == "PO"){
+                    echo "<div class=\"panel panel-success\" style=\"margin:30px 0\">";
+                        echo "<div class=\"panel-heading clearfix\" role=\"tab\">";
+                        echo "<div class=\"xd-circle pull-left\">" . substr($nickname, 0, 1) . "</div>";
+                        echo "<div class=\"pull-left\" style=\"margin-left:20px\">";
+                            echo "<a href=\"{$home_url}purchaseorder.php?&id={$ID}\">";
+                            echo "<h4 style=\"margin: 2px 0\">Purchase Order #{$ID}</h4>";
+                            echo "</a>";
+                            echo "<span class=\"text-muted\">By {$nickname} | On " . date_format(date_create($created),"F d, Y") . " at " . date_format(date_create($created),"H:i a") . "</span>";
                         echo "</div></div>";
-                        */
-                        echo "<tr>";
-                        echo "<td class=\"col-xs-1\"><img class=\"img-circle\" src=\"{$home_url}images/{$image_url}\" width=\"40\" height=\"40\" /></td>";
-                        echo "<td class=\"col-xs-2\">{$code}</td>";
-                        echo "<td class=\"col-xs-7\">{$note}</td>";
-                        echo "<td class=\"col-xs-2\">{$status}</td>";
-                        echo "</tr>";
-                    $first=1;
-                    $tempjoid = $JOID;
-                    $i++;
+                        echo "<table class=\"table table-hover\">";
+                    $stmt2 = $purchase_order->readPOItem($ID);
+                    $num2 = $stmt2->rowCount();
+                    if($num2>0){
+                        while ($row2 = $stmt2->fetch(PDO::FETCH_ASSOC)){
+                            extract($row2);
+                            //echo $JODID . " " . $code;
+                            echo "<tr>";
+                            echo "<td class=\"col-xs-1\"><img class=\"img-circle\" src=\"{$home_url}images/{$image_url}\" width=\"40\" height=\"40\" /></td>";
+                            echo "<td class=\"col-xs-11\">{$productname} - {$type}<br/>{$note} x {$quantity}</td>";
+                            echo "</tr>";
+                        }
+                    }
+                    echo "</table>";
+                    echo "</div>";
                 }
             }
-            else{
-                echo "<div class='alert alert-info'>No recent activity.</div>";
-            }
-            echo "</div>";
+        }
+        else echo "<div class='alert alert-info'>No recent activity.</div>";
+        
         ?>
   
   </div>

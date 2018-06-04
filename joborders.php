@@ -89,22 +89,21 @@ function truncate($string, $length, $dots = "...") {
         <li role="presentation" <?php if($type=="") echo "class=\"active\"" ?>><a href="<?php echo $home_url ?>joborders.php">View All</a></li>
         <li role="presentation" <?php if($type=="HH") echo "class=\"active\"" ?>><a href="<?php echo $home_url ?>joborders.php?type=HH">Helmet Holder</a></li>
         <li role="presentation" <?php if($type=="TH") echo "class=\"active\"" ?>><a href="<?php echo $home_url ?>joborders.php?type=TH">Ticket Holder</a></li>
-        <li role="presentation" <?php if($type=="NA") echo "class=\"active\"" ?>><a href="<?php echo $home_url ?>joborders.php?published=1">Published</a></li>
         <div class="pull-right form-inline">
             <div class="checkbox form-group">
-                <label><input type="checkbox" /> Mine</label>
+                <label><input type="checkbox" name="filterme" id="filterme"/> By me</label>
             </div>
-            <div class="form-group">
-            <select>
-                    <option></option>
-                    <option>Include Published</option>
-                    <option>Show Published only</option>
+            <!--<div class="form-group">
+                <select name="selpublish">
+                    <option value='1'>Hide Published</option>
+                    <option value='2'>Include Published</option>
+                    <option value='3'>Published only</option>
                 </select>
-            </div>
+            </div>-->
             <div class="checkbox form-group">
-                <label><input type="checkbox" id="publishedtoggle"/> Published</label>
-            </div>  
-            <input type="search" placeholder="search" class="form-control input-sm" />
+                <label><input type="checkbox" name="filterpublish" id="filterpublish"/> Show Published</label>
+            </div>
+            <input type="search" id="search" placeholder="search" class="form-control input-sm" />
         </div>
     </ul>
 
@@ -140,6 +139,8 @@ function truncate($string, $length, $dots = "...") {
                         echo "<tr "; 
                         if(($diff->d)<2 && strcmp($status,"For Approval")==0)
                             echo "class=\"new\"";
+                        if($status == "Published") echo " data-status=\"published\" ";
+                        if($username == $_SESSION["username"]) echo " data-user=\"mine\" ";
                         echo ">";
                             //if($date_today == $date_created) $date_created = date_format(date_create($created),"h:i A");
                             //else $date_created = date_format(date_create($created),"F d");;
@@ -154,7 +155,7 @@ function truncate($string, $length, $dots = "...") {
                             //if($date_today == $date_created) echo " <span class=\"label label-default\">New</span>";
                             //echo  $date_today . " - " . $date_created;
                             //$datediff = $date_today - $date_created;
-                            if(($diff->d)>4 && $status!="Denied"){
+                            if(($diff->d)>4 && $status!="Denied" && $status != "Published"){
                                 echo " <span class=\"label label-danger\">Overdue</span>";
                             }
                             else if(($diff->d)<2 && strcmp($status,"For Approval")==0){

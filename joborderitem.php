@@ -3,13 +3,14 @@ include_once "config/core.php";
 include_once "config/database.php";
 include_once "objects/job_order.php";
 include_once "objects/product.php";
+include_once "objects/settings.php";
 
 $database = new Database();
 $db = $database->getConnection();
 
 $job_order = new JobOrder($db);
 $product   = new Product($db);
-
+$settings  = new Settings($db);
     if($_POST){
         if($_POST['form']=='Submit'){
             $job_order->note = $_POST['note'];
@@ -330,7 +331,7 @@ include 'template/header.php';
                             echo "<div class=\"col-md-12 xd-message\" id=\"discuss{$i}\">";
                             echo "<div class=\"media\">";
                                 echo "<div class=\"media-left media-top\">";
-                                echo "<div class=\"xd-circle\">" . substr($username, 0, 1) . "</div>";
+                                echo "<div class=\"xd-circle\" style=\"background-color: #" . $settings->getColor(substr($username, 0, 1)) . "\">" . substr($username, 0, 1) . "</div>";
                                 //echo "<img class=\"media-object\" src=\"{$home_url}/images/{$image_url}\" width=\"64\" height=\"64\" />";
                                 echo "</div>";
                                 echo "<div class=\"media-body\">";

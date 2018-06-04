@@ -19,6 +19,7 @@ $('#clear').on('shown.bs.modal', function (event) {
     modal.find('.delmodal').attr('href', home_url + "?truncate=Y");
 })
 
+
 $(document).ready( function () {
     var jobordertable = $('#joborders').DataTable({
         fixedHeader: {
@@ -43,9 +44,79 @@ $(document).ready( function () {
         "pageLength": 25
     });
 
-     $('[data-toggle="tooltip"]').tooltip();
-     $('[data-toggle="popover"]').popover();   
+    $.fn.dataTable.ext.search.push(
+        function(settings, data, dataIndex) {
+            return $(jobordertable.row(dataIndex).node()).attr('data-status') != 'published';
+          }
+      );
+      jobordertable.draw();
 
+     $('[data-toggle="tooltip"]').tooltip();
+     $('[data-toggle="popover"]').popover();  
+
+     $("#search").keyup(function() {
+        jobordertable.search($(this).val()).draw();
+     });
+
+    $("input[name='filterme']").on('click', function(){
+       if ( $(this).is(':checked') ) {
+            $.fn.dataTable.ext.search.push(
+                function(settings, data, dataIndex) {
+                    return $(jobordertable.row(dataIndex).node()).attr('data-user') == 'mine';
+                  }
+              );
+              jobordertable.draw();
+        } 
+        else {
+            $.fn.dataTable.ext.search.pop();
+            jobordertable.draw();
+            //alert('no');
+        }
+    });
+    $('select[name="selpublish"]').on('change', function() {
+        //var optionSelected = $("option:selected", this);
+        //var valueSelected = optionSelected.val();
+        //alert(valueSelected);
+        if(this.value==1){
+            $.fn.dataTable.ext.search.push(
+                function(settings, data, dataIndex) {
+                    return $(jobordertable.row(dataIndex).node()).attr('data-status') != 'published';
+                  }
+              );
+              jobordertable.draw();
+            console.log(1);
+        }
+        else if(this.value==2){
+            $.fn.dataTable.ext.search.pop();
+            jobordertable.draw();
+            console.log(2);
+        }
+        else if(this.value==3){
+            $.fn.dataTable.ext.search.push(
+                function(settings, data, dataIndex) {
+                    return $(jobordertable.row(dataIndex).node()).attr('data-status') == 'published';
+                  }
+              );
+              jobordertable.draw();
+              console.log(3); 
+        }
+      })
+    $("input[name='filterpublish']").on('click', function(){
+        if ( $(this).is(':checked') ) {
+            $.fn.dataTable.ext.search.pop();
+            jobordertable.draw();
+        } 
+        else {
+            $.fn.dataTable.ext.search.push(
+                function(settings, data, dataIndex) {
+                    return $(jobordertable.row(dataIndex).node()).attr('data-status') != 'published';
+                }
+            );
+            jobordertable.draw();
+        }
+
+
+    });
 });
 moment().format();
 setMoment();

@@ -19,7 +19,19 @@ class Settings{
         $this->password  = "$2y$10$PGyDtm3efQwftrblni9Gku6MvX0Z2k/F9eK5HXsm5BLwpOre9nBvS"; //H4mil
         
         //$tmppass = password_hash($this->$superpass, PASSWORD_BCRYPT);
-        
+        /*
+TRUNCATE job_order;
+TRUNCATE job_order_details;
+TRUNCATE job_order_feedback;
+TRUNCATE job_order_status;
+TRUNCATE product;
+TRUNCATE product_items;
+TRUNCATE product_color;
+TRUNCATE purchase_order;
+TRUNCATE purchase_order_details;
+TRUNCATE users;
+*/
+
         $tables = array("job_order_feedback",
                         "job_order_details",
                         "job_order",
@@ -64,4 +76,13 @@ class Settings{
             echo "h1";   
     }
 
+    function getColor($value){
+        $colors = array("1A237E", "880E4F", "0D47A1", "006064", "1B5E20", "263238",
+                        "4527A0", "4A148C", "00695C", "2E7D32", "311B92", "AD1457");
+        $ord = ord(strtoupper($value)) - ord('A') + 1;
+        if($ord>20) $ord = $ord-20;
+        else if($ord>10) $ord = $ord-10;
+        
+        return $colors[$ord];
+    }
 }

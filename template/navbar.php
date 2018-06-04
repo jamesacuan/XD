@@ -85,7 +85,7 @@
                     <li <?php echo $page_title=="Edit Profile" ? "class='active'" : ""; ?>>
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                             <span class=""></span>
-                            &nbsp;&nbsp;<?php echo $_SESSION['username']; ?>
+                            &nbsp;&nbsp;<?php echo $_SESSION['nickname']; ?>
                             &nbsp;&nbsp;<span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu" role="menu">

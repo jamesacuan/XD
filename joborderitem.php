@@ -4,6 +4,7 @@ include_once "config/database.php";
 include_once "objects/job_order.php";
 include_once "objects/product.php";
 include_once "objects/settings.php";
+include_once "objects/user.php";
 
 $database = new Database();
 $db = $database->getConnection();
@@ -11,9 +12,26 @@ $db = $database->getConnection();
 $job_order = new JobOrder($db);
 $product   = new Product($db);
 $settings  = new Settings($db);
+$user      = new User($db);
+
+if(isset($_GET['code'])){
+    $itemcode = $_GET['code'];
+}
+
+else{
+    header("Location: {$home_url}404.php"); ////////////WORK ON THIS
+}
+
+$job_order->code = $itemcode;
+$job_order->getJOItem();
+$tmpuser = $job_order->userid;
+
     if($_POST){
+        echo "hee";
+
         if($_POST['form']=='Submit'){
             $job_order->note = $_POST['note'];
+            
             if(isset($_POST['tag']))
                 $job_order->tag = $_POST['tag'];
             else
@@ -25,16 +43,24 @@ $settings  = new Settings($db);
                 $job_order->status = "";
             $job_order->userid = $_SESSION['userid'];
             $job_order->expectedJOD = $_POST['jod'];
+            
 
+            $user->code      = "JOI";
+            $user->content   = $_POST['note'];
+            $user->fromuser  = $_SESSION['userid'];
+            $user->touser    = $tmpuser;
+            $user->url       = "joborderitem.php?&code=" . $itemcode;
+                     
             if($_FILES["image"]["error"] == 4){
                 $job_order->image_url = "";
-                if($job_order->addJOItemFeedback() && $job_order->setTag()){
+                if($job_order->addJOItemFeedback() && $job_order->setTag() && $user->setNotification()){
 
                 }
                 else{
                     echo "this";
                 } 
             }
+
             else if(isset($_FILES['image'])){
                 $errors = array();  
                 $file_name = $_FILES['image']['name'];
@@ -57,7 +83,7 @@ $settings  = new Settings($db);
                 $file_name = $tmpfile_name . "." .$file_ext;
                 $job_order->image_url = $file_name;
 
-                if(empty($errors)==true && $job_order->addJOItemFeedback() && $job_order->setTag()){
+                if(empty($errors)==true && $job_order->addJOItemFeedback() && $job_order->setTag() && $user->setNotification()){
                     move_uploaded_file($file_tmp,"images/".$file_name);
                 }
                 else{
@@ -67,15 +93,16 @@ $settings  = new Settings($db);
                     echo "</div></div></div>";
                 }
             }
-            header("Location: {$home_url}joborderitem.php?&code=" . $_GET['code'], true, 303);
+           header("Location: {$home_url}joborderitem.php?&code=" . $_GET['code'], true, 303);
         }
+
         if($_POST['form']=='Publish'){
-            echo $product->productitemname = $_POST['name'];
-            echo $product->image_url  = $_POST['image'];
-            echo $product->visibility = $_POST['visibility'];
-            echo $product->jodid      = $_POST['jod'];
-            echo $product->type       = $_POST['type'];
-            echo $product->code       = $_POST['code'];
+            $product->productitemname = $_POST['name'];
+            $product->image_url  = $_POST['image'];
+            $product->visibility = $_POST['visibility'];
+            $product->jodid      = $_POST['jod'];
+            $product->type       = $_POST['type'];
+            $product->code       = $_POST['code'];
 
             $job_order->userid        = $_SESSION["userid"];
             $job_order->code          = $_POST['code'];
@@ -92,19 +119,9 @@ $settings  = new Settings($db);
         }
     }
 
-    if(isset($_GET['code'])){
-        $itemcode = $_GET['code'];
-    }
-
-    else{
-        header("Location: {$home_url}404.php"); ////////////WORK ON THIS
-    }
-
     $page_title      = $itemcode;
-    $job_order->code = $itemcode;
-    $role            = $_SESSION['role'];
 
-    echo $job_order->getJOItem();
+    $role            = $_SESSION['role'];
 
     $jodid = $job_order->joborderdetailsid;
 

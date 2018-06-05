@@ -166,6 +166,11 @@ body{
 	border: none;
 }
 
+.navbar-nav .dropdown-menu a,
+.navbar-nav .dropdown-menu a:hover{
+	border: none !important;
+}
+
 #joborders_wrapper div.row:first-child{
 	display: none
 }

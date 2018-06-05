@@ -11,6 +11,7 @@ class User{
     public $created;
     public $modified;
     public $isDeleted;
+    public $fromuser, $touser, $code, $content, $url; //notifications
  
     public function __construct($db){
         $this->conn = $db;
@@ -214,4 +215,35 @@ class User{
         return false;
     }
 
+    function setNotification(){
+        $this->created = date('Y-m-d');
+        $query = "INSERT INTO `users_notify`
+                SET `code`        = :code, 
+                    `content`     = :content,
+                    `from_userid` = :fromuserid,
+                    `to_userid`   = :touserid,
+                    `url`         = :urll,
+                    `created`     = :created";
+    
+        $stmt = $this->conn->prepare($query);
+
+        $this->fromuser   = htmlspecialchars(strip_tags($this->fromuser));
+        $this->touser     = htmlspecialchars(strip_tags($this->touser));
+        $this->code       = htmlspecialchars(strip_tags($this->code));
+        $this->content    = htmlspecialchars(strip_tags($this->content));
+        $this->url        = htmlspecialchars(strip_tags($this->url));
+        $this->created    = htmlspecialchars(strip_tags($this->created));
+
+        $stmt->bindParam(':fromuserid',  $this->fromuser);
+        $stmt->bindParam(':touserid',    $this->touser);
+        $stmt->bindParam(':code',        $this->code);
+        $stmt->bindParam(':content',     $this->content);
+        $stmt->bindParam(':urll',        $this->url);
+        $stmt->bindParam(':created',     $this->created);
+
+        if($stmt->execute()){
+            return true;
+        }
+        return false;
+    }
 }

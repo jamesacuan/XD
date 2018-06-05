@@ -2,11 +2,14 @@
 include_once "config/core.php";
 include_once "config/database.php";
 include_once "objects/job_order.php";
+include_once "objects/settings.php";
+
 
 $database = new Database();
 $db = $database->getConnection();
 
 $job_order = new JobOrder($db);
+$settings = new Settings($db);
 $page_title="Create New Job Order";
 $page_theme="";
 
@@ -63,7 +66,7 @@ if($_POST){
     
     $job_order->type        = $_POST['type'];
     $job_order->note        = $_POST['note'];
-    $job_order->status      = "For Approval";
+    $job_order->status      = "On-queue";
     $job_order->expectedJO  = $newJO;
     $job_order->expectedJOD = $newJOD;
     $job_order->userid      = $_SESSION['userid'];
@@ -115,6 +118,9 @@ if($_POST){
         $tmp       = explode('.',$file_name);
         $file_ext  = strtolower(end($tmp));
         $expensions= array("jpeg","jpg","png");
+        
+        $source_properties = getimagesize($file_tmp);  //reseize
+        $image_type = $source_properties[2];           //resize
 
         if(in_array($file_ext,$expensions)=== false){
             $errors[]="extension not allowed, please choose a JPEG or PNG file.";
@@ -131,7 +137,27 @@ if($_POST){
 
         if(isset($_POST['joid'])){
             if(empty($errors)==true && $job_order->addJOItem() && $job_order->setStatus()) {
+                $tmp       = explode('.',$file_name);
+                $filename  = $tmp[0];
+
+                if( $image_type == IMAGETYPE_JPEG ) {   
+                    $image_resource_id = imagecreatefromjpeg($file_tmp);  
+                    $target_layer = $settings->fn_resize($image_resource_id, $source_properties[0],$source_properties[1]);
+                    imagejpeg($target_layer, "images/" . $filename . "_sm.jpg");
+                }
+                elseif( $image_type == IMAGETYPE_GIF )  {  
+                    $image_resource_id = imagecreatefromgif($file_tmp);
+                    $target_layer = $settings->fn_resize($image_resource_id, $source_properties[0],$source_properties[1]);
+                    imagegif($target_layer, "images/" . $filename . "_sm.gif");
+                }
+                elseif( $image_type == IMAGETYPE_PNG ) {
+                    $image_resource_id = imagecreatefrompng($file_tmp); 
+                    $target_layer = $settings->fn_resize($image_resource_id, $source_properties[0],$source_properties[1]);
+                    imagepng($target_layer, "images/" . $filename . "_sm.png");
+                }
+
                 move_uploaded_file($file_tmp,"images/".$file_name);
+
                 echo "<div class=\"row\"><div class=\"col-md-12\"><div class='alert alert-success'>";
                 echo "<button type=\"button\" class=\"close\" data-dismiss=\"alert\">";
                 echo "<span>&times;</span>";
@@ -151,6 +177,25 @@ if($_POST){
     
         else{
             if(empty($errors)==true && $job_order->addJOItem() && $job_order->createJO() && $job_order->setStatus()) {
+                $tmp       = explode('.',$file_name);
+                $filename  = $tmp[0];
+
+                if( $image_type == IMAGETYPE_JPEG ) {   
+                    $image_resource_id = imagecreatefromjpeg($file_tmp);  
+                    $target_layer = $settings->fn_resize($image_resource_id, $source_properties[0],$source_properties[1]);
+                    imagejpeg($target_layer, "images/" . $filename . "_sm.jpg");
+                }
+                elseif( $image_type == IMAGETYPE_GIF )  {  
+                    $image_resource_id = imagecreatefromgif($file_tmp);
+                    $target_layer = $settings->fn_resize($image_resource_id, $source_properties[0],$source_properties[1]);
+                    imagegif($target_layer, "images/" . $filename . "_sm.gif");
+                }
+                elseif( $image_type == IMAGETYPE_PNG ) {
+                    $image_resource_id = imagecreatefrompng($file_tmp); 
+                    $target_layer = $settings->fn_resize($image_resource_id, $source_properties[0],$source_properties[1]);
+                    imagepng($target_layer, "images/" . $filename . "_sm.png");
+                }
+                
                 move_uploaded_file($file_tmp,"images/".$file_name);
                 echo "<div class=\"row\"><div class=\"col-md-12\"><div class='alert alert-success'>";
                     echo "<h4>Job Order #{$newJO} was created.</h4>";

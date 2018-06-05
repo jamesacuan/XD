@@ -92,26 +92,43 @@ function truncate($string, $length, $dots = "...") {
         <li role="presentation" <?php if($type=="HH") echo "class=\"active\"" ?>><a href="<?php echo $home_url ?>joborders.php?type=HH">Helmet Holder</a></li>
         <li role="presentation" <?php if($type=="TH") echo "class=\"active\"" ?>><a href="<?php echo $home_url ?>joborders.php?type=TH">Ticket Holder</a></li>
         <div class="pull-right form-inline">
-            <div class="checkbox form-group">
-                <label><input type="checkbox" name="filterme" id="filterme"/> By me</label>
-            </div>
-            <!--<div class="form-group">
-                <select name="selpublish">
-                    <option value='1'>Hide Published</option>
-                    <option value='2'>Include Published</option>
-                    <option value='3'>Published only</option>
-                </select>
-            </div>-->
-            <div class="checkbox form-group">
-                <label><input type="checkbox" name="filterpublish" id="filterpublish"/> Show Published</label>
-            </div>
-            <input type="search" id="search" placeholder="search" class="form-control input-sm" />
         </div>
     </ul>
 
 
   <div role="tabpanel" class="tab-pane active" id="home">
-    <table id="joborders" class="table table-hover">
+      <form>
+          <div class="row form-inline clearfix" style="border-bottom:1px solid #ddd; padding: 10px 0">
+          <div class="pull-left">  
+          <div class="btn-group">
+              <?php 
+            if($role=='hans' || $role=='designer'){
+                echo "<button class=\"btn btn-default\"><span class=\"glyphicon glyphicon-ok\"></span> Accept Request</button>";
+            }
+            else if($role=="user"){
+                echo "<button type=\"button\" onclick=\"location.href='addjoborder.php'\" class=\"btn btn-default\">Create</button>";
+                echo "<button class=\"btn btn-default\"><span class=\"glyphicon glyphicon-trash\"></span> Delete</button>";
+            }
+            
+            ?>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-default">View All</button>
+                <button type="button" class="btn btn-default">Helmet Holder</button>
+                <button type="button" class="btn btn-default">Ticket Holder</button>
+            </div> 
+            </div>
+                <div class="pull-right">
+                    <div class="checkbox form-group">
+                        <label><input type="checkbox" name="filterme" id="filterme"/> By me</label>
+                    </div>
+                    <div class="checkbox form-group">
+                        <label><input type="checkbox" name="filterpublish" id="filterpublish"/> Show Published</label>
+                    </div>
+                    <input type="search" id="search" placeholder="search" class="form-control input-sm" />
+                </div>
+          </div>
+        <table id="joborders" class="table table-hover">
             <thead style="background-color: #fff">
                 <tr>
                     <th class="col-xs-1">#</th>
@@ -131,7 +148,7 @@ function truncate($string, $length, $dots = "...") {
                 $stmt = $job_order->read($type);
                 $num  = $stmt->rowCount();
                 $date_today   = date("m/d/Y");
-                
+                $i=0;
                 if($num>0){
                     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                         extract($row);
@@ -148,8 +165,12 @@ function truncate($string, $length, $dots = "...") {
                             //if($date_today == $date_created) $date_created = date_format(date_create($created),"h:i A");
                             //else $date_created = date_format(date_create($created),"F d");;
                             echo "<td scope=\"row\">";
-                            if(($role=="hans" || $role=="admin" || $role=="superadmin") && $status=="For Approval")
-                                echo "<input type=\"checkbox\" name=\"JO\" value=\"{$JODID}\">";
+                            if(($role=="hans" || $role=="admin" || $role=="superadmin") && ($status=="For Approval" || $status=="On-queue")){
+                                if($i==0)
+                                    echo "<input type=\"checkbox\" name=\"JOH\" data-increment=\"{$i}\" value=\"{$JODID}\">";
+                                else  echo "<input type=\"checkbox\" name=\"JOH\" data-increment=\"{$i}\" value=\"{$JODID}\" disabled>";
+                                $i++;
+                            }
                             else if($username != $_SESSION['username'] || ($username == $_SESSION['username'] && strcmp($status,"For Approval")==true))
                                 echo "<input type=\"checkbox\" name=\"JO\" disabled>";
                             else echo "<input type=\"checkbox\" name=\"JO\" value=\"{$JODID}\">";
@@ -221,6 +242,7 @@ function truncate($string, $length, $dots = "...") {
             ?>
             </tbody>
         </table> 
+            </form>
     </div>
 
 <div class="modal fade" id="image" tabindex="-1" role="dialog">

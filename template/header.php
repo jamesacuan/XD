@@ -34,7 +34,8 @@
         echo "<div class=\"xd-container container\">";
      }
      ?>
-     <?php
+
+<?php
      /* if($page_title!="Login"){
         ?>
         <div class="row">

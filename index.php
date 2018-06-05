@@ -5,12 +5,13 @@ include_once "config/database.php";
 include_once "objects/job_order.php";
 include_once "objects/purchase_order.php";
 include_once "objects/settings.php";
+include_once "objects/user.php";
 
 $database = new Database();
 $db = $database->getConnection();
 
 $job_order = new JobOrder($db);
-$settings =  new Settings($db);
+$settings  =  new Settings($db);
 $purchase_order = new PurchaseOrder($db);
 
 $page_title= "Dashboard";
@@ -29,6 +30,7 @@ if($_SESSION['role']=="superadmin" && isset($_GET['truncate'])){
     $current_url = explode('?', $current_url);
     header("Location: {$current_url[0]}");
 }
+
 
 include_once "login_check.php";
 include 'template/header.php'

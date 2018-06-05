@@ -9,6 +9,26 @@
         </span>
     </div>
 </div>
+<noscript>
+<div class="navbar navbar-default navbar-static-top infobar alert" role="navigation">
+    <div class="container clearfix">
+         <div class="navbar-header pull-left">Please enable Javascript before you could proceed using this site.
+        </div>
+    </div>
+</div>
+<style>
+input,
+textarea,
+select{
+    pointer-events: none;
+}
+*[class='btn'],
+button,
+div.xd-content{
+    display:none !important;
+}
+</style>
+</noscript>
 <script>
 $('.infobar').on('closed.bs.alert', function () {
   var url = window.location.href;

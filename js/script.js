@@ -26,10 +26,32 @@ $('#joborders tr').click(function(event) {
       $(this).toggleClass('active');
     }
   });
+
+  $("input[name='JOH']").on('click', function(){
+    $length = $("input[name='JOH']").length;
+    $i = $(this).attr('data-increment');
+    $i++;
+    
+    if ($(this).is(':checked')) {
+        $('body').find("input[data-increment='" + $i + "']").prop("disabled", false);
+    }
+    else {
+        console.log($length);
+        
+        for($j = $i; $j < $length; $j++){
+            $("input[data-increment='" + $j + "']").prop('checked', false);
+            $('body').find("input[data-increment='" + $j + "']").prop("disabled", true);
+            console.log($j);
+        }
+    }
+  });
+ 
+
 $('#joborders tr').dblclick(function(){
     var id = $(this).attr('id');
     alert('test');
 })
+
 $(document).ready( function () {
     var jobordertable = $('#joborders').DataTable({
         fixedHeader: {
@@ -40,7 +62,7 @@ $(document).ready( function () {
             startRender: function ( rows, group ) {
                
                 return  $('<tr>')
-                .append( '<td colspan="7"><a href="joborder?&amp;id='+group+'">Job Order #' + group + '</a></td></tr>' );
+                .append( '<td colspan="7"><a href="joborder.php?&amp;id='+group+'">Job Order #' + group + '</a></td></tr>' );
             },
             dataSrc: 1
         },

@@ -85,4 +85,36 @@ TRUNCATE users;
         
         return $colors[$ord];
     }
+
+    function resize($image_type, $file_tmp, $filename) {
+
+        if( $image_type == IMAGETYPE_JPEG ) {   
+            $image_resource_id = imagecreatefromjpeg($file_tmp);  
+            $target_layer = fn_resize($image_resource_id,$source_properties[0],$source_properties[1]);
+            imagejpeg($target_layer, "images/" . $filename . "_sm.jpg");
+        }
+        elseif( $image_type == IMAGETYPE_GIF )  {  
+            $image_resource_id = imagecreatefromgif($file_tmp);
+            $target_layer = fn_resize($image_resource_id,$source_properties[0],$source_properties[1]);
+            imagegif($target_layer, "images/" . $filename . "_sm.gif");
+        }
+        elseif( $image_type == IMAGETYPE_PNG ) {
+            $image_resource_id = imagecreatefrompng($file_tmp); 
+            $target_layer = fn_resize($image_resource_id,$source_properties[0],$source_properties[1]);
+            imagepng($target_layer, "images/" . $filename . "_sm.png");
+        }
+
+       
+    }  
+
+    function fn_resize($image_resource_id,$width,$height) {
+        $target_width =200;
+        $target_height =200;
+        $target_layer=imagecreatetruecolor($target_width,$target_height);
+        imagecopyresampled($target_layer,$image_resource_id,0,0,0,0,$target_width,$target_height, $width,$height);
+        //echo "done";
+        return $target_layer;
+    }
+    
+    
 }

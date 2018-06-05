@@ -9,6 +9,9 @@
     if($_SESSION['beta'] != 1){
         include "infobar.php";
     }
+
+    include_once "notify.php";
+    $notify = new Notify($db);
 }
     ?>
     <div class="navbar navbar-default navbar-static-top" role="navigation">
@@ -60,12 +63,27 @@
             if(isset($_SESSION['logged_in']) && $_SESSION['logged_in']==true){
                 ?>
                 <ul class="nav navbar-nav navbar-right">
-                
+                <?php /*
+                   <li>
+                    
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                            <span class="glyphicon glyphicon-bell"></span>
+                             
+                           <?php if($notify->getNotification($_SESSION['userid']) > 1) { ?>
+                                <span class="badge"><?php echo $notify->getNotification($_SESSION['userid']) ?></span>
+                           <?php } ?> <span class="caret"></span>
+
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">Test</a></li>
+                        </ul>
+                         
+                    </li>
+                   */ ?>
                     <li>
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                            <span class=""></span>
-                            &nbsp;&nbsp;Create
-                            &nbsp;&nbsp;<span class="caret"></span>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                            <span class="glyphicon glyphicon-plus"></span>
+                            <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu" role="menu">
                         <?php
@@ -84,9 +102,10 @@
                     </li>
                     <li <?php echo $page_title=="Edit Profile" ? "class='active'" : ""; ?>>
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                            <span class=""></span>
-                            &nbsp;&nbsp;<?php echo $_SESSION['nickname']; ?>
-                            &nbsp;&nbsp;<span class="caret"></span>
+                        <?php
+                        echo "<span>" . $_SESSION['nickname'] . "</span>&nbsp;<span class=\"caret\"></span>";
+                        ?>
+
                         </a>
                         <ul class="dropdown-menu" role="menu">
                             <?php /*<li><a href="<?php echo $home_url; ?>profile.php">Profile</a></li>*/ ?>

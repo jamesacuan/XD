@@ -98,8 +98,9 @@ echo "</div>";
                 if($XTABLE=="JO"){
                     echo "<div class=\"panel panel-info\" style=\"margin:30px 0\">";
                         echo "<div class=\"panel-heading clearfix\" role=\"tab\">";
-                        echo "<div class=\"xd-circle pull-left\" style=\"background-color: #" . $settings->getColor(substr($nickname, 0, 1)) . "\">" . substr($nickname, 0, 1) . "</div>";
-                        echo "<div class=\"pull-left\" style=\"margin-left:20px\">";
+                        //echo "<div class=\"xd-circle pull-left\" style=\"background-color: #" . $settings->getColor(substr($nickname, 0, 1)) . "\">" . substr($nickname, 0, 1) . "</div>";
+                        //echo "<div class=\"pull-left\" style=\"margin-left:20px\">";
+                        echo "<div class=\"pull-left\">";
                             echo "<a href=\"{$home_url}joborder.php?&id={$ID}\" >";
                             echo "<h4 style=\"margin: 2px 0\">Job Order #{$ID}</h4>";
                             echo "</a>";
@@ -116,7 +117,8 @@ echo "</div>";
                             extract($row2);
                             if($i < 4){
                                 echo "<tr>";
-                                echo "<td class=\"col-xs-1\"><a href=\"{$home_url}joborderitem.php?&code={$code}\"><img class=\"img-circle\" src=\"{$home_url}images/{$image_url}\" width=\"40\" height=\"40\" /></a></td>";
+                                if($image_url=="") $image_url = "def.png";
+                                echo "<td class=\"col-xs-1\" style=\"padding-left: 15px\"><a href=\"{$home_url}joborderitem.php?&code={$code}\"><img class=\"img-rounded\" src=\"{$home_url}images/{$image_url}\" width=\"40\" height=\"40\" /></a></td>";
                                 echo "<td class=\"col-xs-9\"><a href=\"{$home_url}joborderitem.php?&code={$code}\">{$code}</a><br/>{$note}</td>";
                                 echo "<td class=\"col-xs-2\">{$status}</td>";
                                 echo "</tr>";
@@ -136,8 +138,9 @@ echo "</div>";
                 else if($XTABLE == "PO"){
                     echo "<div class=\"panel panel-success\" style=\"margin:30px 0\">";
                         echo "<div class=\"panel-heading clearfix\" role=\"tab\">";
-                        echo "<div class=\"xd-circle pull-left\" style=\"background-color: #" . $settings->getColor(substr($nickname, 0, 1)) . "\">" . substr($nickname, 0, 1) . "</div>";
-                        echo "<div class=\"pull-left\" style=\"margin-left:20px\">";
+                        //echo "<div class=\"xd-circle pull-left\" style=\"background-color: #" . $settings->getColor(substr($nickname, 0, 1)) . "\">" . substr($nickname, 0, 1) . "</div>";
+                        //echo "<div class=\"pull-left\" style=\"margin-left:20px\">";
+                        echo "<div class=\"pull-left\">";
                             echo "<a href=\"{$home_url}purchaseorder.php?&id={$ID}\">";
                             echo "<h4 style=\"margin: 2px 0\">Purchase Order #{$ID}</h4>";
                             echo "</a>";
@@ -151,7 +154,8 @@ echo "</div>";
                             extract($row2);
                             //echo $JODID . " " . $code;
                             echo "<tr>";
-                            echo "<td class=\"col-xs-1\"><img class=\"img-circle\" src=\"{$home_url}images/{$image_url}\" width=\"40\" height=\"40\" /></td>";
+                            if($image_url=="undefined") $image_url = "def.png";
+                            echo "<td class=\"col-xs-1\" style=\"padding-left: 15px\"><img class=\"img-rounded\" src=\"{$home_url}images/{$image_url}\" width=\"40\" height=\"40\" /></td>";
                             echo "<td class=\"col-xs-11\">{$productname} - {$type}<br/>{$note} x {$quantity}</td>";
                             echo "</tr>";
                         }

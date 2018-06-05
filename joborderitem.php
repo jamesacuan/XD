@@ -219,6 +219,10 @@ include 'template/header.php';
                     <div class="col-xs-9"><?php echo date_format(date_create($job_order->modified),"F d, Y h:i:s A"); ?></div>
                 </div>
                 <div class="row">
+                    <div class="col-xs-3">Status:</div>
+                    <div class="col-xs-9"><span class="label label-default"><?php echo $job_order->status ?></span></div>
+                </div>
+                <div class="row">
                     <div class="col-xs-3">Note:</div>
                     <div class="col-xs-9"><?php echo $job_order->note ?></div>
                 </div>

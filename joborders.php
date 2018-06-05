@@ -2,12 +2,14 @@
 include_once "config/core.php";
 include_once "config/database.php";
 include_once "objects/job_order.php";
+include_once "objects/settings.php";
 
 
 $database = new Database();
 $db = $database->getConnection();
 $type = "";
 $job_order = new JobOrder($db);
+$settings = new Settings($db);
 
 $page_title="Job Orders";
 
@@ -109,14 +111,15 @@ function truncate($string, $length, $dots = "...") {
 
 
   <div role="tabpanel" class="tab-pane active" id="home">
-    <table id="joborders" class="table table-hover table-striped">
+    <table id="joborders" class="table table-hover">
             <thead style="background-color: #fff">
                 <tr>
-                    <th class="col-xs-1">JO</th>
-                    <th class="col-xs-1">Image</th>
+                    <th class="col-xs-1">#</th>
+                    <th>JO</th>
+                    <!--<th class="col-xs-1">Image</th>-->
                     <th class="col-xs-1">Code</th>
                     <th class="col-xs-1">By</th>
-                    <th class="col-xs-4">Note</th>
+                    <th class="col-xs-5">Note</th>
                     <th class="col-xs-2">Last Modified</th>
                     <th class="col-xs-1">Status</th>
                     <th class="col-xs-1">Actions</th>
@@ -144,13 +147,20 @@ function truncate($string, $length, $dots = "...") {
                         echo ">";
                             //if($date_today == $date_created) $date_created = date_format(date_create($created),"h:i A");
                             //else $date_created = date_format(date_create($created),"F d");;
-                            echo "<th scope=\"row\"><a href=\"joborder.php?&amp;id={$JOID}\">{$JOID}</a></th>";
-                            if(!empty($image_url))
-                                echo "<td><img src=\"{$home_url}images/{$image_url}\" class=\"xd-thumbnail\" width=\"50\" height=\"35\" data-toggle=\"modal\" data-target=\"#image\" data-file=\"{$image_url}\"  /></td>";
-                            else
-                                echo "<td><img src=\"{$home_url}images/def.png\" class=\"xd-thumbnail\" width=\"50\" height=\"35\"/></td>";
-                            echo "<td><a href=\"joborderitem.php?&amp;code={$code}\" data-toggle=\"tooltip\" title=\"From Job Order: {$JOID}\">{$code}</a></td>";
+                            echo "<td scope=\"row\">";
+                            if(($role=="hans" || $role=="admin" || $role=="superadmin") && $status=="For Approval")
+                                echo "<input type=\"checkbox\" name=\"JO\" value=\"{$JODID}\">";
+                            else if($username != $_SESSION['username'] || ($username == $_SESSION['username'] && strcmp($status,"For Approval")==true))
+                                echo "<input type=\"checkbox\" name=\"JO\" disabled>";
+                            else echo "<input type=\"checkbox\" name=\"JO\" value=\"{$JODID}\">";
+                            
+                            echo "</td>";
+                            echo "<td>{$JOID}</td>";
+                            if(empty($image_url)) $image_url = "def.png";   
+                            echo "<td><a href=\"#\" data-toggle=\"modal\" data-target=\"#image\" data-file=\"{$image_url}\">{$code}</a></td>";
                             echo "<td>{$username}</td>";
+                            //echo "<td><div class=\"xd-circle pull-left\" style=\"background-color: #" . $settings->getColor(substr($username, 0, 1)) . "\">" . substr($username, 0, 1) . "</div></td>";
+                            
                             echo "<td class=\"clearfix\"><span>" . truncate($note,80, "...") ."</span><span class=\"label label-warning\">{$tag}</span>";
                             //if($date_today == $date_created) echo " <span class=\"label label-default\">New</span>";
                             //echo  $date_today . " - " . $date_created;
@@ -214,7 +224,7 @@ function truncate($string, $length, $dots = "...") {
     </div>
 
 <div class="modal fade" id="image" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-md" role="document">
+  <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
@@ -241,7 +251,10 @@ function truncate($string, $length, $dots = "...") {
   </div>
 </div>
 
-<script src="js/dataTables.fixedHeader.min.js"></script>
+<!--
+    <script src="js/dataTables.fixedHeader.min.js"></script>
+            -->
+<script src="js/dataTables.rowGroup.min.js"></script>
 <script src="js/script.js"></script>
 </div>
 <?php

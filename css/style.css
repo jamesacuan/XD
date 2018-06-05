@@ -110,6 +110,18 @@ tr.new{
 	/*font-weight:bold;*/
 }
 
+tr.active{
+	background-color: #FFFDE7 !important;
+}
+
+#joborders th:first-child + th,
+#joborders td:first-child + td {
+  display:none;
+} 
+
+#joborders tr.group{
+	background-color: #efe;
+}
 /*
 *   MATERIALIZING
 */

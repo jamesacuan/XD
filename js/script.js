@@ -1,4 +1,5 @@
 var home_url = "http://localhost/xd/";
+//var home_url = "http://taxcalculator.pe.hu/";
 
 $('#image').on('shown.bs.modal', function (event) {
     var button   = $(event.relatedTarget);
@@ -19,11 +20,29 @@ $('#clear').on('shown.bs.modal', function (event) {
     modal.find('.delmodal').attr('href', home_url + "?truncate=Y");
 })
 
-
+$('#joborders tr').click(function(event) {
+    if (event.target.type !== 'checkbox') {
+      $(':checkbox', this).trigger('click');
+      $(this).toggleClass('active');
+    }
+  });
+$('#joborders tr').dblclick(function(){
+    var id = $(this).attr('id');
+    alert('test');
+})
 $(document).ready( function () {
     var jobordertable = $('#joborders').DataTable({
         fixedHeader: {
             header: true
+        },
+        order: [[1, 'asc']],
+        rowGroup: {
+            startRender: function ( rows, group ) {
+               
+                return  $('<tr>')
+                .append( '<td colspan="7"><a href="joborder?&amp;id='+group+'">Job Order #' + group + '</a></td></tr>' );
+            },
+            dataSrc: 1
         },
         "pageLength": 25
     });

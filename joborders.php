@@ -97,49 +97,49 @@ function truncate($string, $length, $dots = "...") {
 
 
   <div role="tabpanel" class="tab-pane active" id="home">
-      <form>
-          <div class="row form-inline clearfix" style="border-bottom:1px solid #ddd; padding: 10px 0">
+      <form style="position:relative; width:100%">
+          <div class="row form-inline clearfix" style="border-bottom:1px solid #ddd; padding: 10px 0;z-index:999;background-color:#fff;" data-spy="affi" data-offset-top="250">
           <div class="pull-left">  
-          <div class="btn-group">
-              <?php 
-            if($role=='hans' || $role=='designer'){
-                echo "<button class=\"btn btn-default\"><span class=\"glyphicon glyphicon-ok\"></span> Accept Request</button>";
-            }
-            else if($role=="user"){
-                echo "<button type=\"button\" onclick=\"location.href='addjoborder.php'\" class=\"btn btn-default\">Create</button>";
-                echo "<button class=\"btn btn-default\"><span class=\"glyphicon glyphicon-trash\"></span> Delete</button>";
-            }
-            
-            ?>
-            </div>
             <div class="btn-group">
-                <button type="button" class="btn btn-default">View All</button>
-                <button type="button" class="btn btn-default">Helmet Holder</button>
-                <button type="button" class="btn btn-default">Ticket Holder</button>
-            </div> 
-            </div>
-                <div class="pull-right">
-                    <div class="checkbox form-group">
-                        <label><input type="checkbox" name="filterme" id="filterme"/> By me</label>
-                    </div>
-                    <div class="checkbox form-group">
-                        <label><input type="checkbox" name="filterpublish" id="filterpublish"/> Show Published</label>
-                    </div>
-                    <input type="search" id="search" placeholder="search" class="form-control input-sm" />
+                <?php 
+                if($role=='hans' || $role=='designer'){
+                    echo "<button class=\"btn btn-default\"><span class=\"glyphicon glyphicon-ok\"></span> Accept Request</button>";
+                }
+                else if($role=="user"){
+                    echo "<button type=\"button\" onclick=\"location.href='addjoborder.php'\" class=\"btn btn-default\">Create</button>";
+                    echo "<button class=\"btn btn-default\"><span class=\"glyphicon glyphicon-trash\"></span> Delete</button>";
+                }
+                
+                ?>
                 </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default">View All</button>
+                    <button type="button" class="btn btn-default">Helmet Holder</button>
+                    <button type="button" class="btn btn-default">Ticket Holder</button>
+                </div> 
+            </div>
+            <div class="pull-right">
+                <div class="checkbox form-group">
+                    <label><input type="checkbox" name="filterme" id="filterme"/> By me</label>
+                </div>
+                <div class="checkbox form-group">
+                    <label><input type="checkbox" name="filterpublish" id="filterpublish"/> Show Published</label>
+                </div>
+                <input type="search" id="search" placeholder="search" class="form-control input-sm" />
+            </div>
           </div>
         <table id="joborders" class="table table-hover">
             <thead style="background-color: #fff">
                 <tr>
                     <th class="col-xs-1">#</th>
                     <th>JO</th>
-                    <!--<th class="col-xs-1">Image</th>-->
+                    <th class="col-xs-1">Image</th>
                     <th class="col-xs-1">Code</th>
                     <th class="col-xs-1">By</th>
                     <th class="col-xs-5">Note</th>
-                    <th class="col-xs-2">Last Modified</th>
                     <th class="col-xs-1">Status</th>
-                    <th class="col-xs-1">Actions</th>
+                    <th class="col-xs-2">Last Modified</th>
+                    <!--<th class="col-xs-1">Actions</th>-->
                 </tr>
             </thead>
             <tbody>
@@ -177,8 +177,9 @@ function truncate($string, $length, $dots = "...") {
                             
                             echo "</td>";
                             echo "<td>{$JOID}</td>";
-                            if(empty($image_url)) $image_url = "def.png";   
-                            echo "<td><a href=\"#\" data-toggle=\"modal\" data-target=\"#image\" data-file=\"{$image_url}\">{$code}</a></td>";
+                            if(empty($image_url)) $image_url = "def.png";
+                            echo "<td><a href=\"#\" data-toggle=\"modal\" data-target=\"#image\" data-file=\"{$image_url}\"><img src=\"{$home_url}images/{$image_url}\" class=\"img-circle\" width=\"30\" height=\"30\" /></a>";
+                            echo "<td>{$code}</td>";
                             echo "<td>{$username}</td>";
                             //echo "<td><div class=\"xd-circle pull-left\" style=\"background-color: #" . $settings->getColor(substr($username, 0, 1)) . "\">" . substr($username, 0, 1) . "</div></td>";
                             
@@ -196,21 +197,22 @@ function truncate($string, $length, $dots = "...") {
                             echo "</td>";
                             //echo "<span class=\"glyphicon glyphicon-picture pull-right\" data-toggle=\"modal\" data-target=\"#image\" data-file=\"{$image_url}\" title=\"{$image_url}\"></span></td>";
                             //echo "<td><span title=\"" . date_format(date_create($created),"F d, Y h:i:s A") . "\">{$date_created}</span></td>";
-                            echo "<td><span class=\"dtime\"  data-toggle=\"tooltip\" title=\"" . date_format(date_create($created),"F d, Y h:i:s A") . "\">" . date_format(date_create($modified),"m-d-Y h:i:s A") . "</span>";
-                            
-                            echo "</td>";
+
                             echo "<td><span ";
                             /*    if     ($status=="For Approval") echo "label-primary";
                                 elseif ($status=="Approved") echo "label-success";
                                 elseif ($status=="Denied") echo "label-danger";
                                 else   echo "label-default"; */
-                            echo "\">{$status}</span></div>";
-                            echo "<td>";
-                            echo "<div class=\"btn-group\">";
+                            echo "\">{$status}</span></td>";
+                            echo "<td><span class=\"dtime\"  data-toggle=\"tooltip\" title=\"" . date_format(date_create($created),"F d, Y h:i:s A") . "\">" . date_format(date_create($modified),"m-d-Y h:i:s A") . "</span>";
+                            
+                            echo "</td>";
+                            
+                            
 
                             ?>
                             <?php
-                                echo "<a href=\"joborderitem.php?&amp;code={$code}\" class=\"btn btn-xs btn-default\">View</a>";
+                                /*echo "<a href=\"joborderitem.php?&amp;code={$code}\" class=\"btn btn-xs btn-default\">View</a>";
                                 if(($status=="For Approval" && $role=="user" && $_SESSION['username']==$username) || ($role=="hans" || $role=="admin" || $role=="superadmin") && $status=="For Approval"){ 
                                 ?>
                                     <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
@@ -228,11 +230,10 @@ function truncate($string, $length, $dots = "...") {
                                 }?></ul>
                                 </div>
                                 <?php
-                                    }
+                                    }*/
                                 ?>
                             <?php
-                            echo "</div>";
-                            echo "</td>";
+
                         echo "</tr>";
                     }
                 }

@@ -14,7 +14,7 @@ $page_title="Create New Job Order";
 $page_theme="";
 
 $require_login=true;
-include_once "login_check.php";
+include_once "functions/login_check.php";
 
 include 'template/header.php';
 $newJO ="";
@@ -33,19 +33,6 @@ $newJOD ="";
 
 <?php
 if($_POST){
-    /*
-    
-    type = :type,
-    code = :code,
-    note = :note,
-    image_url = :image_url,
-    job_orderid = :job_orderid";
-    userid = :userid,
-    `status` = :status, 
-    `userid` = :userid, 
-    `job_order_code` = :joborderdetailscode, */
-
-
     if(isset($_POST['joid'])){
         $newJO = $_POST['joid'];
     }
@@ -143,17 +130,17 @@ if($_POST){
                 if( $image_type == IMAGETYPE_JPEG ) {   
                     $image_resource_id = imagecreatefromjpeg($file_tmp);  
                     $target_layer = $settings->fn_resize($image_resource_id, $source_properties[0],$source_properties[1]);
-                    imagejpeg($target_layer, "images/" . $filename . "_sm.jpg");
+                    imagejpeg($target_layer, "images/thumbs/" . $filename . ".jpg");
                 }
                 elseif( $image_type == IMAGETYPE_GIF )  {  
                     $image_resource_id = imagecreatefromgif($file_tmp);
                     $target_layer = $settings->fn_resize($image_resource_id, $source_properties[0],$source_properties[1]);
-                    imagegif($target_layer, "images/" . $filename . "_sm.gif");
+                    imagegif($target_layer, "images/thumbs/" . $filename . ".gif");
                 }
                 elseif( $image_type == IMAGETYPE_PNG ) {
                     $image_resource_id = imagecreatefrompng($file_tmp); 
                     $target_layer = $settings->fn_resize($image_resource_id, $source_properties[0],$source_properties[1]);
-                    imagepng($target_layer, "images/" . $filename . "_sm.png");
+                    imagepng($target_layer, "images/thumbs/" . $filename . ".png");
                 }
 
                 move_uploaded_file($file_tmp,"images/".$file_name);
@@ -213,9 +200,6 @@ if($_POST){
     }
 
 }
-
-
-
 
 
 /*if(isset($_FILES['image']) && $_POST){

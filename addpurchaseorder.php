@@ -1,5 +1,5 @@
 <?php
-include_once "login_check.php";
+include_once "functions/login_check.php";
 $require_login=true;
 
 include_once "config/core.php";

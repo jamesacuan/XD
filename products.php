@@ -13,7 +13,7 @@ $page_title= "Products";
 $require_login=true;
 $page_ribbon="F";
 
-include_once "login_check.php";
+include_once "functions/login_check.php";
 include 'template/header.php'
 ?>
 

@@ -23,7 +23,7 @@ else{
 
 $jocount="";
 $i = 1;
-include_once "login_check.php";
+include_once "functions/login_check.php";
 include 'template/header.php';
 ?>
 

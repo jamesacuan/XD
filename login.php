@@ -2,7 +2,7 @@
 include_once "config/core.php";
 $page_title = "Login";
 $require_login=false;
-include_once "login_check.php";
+include_once "functions/login_check.php";
 // default to false
 $access_denied=false;
 
@@ -31,7 +31,7 @@ if($_POST){
         $_SESSION['role']      = $user->role;
         $_SESSION['admin']     = $user->isAdmin;
         $_SESSION['beta']      = 0;
- 
+        $_SESSION['modal']     = "";
          /*
         $_SESSION['firstname'] = htmlspecialchars($user->firstname, ENT_QUOTES, 'UTF-8') ;
         $_SESSION['lastname'] = $user->lastname;
@@ -40,7 +40,6 @@ if($_POST){
             header("Location: {$home_url}index.php?action=login_success");
         }
         else{
-           
             header("Location: " . $_SESSION['goto']);
         }
     }

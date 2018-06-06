@@ -25,7 +25,9 @@ else{
 $job_order->code = $itemcode;
 $job_order->getJOItem();
 $tmpuser = $job_order->userid;
-
+if(!empty($job_order->isDeleted)){
+    header("Location: 404.php");
+}
     if($_POST){
         echo "hee";
 
@@ -157,7 +159,7 @@ $tmpuser = $job_order->userid;
         //$id = $_GET['id'];
         if(isset($_GET['delete'])){
             $job_order->joborderdetailsid = $jodid;
-            $job_order->status = 'Y';
+            $job_order->isDeleted = 'Y';
             $job_order->delete();
         }
         //$current_url = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
@@ -166,7 +168,7 @@ $tmpuser = $job_order->userid;
     }
 
 $require_login=true;
-include_once "login_check.php";
+include_once "functions/login_check.php";
 include 'template/header.php';
 ?>
     <script src="js/joi_script.js"></script>
@@ -305,10 +307,14 @@ include 'template/header.php';
                             //else{
                                 //echo "<a href=\"#\" class=\"btn btn-danger disabled\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"You can no longer delete your request, once approved.\"><span class=\"glyphicon glyphicon-trash\"></span>Delete</a>";
                             //} 
+
+
+                            /* TEMPORARILY REMOVED (YOU MAY USE JOBORDER PAGE INSTEAD) 
+                            
                             if($job_order->status=='For Approval' && ($role=="hans" || $role=="admin" || $role=="superadmin" || $_SESSION['admin']=="Y")){
                                 echo "<a href=\"" . $home_url . "joborderitem.php?code={$page_title}&amp;status=Approve\" class=\"btn btn-primary\"><span class=\"glyphicon glyphicon-ok\"></span> Approve</a>";
                                 echo "<a href=\"" . $home_url . "joborderitem.php?code={$page_title}&amp;status=Deny\" class=\"btn btn-default\">Deny</a>";
-                            }
+                            }*/
 
                             if($job_order->status=='Approved' && ($job_order->username==$_SESSION['username'] || $role=="superadmin")){
                                 //echo "<a href=\"" . $home_url . "joborderitem.php?code={$page_title}&amp;status=Done\" class=\"btn btn-primary\" data-toggle=\"tooltip\" title=\"Launched\"><span class=\"glyphicon glyphicon-ok\"></span> Mark As Finish</a>";

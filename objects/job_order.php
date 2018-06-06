@@ -181,27 +181,82 @@ class JobOrder{
 
     function delete(){
         $this->modified = date('Y-m-d H:i:s');
-
+        $jobid = "";
+        $count = "";
         $query = "UPDATE " . $this->table2_name . "
                  SET
-                    isDeleted   = :isDeleted,
+                    isDeleted   = 'Y',
                     modified    = :modified
                  WHERE
                     id          = :id";
 
         $stmt = $this->conn->prepare($query);
 
-        $this->isDeleted         = htmlspecialchars(strip_tags($this->status));
         $this->modified          = htmlspecialchars(strip_tags($this->modified));
         $this->joborderdetailsid = htmlspecialchars(strip_tags($this->joborderdetailsid));
 
-        $stmt->bindParam(':isDeleted',   $this->isDeleted);
         $stmt->bindParam(':modified', $this->modified);
         $stmt->bindParam(':id',       $this->joborderdetailsid);
 
-        if($stmt->execute()){
+
+        /* GET TO KNOW JOBORDERID OF JOBORDERITEM */
+        $query2 = "SELECT `job_orderid` 
+                FROM `job_order_details`
+                WHERE id=:id";
+        
+        $stmt2 = $this->conn->prepare($query2);
+        $stmt2->bindParam(':id', $this->joborderdetailsid);
+        $stmt2->execute();   
+        $num2 = $stmt2->rowCount();
+    
+        if($num2>0){
+            $row2 = $stmt2->fetch(PDO::FETCH_ASSOC);
+            $jobid = $row2['job_orderid'];
+        }
+
+        /* CHECK IF JOBORDER WILL BE EMPTY */
+        $query3 = "SELECT count(*) as cc
+        FROM `job_order_details`
+        JOIN job_order ON job_order.id = job_order_details.job_orderid
+        WHERE job_order_details.job_orderid=:id
+        AND job_order_details.isDeleted <> 'Y'";
+       
+        $stmt3 = $this->conn->prepare($query3);
+        $stmt3->bindParam(':id', $jobid);
+        $stmt3->execute();   
+        $num3 = $stmt3->rowCount();
+    
+        if($num3>0){
+            $row3 = $stmt3->fetch(PDO::FETCH_ASSOC);
+            $count = $row3['cc'];
+        }
+
+        /* DELETE JOB ORDER*/
+        if($count==1){
+            $query4 = "UPDATE `job_order`
+                SET
+                    isDeleted   = 'Y',
+                    modified    = :modified
+                WHERE
+                    id          = :id";
+
+            $stmt4 = $this->conn->prepare($query4);
+
+            $this->modified          = htmlspecialchars(strip_tags($this->modified));
+
+            $stmt4->bindParam(':modified', $this->modified);
+            $stmt4->bindParam(':id',       $jobid);
+               
+            if($stmt4->execute() && $stmt->execute()){
+                return true;
+            }
+            return false;
+        }
+
+        else if($stmt->execute()){
             return true;
         }
+
         return false;
     }
 
@@ -563,7 +618,8 @@ class JobOrder{
         job_order_details.image_url,
         job_order_details.modified,
         s1.status,
-        job_order.userid
+        job_order.userid,
+        job_order_details.isDeleted
         FROM `job_order`
         JOIN users on job_order.userid = users.userid
         JOIN job_order_details on job_order.id = job_order_details.job_orderid
@@ -590,6 +646,8 @@ class JobOrder{
         $this->image_url   = $row['image_url'];
         $this->modified    = $row['modified'];
         $this->status      = $row['status'];
+        $this->isDeleted      = $row['isDeleted'];
+
         //return $stmt;
     }
     function setStatus(){

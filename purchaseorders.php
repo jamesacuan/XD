@@ -11,7 +11,7 @@ $purchase_order = new PurchaseOrder($db);
 $page_title="Purchase Orders";
 
 $require_login=true;
-include_once "login_check.php";
+include_once "functions/login_check.php";
 include 'template/header.php'
 ?>
 

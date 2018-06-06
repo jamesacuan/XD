@@ -35,13 +35,3 @@ $('.infobar').on('closed.bs.alert', function () {
   window.location = url + "?&betagree=1";
 })
 </script>
-<style>
-    .infobar{
-        min-height: 10px;
-        background-color: #252736;
-        color: #aaa;
-        font-size: 12px;
-        padding: 5px;
-        border-radius: 0px;
-    }
-    </style>

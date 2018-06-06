@@ -4,7 +4,7 @@ include_once "config/database.php";
 include_once "objects/user.php";
 
 $require_login=true;
-include_once "login_check.php";
+include_once "functions/login_check.php";
 
 $database = new Database();
 $db = $database->getConnection();

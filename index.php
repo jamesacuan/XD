@@ -31,8 +31,7 @@ if($_SESSION['role']=="superadmin" && isset($_GET['truncate'])){
     header("Location: {$current_url[0]}");
 }
 
-
-include_once "login_check.php";
+include_once "functions/login_check.php";
 include 'template/header.php'
 ?>
 

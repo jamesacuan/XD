@@ -12,7 +12,7 @@ $page_title="Create New Job Order";
 $page_theme="";
 $require_login=true;
 
-include_once "login_check.php";
+include_once "functions/login_check.php";
 include 'template/header.php';
 $newJO ="";
 $newJOD ="";

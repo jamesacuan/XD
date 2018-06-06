@@ -4,7 +4,6 @@ include_once "config/database.php";
 include_once "objects/job_order.php";
 include_once "objects/settings.php";
 
-
 $database = new Database();
 $db = $database->getConnection();
 $type = "";
@@ -12,11 +11,11 @@ $job_order = new JobOrder($db);
 $settings = new Settings($db);
 
 $page_title="Job Orders";
-
 $require_login=true;
 $role = $_SESSION['role'];
 
-include_once "login_check.php";
+include_once "functions/login_check.php";
+include_once "functions/joborders_post.php";
 include 'template/header.php';
 
 if(($role=="admin" || $role=="superadmin" || $role=="hans") && isset($_GET['status'])){
@@ -33,7 +32,6 @@ if(($role=="admin" || $role=="superadmin" || $role=="hans") && isset($_GET['stat
             echo "Done";
     }
 }
-
 elseif($role=="user" && isset($_GET['delete']) || ($role=="superadmin" && isset($_GET['delete']))){
     $id = $_GET['id'];
     if(isset($_GET['delete'])){
@@ -45,7 +43,6 @@ elseif($role=="user" && isset($_GET['delete']) || ($role=="superadmin" && isset(
     $current_url = explode('?', $current_url);
     header("Location: {$current_url[0]}");
 }
-
 else{
     if (!isset($_GET['type']))
         $type = "";
@@ -56,11 +53,19 @@ else{
         else $type="";
     }
 }
-
 function truncate($string, $length, $dots = "...") {
     return (strlen($string) > $length) ? substr($string, 0, $length - strlen($dots)) . $dots : $string;
 }
+//echo $_SESSION['JOH'];
 ?>
+<?php if(!empty($_SESSION["modal"])){ ?>
+    <div class="xd-alert alert alert-warning clearfix" role="alert">
+        <span><?php echo $_SESSION["modal"] ?></span>
+        <button type="button" class="close" data-close="alert" aria-label="Close">
+        <span>&times;</span>
+        </button>
+    </div>
+<?php unset($_SESSION['modal']); } ?>
 
 <div class="row xd-heading">
     <div class="clearfix">
@@ -72,7 +77,7 @@ function truncate($string, $length, $dots = "...") {
                 echo "<button type=\"button\" onclick=\"location.href='addjoborder.php'\" class=\"btn btn-primary\">+ Job Order</button>";
                 
             ?>
-             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <!-- <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="glyphicon glyphicon-option-vertical"></span>
                         <span class="sr-only">Toggle Dropdown</span>
                     </button>
@@ -80,6 +85,7 @@ function truncate($string, $length, $dots = "...") {
                         <li><a href="#" onclick="window.print();">Print...</a></li>
                         <li><a href="objects/functions/export.php">Export to Excel...</a></li>
                     </ul>
+            -->
         </div>
     </div>
 </div>
@@ -97,35 +103,49 @@ function truncate($string, $length, $dots = "...") {
 
 
   <div role="tabpanel" class="tab-pane active" id="home">
-      <form style="position:relative; width:100%">
+      <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" style="position:relative; width:100%">
           <div class="row form-inline clearfix" style="border-bottom:1px solid #ddd; padding: 10px 0;z-index:999;background-color:#fff;" data-spy="affi" data-offset-top="250">
           <div class="pull-left">  
-            <div class="btn-group">
+            
                 <?php 
                 if($role=='hans' || $role=='designer'){
-                    echo "<button class=\"btn btn-default\"><span class=\"glyphicon glyphicon-ok\"></span> Accept Request</button>";
+                    echo "<button id=\"softaccept\" name=\"submit\" value=\"accept\" class=\"btn btn-default\"><span class=\"glyphicon glyphicon-ok\"></span> Accept Request</button>";
                 }
                 else if($role=="user"){
-                    echo "<button type=\"button\" onclick=\"location.href='addjoborder.php'\" class=\"btn btn-default\">Create</button>";
-                    echo "<button class=\"btn btn-default\"><span class=\"glyphicon glyphicon-trash\"></span> Delete</button>";
+                    echo "<button type=\"button\" onclick=\"location.href='addjoborder.php'\" class=\"btn btn-primary\"><span class=\"glyphicon glyphicon-plus\"></span> Create</button>";
+                    echo "&nbsp;<button id=\"softdelete\" class=\"btn btn-default\"><span class=\"glyphicon glyphicon-trash\"></span> Delete</button>";
                 }
                 
                 ?>
-                </div>
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default">View All</button>
-                    <button type="button" class="btn btn-default">Helmet Holder</button>
-                    <button type="button" class="btn btn-default">Ticket Holder</button>
-                </div> 
             </div>
+            <!--
+            <div class="dropdown pull-left">
+                <button class="btn btn-default" id="dLabel" type="button" data-toggle="dropdown">
+                    Filter <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a><label><input type="checkbox" name="filterme" id="filterme"/> By me</a></label></li>
+                    <li><a><label><input type="checkbox" name="filterpublish" id="filterpublish"/> Show Published</a></label></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="#" onclick="window.print();">Print...</a></li>
+                    <li><a href="objects/functions/export.php">Export to Excel...</a></li>
+                </ul>
+            </div>
+            -->
             <div class="pull-right">
-                <div class="checkbox form-group">
-                    <label><input type="checkbox" name="filterme" id="filterme"/> By me</label>
-                </div>
-                <div class="checkbox form-group">
-                    <label><input type="checkbox" name="filterpublish" id="filterpublish"/> Show Published</label>
-                </div>
+                <label><input type="checkbox" name="filterme" id="filterme"/> By me</a></label>
+                <label><input type="checkbox" name="filterpublish" id="filterpublish"/> Show Published</a></label>
                 <input type="search" id="search" placeholder="search" class="form-control input-sm" />
+
+                <!--<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="glyphicon glyphicon-option-vertical"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="#" onclick="window.print();">Print...</a></li>
+                    <li><a href="objects/functions/export.php">Export to Excel...</a></li>
+                </ul>
+                -->
             </div>
           </div>
         <table id="joborders" class="table table-hover">
@@ -156,30 +176,34 @@ function truncate($string, $length, $dots = "...") {
                         $date_created = date_format(date_create($created),"m/d/Y");
                         $diff = (new DateTime($date_today))->diff(new DateTime($date_created));
 
-                        echo "<tr "; 
+                        echo "<tr class=\"";
                         if(($diff->d)<2 && strcmp($status,"For Approval")==0)
-                            echo "class=\"new\"";
+                            echo "new ";
+                        if(($username == $_SESSION['username'] && ($status == "For Approval" || $status == "On-queue")) || (($role=="hans" || $role=="admin" || $role=="superadmin") && ($status=="For Approval" || $status=="On-queue") && $i==0))
+                            echo "enable ";
+                        echo "\"";
                         if($status == "Published") echo " data-status=\"published\" ";
                         if($username == $_SESSION["username"]) echo " data-user=\"mine\" ";
+                        echo "data-code=\"{$code}\" ";
                         echo ">";
                             //if($date_today == $date_created) $date_created = date_format(date_create($created),"h:i A");
                             //else $date_created = date_format(date_create($created),"F d");;
                             echo "<td scope=\"row\">";
                             if(($role=="hans" || $role=="admin" || $role=="superadmin") && ($status=="For Approval" || $status=="On-queue")){
                                 if($i==0)
-                                    echo "<input type=\"checkbox\" name=\"JOH\" data-increment=\"{$i}\" value=\"{$JODID}\">";
-                                else  echo "<input type=\"checkbox\" name=\"JOH\" data-increment=\"{$i}\" value=\"{$JODID}\" disabled>";
+                                    echo "<input type=\"checkbox\" name=\"JOH[]\" data-increment=\"{$i}\" value=\"{$JODID}\">";
+                                else  echo "<input type=\"checkbox\" name=\"JOH[]\" data-increment=\"{$i}\" value=\"{$JODID}\" disabled>";
                                 $i++;
                             }
-                            else if($username != $_SESSION['username'] || ($username == $_SESSION['username'] && strcmp($status,"For Approval")==true))
-                                echo "<input type=\"checkbox\" name=\"JO\" disabled>";
-                            else echo "<input type=\"checkbox\" name=\"JO\" value=\"{$JODID}\">";
+                            else if($username == $_SESSION['username'] && ($status=="For Approval" || $status=="On-queue"))
+                                echo "<input type=\"checkbox\" name=\"JOH[]\" value=\"{$JODID}\">"; 
+                            else echo "<input type=\"checkbox\" name=\"JOH[]\" disabled>";
                             
                             echo "</td>";
                             echo "<td>{$JOID}</td>";
                             if(empty($image_url)) $image_url = "def.png";
-                            echo "<td><a href=\"#\" data-toggle=\"modal\" data-target=\"#image\" data-file=\"{$image_url}\"><img src=\"{$home_url}images/{$image_url}\" class=\"img-circle\" width=\"30\" height=\"30\" /></a>";
-                            echo "<td>{$code}</td>";
+                            echo "<td><a href=\"#\" data-toggle=\"modal\" data-target=\"#image\" data-file=\"{$image_url}\"><img src=\"{$home_url}images/thumbs/{$image_url}\" class=\"img-circle\" width=\"30\" height=\"30\" /></a>";
+                            echo "<td><a href=\"{$home_url}joborderitem.php?&amp;code={$code}\">{$code}</a></td>";
                             echo "<td>{$username}</td>";
                             //echo "<td><div class=\"xd-circle pull-left\" style=\"background-color: #" . $settings->getColor(substr($username, 0, 1)) . "\">" . substr($username, 0, 1) . "</div></td>";
                             
@@ -243,7 +267,25 @@ function truncate($string, $length, $dots = "...") {
             ?>
             </tbody>
         </table> 
-            </form>
+
+<div class="modal fade" id="warn" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+        <h4 class="modal-title">Heads up!</h4>
+      </div>
+      <div class="modal-body">
+          <p></p>
+    </div>
+      <div class="modal-footer">
+        <button name="submit" value="" class="btn btn-sm btn-default btnmodal">Yes</button>
+        <a href="#" class="btn btn-primary" data-dismiss="modal">No</a>
+      </div>
+    </div>
+  </div>
+</div>
+</form>
     </div>
 
 <div class="modal fade" id="image" tabindex="-1" role="dialog">
@@ -259,26 +301,14 @@ function truncate($string, $length, $dots = "...") {
   </div>
 </div>
 
-<div class="modal fade" id="warn" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-sm" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-        <h4 class="modal-title">Are you sure</h4>
-      </div>
-      <div class="modal-footer">
-        <a href="#" class="btn btn-sm btn-default delmodal">Yes</a>
-        <a href="#" class="btn btn-primary" data-dismiss="modal">No</a>
-      </div>
-    </div>
-  </div>
-</div>
+
 
 <!--
     <script src="js/dataTables.fixedHeader.min.js"></script>
             -->
 <script src="js/dataTables.rowGroup.min.js"></script>
 <script src="js/script.js"></script>
+<script src="js/joborders.js"></script>
 </div>
 <?php
 include 'template/footer.php';

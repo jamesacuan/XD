@@ -179,12 +179,12 @@ body{
 .navbar li.active a,
 .navbar li.open .dropdown-toggle{
 	background-color: rgba(245, 245, 245, .05) !important;
-	border-top: 2px solid #18FFFF !important;
+	/*border-top: 2px solid #18FFFF !important;*/
 	color: #fff !important;
 }
 .navbar-nav a:hover{
-	border-top: 2px solid #18FFFF !important;
-	color: #fff !important;
+	/*border-top: 2px solid #18FFFF !important;
+	color: #fff !important;*/
 }
 .navbar .dropdown-menu a{
 	color: #000 !important;

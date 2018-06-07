@@ -97,7 +97,7 @@
 .xd-main-menu li { display: inline; }
 .xd-main-menu li a { color: #bbb; font-size: 14px; display: block; float: left; text-decoration: none;  }
 .xd-main-menu li a:hover { color: white; }
-#magic-line { position: absolute; top: -2px; left: 0; width: 10px; height: 2px; background: #fe4902; }
+#magic-line { position: absolute; top: 0px; left: 0; width: 10px; height: 2px; background: #18FFFF; }
 </style>
 <script>
     /*https://css-tricks.com/examples/MagicLine/js/example.js*/
@@ -111,7 +111,7 @@ var $magicLine = $("#magic-line");
 
 $magicLine
     .width($(".active").width())
-    .css("left", $(".active a").position().left)
+    .css("left", $(".active").position().left)
     .data("origLeft", $magicLine.position().left)
     .data("origWidth", $magicLine.width());
     console.log($magicLine.position().left);

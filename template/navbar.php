@@ -27,9 +27,9 @@
             <a class="navbar-brand" href="<?php echo $home_url; ?>">HANC</a>
         </div>
  
-        <div class="navbar-collapse collapse">
+        <div class="xd-nav navbar-collapse collapse">
         <?php if(isset($_SESSION['logged_in']) && $_SESSION['logged_in']==true){ ?>
-            <ul class="nav navbar-nav">
+            <ul class="nav navbar-nav xd-main-menu">
                 <li <?php echo $page_title=="Dashboard" ? "class='active'" : ""; ?>>
                     <a href="<?php echo $home_url; ?>">Home</a>
                 </li>
@@ -90,3 +90,48 @@
         </div>
     </div>
 </div>
+
+<style>
+    .xd-nav {  }
+.xd-main-menu { margin: 0 auto; list-style: none; position: relative; }
+.xd-main-menu li { display: inline; }
+.xd-main-menu li a { color: #bbb; font-size: 14px; display: block; float: left; text-decoration: none;  }
+.xd-main-menu li a:hover { color: white; }
+#magic-line { position: absolute; top: -2px; left: 0; width: 10px; height: 2px; background: #fe4902; }
+</style>
+<script>
+    /*https://css-tricks.com/examples/MagicLine/js/example.js*/
+    $(function() {
+
+var $el, leftPos, newWidth,
+    $mainNav = $(".xd-main-menu");
+
+$mainNav.append("<li id='magic-line'></li>");
+var $magicLine = $("#magic-line");
+
+$magicLine
+    .width($(".active").width())
+    .css("left", $(".active a").position().left)
+    .data("origLeft", $magicLine.position().left)
+    .data("origWidth", $magicLine.width());
+    console.log($magicLine.position().left);
+console.log($magicLine.width());
+    
+$(".xd-main-menu li").find("a").hover(function() {
+    $el = $(this);
+    leftPos = $el.parent().position().left;
+    newWidth = $el.parent().width();
+    $magicLine.stop().animate({
+        left: leftPos,
+        width: newWidth
+    });
+
+    console.log(leftPos + "," +newWidth);
+}, function() {
+    $magicLine.stop().animate({
+        left: $magicLine.data("origLeft"),
+        width: $magicLine.data("origWidth")
+    });    
+});
+});
+</script>

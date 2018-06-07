@@ -1,11 +1,4 @@
-$('#joborders tr').click(function(event) {
-    if (event.target.type !== 'checkbox') {
-      $(':checkbox', this).trigger('click');
-      $(this).toggleClass('active');
-    }
-  });
-
-  /*$("#joborders button[value='delete']").on('click', function(){
+ /*$("#joborders button[value='delete']").on('click', function(){
     if ($("input[name='JOH']").is(':checked')) {
         alert('yes');
     }
@@ -26,6 +19,18 @@ $('#joborders tr').click(function(event) {
      // return false to cancel form action
 });*/
 
+$('#joborders tr').click(function(event) {
+    if (event.target.type !== 'checkbox') {
+      $(':checkbox', this).trigger('click');
+      //$(this).toggleClass('active');
+      if($(this).closest('tr').hasClass('active')==false){ // active != falsebaliktad?
+          $(this).closest('tr').removeClass('active');
+      }
+      else {
+          $(this).closest('tr').addClass('active');
+      }
+    }
+  });
 
 
   $("input[name='JOH[]']").on('click', function(){
@@ -35,6 +40,7 @@ $('#joborders tr').click(function(event) {
     if ($(this).is(':checked')) {
         $('body').find("input[data-increment='" + $i + "']").prop("disabled", false);
         $('body').find("input[data-increment='" + $i + "']").closest('tr').addClass('enable');
+        $(this).closest('tr').addClass('active');
     }
     else {
         console.log($length);
@@ -43,6 +49,7 @@ $('#joborders tr').click(function(event) {
             $('body').find("input[data-increment='" + $j + "']").prop("disabled", true);
             console.log($j);
         }
+        $(this).closest('tr').removeClass('active');
     }
     var count = $("[name='JOH[]']:checked").length;
   });

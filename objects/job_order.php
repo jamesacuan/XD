@@ -389,7 +389,7 @@ class JobOrder{
                 JOIN job_order_details on job_order.id = job_order_details.job_orderid
                 JOIN job_order_status s1 on s1.job_order_code = job_order_details.code
                 WHERE job_order.id = $JOID
-                
+                AND job_order_details.isDeleted <> 'Y'
                 AND s1.created = (SELECT MAX(s2.created) FROM job_order_status s2
                           WHERE s2.job_order_code = s1.job_order_code)";
 

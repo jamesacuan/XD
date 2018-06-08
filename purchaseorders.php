@@ -49,19 +49,29 @@ include 'template/header.php'
                 if($num>0){
                     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                         extract($row);
-                        echo "<tr>";
+                        echo "<tr ";
+                        if($status=='paid')
+                            echo "data-status='Done'";
+                        echo " >";
                         echo "<td>{$id}</td>";
                         echo "<td>{$nickname}</td>";
                         $date_created = date_format(date_create($created),"m/d/Y");
                         $diff = (new DateTime($date_today))->diff(new DateTime($date_created));
                         echo "<td><span class=\"dtime\"  data-toggle=\"tooltip\" title=\"" . date_format(date_create($created),"F d, Y h:i:s A") . "\">" . date_format(date_create($created),"m-d-Y h:i:s A") . "</span>";
-                        if(($diff->d)>4 && $status!="Denied"){
+                        if(($diff->d)>4 && ($status!="Denied" && $status != 'paid')){
                             echo " <span class=\"label label-danger\">Overdue</span>";
                         }else if(($diff->d)<2){
                             echo " <span class=\"label label-primary\">New</span>";
                         }
                         echo "</td>";
-                        echo "<td>{$status}</td>";
+
+                        /* STATUS */
+                        echo "<td>";
+                        if($status == 'New' || $status == 'On-queue') echo  'On-queue';
+                        else if($status=='paid') echo 'Done';
+                        else echo "On-going";
+                        echo "</td>";
+                        
                         echo "<td><a href=\"purchaseorder.php?&amp;id={$id}\" class=\"btn btn-xs btn-default\">View</a></td>";
                         echo "</tr>";
                     }
@@ -74,4 +84,5 @@ include 'template/header.php'
 </div>
 </div>
 <script src="js/script.js"></script>
+<script src="js/purchaseorders.js"></script>
 <?php include 'template/footer.php'?>

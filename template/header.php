@@ -25,6 +25,16 @@
 <body>
 <?php /*<div id="progressBar" class="waiting"></div>*/ ?>
      <?php include_once 'template/navbar.php'; ?>
+
+     <?php if(!empty($_SESSION["modal"])){ ?>
+        <div class="xd-alert alert alert-warning clearfix" role="alert">
+            <span><?php echo $_SESSION["modal"] ?></span>
+            <button type="button" class="close" data-close="alert" aria-label="Close">
+            <span>&times;</span>
+            </button>
+        </div>
+    <?php unset($_SESSION['modal']); } ?>
+
      <?php 
      if(isset($page_ribbon)){
         echo "<div class=\"container\">";
@@ -34,3 +44,4 @@
         echo "<div class=\"xd-container container\">";
      }
      ?>
+

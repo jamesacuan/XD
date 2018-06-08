@@ -130,17 +130,17 @@ if($_POST){
                 if( $image_type == IMAGETYPE_JPEG ) {   
                     $image_resource_id = imagecreatefromjpeg($file_tmp);  
                     $target_layer = $settings->fn_resize($image_resource_id, $source_properties[0],$source_properties[1]);
-                    imagejpeg($target_layer, "images/thumbs/" . $filename . ".jpg");
+                    imagejpeg($target_layer, "images/thumbs/" . $filename . "." . $file_ext);
                 }
                 elseif( $image_type == IMAGETYPE_GIF )  {  
                     $image_resource_id = imagecreatefromgif($file_tmp);
                     $target_layer = $settings->fn_resize($image_resource_id, $source_properties[0],$source_properties[1]);
-                    imagegif($target_layer, "images/thumbs/" . $filename . ".gif");
+                    imagegif($target_layer, "images/thumbs/" . $filename . "." . $file_ext);
                 }
                 elseif( $image_type == IMAGETYPE_PNG ) {
                     $image_resource_id = imagecreatefrompng($file_tmp); 
                     $target_layer = $settings->fn_resize($image_resource_id, $source_properties[0],$source_properties[1]);
-                    imagepng($target_layer, "images/thumbs/" . $filename . ".png");
+                    imagepng($target_layer, "images/thumbs/" . $filename . "." . $file_ext);
                 }
 
                 move_uploaded_file($file_tmp,"images/".$file_name);
@@ -170,17 +170,17 @@ if($_POST){
                 if( $image_type == IMAGETYPE_JPEG ) {   
                     $image_resource_id = imagecreatefromjpeg($file_tmp);  
                     $target_layer = $settings->fn_resize($image_resource_id, $source_properties[0],$source_properties[1]);
-                    imagejpeg($target_layer, "images/" . $filename . "_sm.jpg");
+                    imagejpeg($target_layer, "images/thumbs/" . $filename . "." . $file_ext);
                 }
                 elseif( $image_type == IMAGETYPE_GIF )  {  
                     $image_resource_id = imagecreatefromgif($file_tmp);
                     $target_layer = $settings->fn_resize($image_resource_id, $source_properties[0],$source_properties[1]);
-                    imagegif($target_layer, "images/" . $filename . "_sm.gif");
+                    imagegif($target_layer, "images/" . $filename . "." . $file_ext);
                 }
                 elseif( $image_type == IMAGETYPE_PNG ) {
                     $image_resource_id = imagecreatefrompng($file_tmp); 
                     $target_layer = $settings->fn_resize($image_resource_id, $source_properties[0],$source_properties[1]);
-                    imagepng($target_layer, "images/" . $filename . "_sm.png");
+                    imagepng($target_layer, "images/" . $filename . "." . $file_ext);
                 }
                 
                 move_uploaded_file($file_tmp,"images/".$file_name);

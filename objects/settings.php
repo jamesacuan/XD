@@ -24,23 +24,29 @@ TRUNCATE job_order;
 TRUNCATE job_order_details;
 TRUNCATE job_order_feedback;
 TRUNCATE job_order_status;
-TRUNCATE product;
+//TRUNCATE product;
 TRUNCATE product_items;
+TRUNCATE product_item;
+TRUNCATE product_item_variant;
+TRUNCATE users_notify;
 TRUNCATE product_color;
 TRUNCATE purchase_order;
 TRUNCATE purchase_order_details;
-TRUNCATE users;
+//TRUNCATE users;
 */
 
         $tables = array("job_order_feedback",
                         "job_order_details",
                         "job_order",
-                        "product",
+                        "job_order_status",
+                        //"product",
                         "product_items",
+                        "product_item",
+                        "product_item_variant",
                         "purchase_order",
                         "purchase_order_details",
-                        "users",
-                        "job_order_status",
+                        //"users",
+                        "users_notify",
                         "purchase_order_status");
                         
         $max = sizeof($tables);

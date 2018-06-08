@@ -8,6 +8,8 @@ $db             = $database->getConnection();
 $purchase_order = new PurchaseOrder($db);
 
 $require_login =true;
+include_once "functions/login_check.php";
+
 $role          = $_SESSION['role'];
 $id = $_GET['id'];
 
@@ -23,7 +25,38 @@ else{
 
 $jocount="";
 $i = 1;
-include_once "functions/login_check.php";
+
+if(($role=="admin" || $role=="superadmin" || $role=="hans" || $_SESSION['admin']=="Y") && isset($_GET['status'])){
+    if(isset($_GET['status'])){
+        //echo $_GET['status'];
+        //echo $_GET['id'];
+        $purchase_order->status           = $_GET['status'];
+        $purchase_order->purchase_orderid = $_GET['id'];
+        $purchase_order->userid           = $_SESSION['userid'];
+
+        $purchase_order->setStatus();
+
+        $_SESSION['modal'] = 'This PO has been updated.';
+        
+        /*$job_order->userid = $_SESSION["userid"];
+        $job_order->code   = $itemcode;
+        $job_order->joborderdetailsid = $jodid;
+
+        if($_GET['status'] == 'Deny')
+            $job_order->status = "Denied";
+        elseif($_GET['status'] == 'Approve')
+            $job_order->status = "Approved";
+        else
+            $job_order->status = $_GET['status'];
+        //$job_order->approve();
+        $job_order->setStatus();
+        */
+        
+        header("Location: {$home_url}purchaseorder.php?&id={$id}");
+
+    }
+}
+
 include 'template/header.php';
 ?>
 
@@ -35,14 +68,7 @@ include 'template/header.php';
 </div>
 
 <div class="xd-content">
-        <?php      
-            /*$purchase_order->getJobOrderDetailsCount($id);
-            $jocount = $job_order->answer;
-
-            $job_order->readJO($id);
-            */
-            $purchase_order->readPOD($id);
-        ?>
+<?php $purchase_order->readPOD($id); ?>
 <div class="row">
     <div class="col-md-12">
         <div class="row" style="margin: 20px 0">
@@ -58,78 +84,101 @@ include 'template/header.php';
                     <div class="col-xs-3">Date added:</div>
                     <div class="col-xs-9"><?php echo date_format(date_create($purchase_order->created),"F d, Y h:i A"); ?></div>
                 </div>
+                <div class="row">
+                <div class="col-xs-3">Status:</div>
+                    <div class="col-xs-9">
+                        <?php echo "<span class=\"label "; 
+                        if($purchase_order->status == 'On-queue' || $purchase_order->status == 'New')
+                        echo "label-default\">On-queue";
+                        else if ($purchase_order->status == 'paid')
+                        echo "label-success\">Done";
+                        else echo "label-primary\">On-going";
+                        echo "</span>";
+                        ?>
+                    </div>
+                </div>
             </div>
     
     <div class="col-md-3">
                 <div class="row">
                     <div class="col-sm-12 clearfix">
                         <div class="pull-right btn-group xd-joitem-details-btngroup">
-                        <a href="http://localhost/xd/joborderitem.php?code=HH-0004&amp;status=Approve" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> Approve</a><a href="http://localhost/xd/joborderitem.php?code=HH-0004&amp;status=Deny" class="btn btn-default">Deny</a>                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="glyphicon glyphicon-option-vertical"></span>
-                        <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a href="#" onclick="window.print();">Print...</a></li>
-                        <li><a href="#" data-toggle="modal" data-target="#share">Share...</a></li>
-                    </ul>
+                            <?php if (($role=='hans') && ($purchase_order->status=='On-queue' || $purchase_order->status=='New')){ ?>
+                            <a href="<?php echo "{$home_url}purchaseorder.php?&id={$id}&status=processing";?>" class="btn btn-primary">Accept Request</a>
+                            <?php } ?>
 
+                            <?php if (($role=='hans') && ($purchase_order->status=='processing')){ ?>
+                            <a href="<?php echo "{$home_url}purchaseorder.php?&id={$id}&status=delivered";?>" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> Delivered</a>
+                            <?php } ?>
+
+                            <?php if (($role=='hans') && ($purchase_order->status=='delivered' || $purchase_order->status=='On-queue' || $purchase_order->status=='New')){ //for now  ?>
+                            <a href="<?php echo "{$home_url}purchaseorder.php?&id={$id}&status=paid";?>" class="btn btn-primary" data-toggle="tooltip" title="This will permanently close the PO and considered as paid and delivered."><span class="glyphicon glyphicon-ok"></span> Paid</a>
+                            <?php } ?>
                         </div>
                     </div>
                 </div>
             </div>
 </div>
 </div>
+<?php 
+
+if($purchase_order->username == $_SESSION['username'] || $_SESSION['role']=='hans'){ ?>
 
     <div class="row">
                     <div class="col-xs-12">
-                    <div class="md-stepper-horizontal xd-po-status">
-                    <div class="md-step active">
-                        <div class="md-step-circle">
-                        <?php //if ($job_order->status == "Approved" || $job_order->status == "Done" || $job_order->status == "Published") echo "<span class=\"glyphicon glyphicon-ok\"></span>";
-                            //else echo "<span>1</span>";
-                            echo "<span>1</span>" ?>
-                        </div>
-                        <div class="md-step-title">
-                        <?php //if ($job_order->status == "Approved" || $job_order->status == "Done" || $job_order->status == "Published") echo "Approved Request";
-                            //else echo "For Approval";
-                            echo "For Approval" ?>
-                        </div>
-                        <!--<div class="md-step-optional">Rendered Image</div>-->
-                        <div class="md-step-bar-left"></div>
-                        <div class="md-step-bar-right"></div>
-                    </div>
-                    <?php echo "<div class=\"md-step ";
-                                //if ($job_order->status == "Approved" || $job_order->status == "Done" || $job_order->status == "Published") echo "active\">";
-                                //else echo "inactive\">";
-                                echo "inactive\">"; ?>
-                        <div class="md-step-circle">
-                            <?php //if ($job_order->status == "Done" || $job_order->status == "Published") echo "<span class=\"glyphicon glyphicon-ok\"></span>";
-                                //else echo "<span>2</span>";
-                                echo "<span>2</span>"; ?>
-                        </div>
-                        <div class="md-step-title">
-                        <?php //if ($job_order->status == "Done" || $job_order->status == "Published") echo "Accept Rendered";
-                            //else echo "For Render";
-                            echo "For Deliver"; ?>
-                        </div>
-                        <!--<div class="md-step-optional">Rendered Image</div>-->
-                        <div class="md-step-bar-left"></div>
-                        <div class="md-step-bar-right"></div>
-                    </div>
-                    <?php echo "<div class=\"md-step ";
-                                //if ($job_order->status == "Done" || $job_order->status == "Published") echo "active\">";
-                                //else echo "inactive\">";
-                                echo "inactive\">"; ?>
+                    <?php
+                    echo "<div class=\"md-stepper-horizontal xd-po-status";
+                    if ($purchase_order->status == 'paid')
+                    echo ' green ';
+                    echo "\">";
+                    
+                    echo "<div class=\"md-step ";
+                    if ($purchase_order->status != "On-queue" && $purchase_order->status != 'New') 
+                    echo "active";                    
+                    echo "\">";
+                    ?>
 
                         <div class="md-step-circle">
-                            <?php //if ($job_order->status == "Published") echo "<span class=\"glyphicon glyphicon-ok\"></span>";
-                                //else echo "<span>3</span>";
-                                echo "<span>3</span>"; ?>
+                        <?php if ($purchase_order->status == "processing" || $purchase_order->status == "delivered" || $purchase_order->status == "paid") echo "<span class=\"glyphicon glyphicon-ok\"></span>";
+                            else echo "<span>1</span>";?>
                         </div>
                         <div class="md-step-title">
-                        <?php //if ($job_order->status == "Published") echo "Published";
-                              //else echo "To Publish";
-                              echo "For Payment"; ?>
+                        <?php if ($purchase_order->status == "processing" || $purchase_order->status == "delivered" || $purchase_order->status == "paid") echo "Processing"; 
+                            else echo "For Processing" ?>
+                        </div>
+                        <!--<div class="md-step-optional">Rendered Image</div>-->
+                        <div class="md-step-bar-left"></div>
+                        <div class="md-step-bar-right"></div>
+                    </div>
+
+
+
+                    <?php echo "<div class=\"md-step ";
+                                if ($purchase_order->status == "processing" || $purchase_order->status == "delivered" || $purchase_order->status == "paid" || $purchase_order->status == "Published") echo "active\">";
+                                else echo "inactive\">"; ?>
+                        <div class="md-step-circle">
+                            <?php if ($purchase_order->status == "delivered" || $purchase_order->status == "paid") echo "<span class=\"glyphicon glyphicon-ok\"></span>";
+                                else echo "<span>2</span>"; ?>
+                        </div>
+                        <div class="md-step-title">
+                        <?php if ($purchase_order->status == "delivered" || $purchase_order->status == "paid") echo "Delivered";
+                            else echo "For Delivery"; ?>
+                        </div>
+                        <!--<div class="md-step-optional">Rendered Image</div>-->
+                        <div class="md-step-bar-left"></div>
+                        <div class="md-step-bar-right"></div>
+                    </div>
+                    <?php echo "<div class=\"md-step ";
+                                if ($purchase_order->status == "delivered" || $purchase_order->status == "paid") echo "active\">";
+                                else echo "inactive\">"; ?>
+
+                        <div class="md-step-circle">
+                            <?php if ($purchase_order->status == "paid") echo "<span class=\"glyphicon glyphicon-ok\"></span>";
+                                else echo "<span>3</span>"; ?>
+                        </div>
+                        <div class="md-step-title">
+                        <?php if ($purchase_order->status == "paid") echo "Paid";
+                              else echo "For Payment"; ?>
                         </div>
                         <div class="md-step-bar-left"></div>
                         <div class="md-step-bar-right"></div>
@@ -138,6 +187,8 @@ include 'template/header.php';
                     </div>
                 </div>
 </div>
+
+<?php } ?>
 <div class="row">
     <div class="col-md-12">
     <table id="purchaseorder" class="table table-hover table-bordered table-striped">
@@ -193,3 +244,5 @@ include 'template/header.php';
         </div>
     </div>
 </div>
+<script src="js/script.js"></script>
+<?php include_once 'template/footer.php' ?>

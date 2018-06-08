@@ -98,7 +98,7 @@ class PurchaseOrder{
         }
     }
 
-    function addStatus(){
+    function setStatus(){
         $this->created  = date('Y-m-d H:i:s');
         $query = "INSERT INTO " . $this->table3_name . "
             SET 
@@ -150,11 +150,13 @@ class PurchaseOrder{
         $query = "SELECT purchase_order.id,
                     users.nickname,
                     purchase_order.created,
-                    purchase_order_status.status
+                    s1.status
                 FROM `purchase_order`
                 JOIN users on users.userid = purchase_order.userid
-                JOIN purchase_order_status on purchase_order_status.purchase_orderid = purchase_order.id
-                WHERE purchase_order.isDeleted <> 'Y'";
+                JOIN purchase_order_status s1 on s1.purchase_orderid = purchase_order.id
+                WHERE purchase_order.isDeleted <> 'Y'
+                AND s1.created = (SELECT MAX(s2.created) FROM purchase_order_status s2
+                                    WHERE s2.purchase_orderid = s1.purchase_orderid)";
 
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
@@ -164,17 +166,21 @@ class PurchaseOrder{
     function readPOD($POID){
         $query = "SELECT purchase_order.id,
                     users.nickname,
+                    users.username,
                     purchase_order.created,
-                    purchase_order_status.status
+                    s1.status
                 FROM `purchase_order`
                 JOIN users on users.userid = purchase_order.userid
-                JOIN purchase_order_status on purchase_order_status.purchase_orderid = purchase_order.id
-                WHERE purchase_order.id = $POID";
+                JOIN purchase_order_status s1 on s1.purchase_orderid = purchase_order.id
+                WHERE purchase_order.id = $POID
+                AND   s1.created = (SELECT MAX(s2.created) FROM purchase_order_status s2
+                                    WHERE s2.purchase_orderid = s1.purchase_orderid)";
 
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
+        $this->username  = $row['username'];
         $this->nickname  = $row['nickname'];
         $this->created   = $row['created'];
         $this->purchase_orderid = $row['id'];

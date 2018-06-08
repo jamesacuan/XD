@@ -15,24 +15,14 @@ $('#clear').on('shown.bs.modal', function (event) {
 
 
 $("button[data-close='alert']").click(function(){
+    console.log('closing');
     $('.xd-alert').fadeToggle();
 })
 
 
 $(document).ready( function () {
-    
-
-    $('#purchaseorders').DataTable({
-        "aLengthMenu": [[10, 25, 50, 75, -1], [10, 25, 50, 75, "All"]],
-        "pageLength": 25
-    });
-
-
-
      $('[data-toggle="tooltip"]').tooltip();
      $('[data-toggle="popover"]').popover();  
-
-
 });
 
 

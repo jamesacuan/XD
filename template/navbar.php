@@ -90,7 +90,8 @@
         </div>
     </div>
 </div>
-
+<?php
+/*
 <style>
     .xd-nav {  }
 .xd-main-menu { margin: 0 auto; list-style: none; position: relative; }
@@ -100,7 +101,6 @@
 #magic-line { position: absolute; top: 0px; left: 0; width: 10px; height: 2px; background: #18FFFF; }
 </style>
 <script>
-    /*https://css-tricks.com/examples/MagicLine/js/example.js*/
     $(function() {
 
 var $el, leftPos, newWidth,
@@ -135,3 +135,4 @@ $(".xd-main-menu li").find("a").hover(function() {
 });
 });
 </script>
+*/ ?>

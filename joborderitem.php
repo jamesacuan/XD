@@ -29,8 +29,6 @@ if(!empty($job_order->isDeleted)){
     header("Location: 404.php");
 }
     if($_POST){
-        echo "hee";
-
         if($_POST['form']=='Submit'){
             $job_order->note = $_POST['note'];
             

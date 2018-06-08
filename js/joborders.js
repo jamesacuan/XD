@@ -102,6 +102,7 @@ $('#joborders tr').dblclick(function(){
     var id = $(this).attr('data-code');
     window.location = home_url + "joborderitem.php?&code=" + id;
 })
+
 $(document).ready( function () {
     var jobordertable = $('#joborders').DataTable({
         fixedHeader: {
@@ -185,6 +186,7 @@ $(document).ready( function () {
               console.log(3); 
         }
       })
+      
     $("input[name='filterpublish']").on('click', function(){
         if ( $(this).is(':checked') ) {
             $.fn.dataTable.ext.search.pop();

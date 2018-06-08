@@ -58,14 +58,6 @@ function truncate($string, $length, $dots = "...") {
 }
 //echo $_SESSION['JOH'];
 ?>
-<?php if(!empty($_SESSION["modal"])){ ?>
-    <div class="xd-alert alert alert-warning clearfix" role="alert">
-        <span><?php echo $_SESSION["modal"] ?></span>
-        <button type="button" class="close" data-close="alert" aria-label="Close">
-        <span>&times;</span>
-        </button>
-    </div>
-<?php unset($_SESSION['modal']); } ?>
 
 <div class="row xd-heading">
     <div class="clearfix">
@@ -207,28 +199,35 @@ function truncate($string, $length, $dots = "...") {
                             echo "<td>{$username}</td>";
                             //echo "<td><div class=\"xd-circle pull-left\" style=\"background-color: #" . $settings->getColor(substr($username, 0, 1)) . "\">" . substr($username, 0, 1) . "</div></td>";
                             
-                            echo "<td class=\"clearfix\"><span>" . truncate($note,80, "...") ."</span><span class=\"label label-warning\">{$tag}</span>";
-                            //if($date_today == $date_created) echo " <span class=\"label label-default\">New</span>";
-                            //echo  $date_today . " - " . $date_created;
-                            //$datediff = $date_today - $date_created;
+                            echo "<td class=\"clearfix\">";
                             if(($diff->d)>4 && $status!="Denied" && $status != "Published"){
                                 echo " <span class=\"label label-danger\">Overdue</span>";
                             }
-                            else if(($diff->d)<2 && strcmp($status,"For Approval")==0){
+                            else if(($diff->d)<2 && ($status=="For Approval" || $status=="On-queue")){
                                 echo " <span class=\"label label-primary\">New</span>";
                             }
+                            
+                            echo "&nbsp;<span>" . truncate($note,80, "...") ."</span><span class=\"label label-warning\">{$tag}</span>";
+                            //if($date_today == $date_created) echo " <span class=\"label label-default\">New</span>";
+                            //echo  $date_today . " - " . $date_created;
+                            //$datediff = $date_today - $date_created;
+
 
                             echo "</td>";
                             //echo "<span class=\"glyphicon glyphicon-picture pull-right\" data-toggle=\"modal\" data-target=\"#image\" data-file=\"{$image_url}\" title=\"{$image_url}\"></span></td>";
                             //echo "<td><span title=\"" . date_format(date_create($created),"F d, Y h:i:s A") . "\">{$date_created}</span></td>";
 
-                            echo "<td><span ";
+                            echo "<td><span class=";
                             /*    if     ($status=="For Approval") echo "label-primary";
                                 elseif ($status=="Approved") echo "label-success";
                                 elseif ($status=="Denied") echo "label-danger";
                                 else   echo "label-default"; */
-                            echo "\">{$status}</span></td>";
-                            echo "<td><span class=\"dtime\"  data-toggle=\"tooltip\" title=\"" . date_format(date_create($created),"F d, Y h:i:s A") . "\">" . date_format(date_create($modified),"m-d-Y h:i:s A") . "</span>";
+                            echo "\"label ";
+                            if($status=="For Approval" || $status=="On-queue") echo "label-default\"> On-queue";
+                            else if($status=="Published") echo "label-success\"> Published";
+                            else echo "label-primary\"> In progress";
+                            echo "</span></td>";
+                            echo "<td class=\"datetime\"><span class=\"dtime\" data-toggle=\"tooltip\" title=\"" . date_format(date_create($created),"F d, Y h:i:s A") . "\">" . date_format(date_create($modified),"m-d-Y h:i:s A") . "</span>";
                             
                             echo "</td>";
                             

@@ -55,7 +55,7 @@ if($_POST){
     }
 
     $purchase_order->status = "New";
-    $purchase_order->addStatus();
+    $purchase_order->setStatus();
 }
 ?>
 <div class="row xd-heading">

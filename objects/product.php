@@ -13,12 +13,17 @@ class Product{
     public $created, $modified, $isDeleted;
     public $jodid; //joborderdetails_id
     public $type;
+    public $producttype;
+    public $productname;
+    public $productcategory;
+    public $note;
+    public $userid;
 
     public function __construct($db){
         $this->conn = $db;
     }
     
-    function setProduct(){
+    /*function setProduct(){
         $this->created  = date('Y-m-d H:i:s');
         $this->modified = date('Y-m-d H:i:s');
         
@@ -106,6 +111,102 @@ class Product{
             $this->showError($stmt);
             return false;
         }
+    }*/
+
+    function setProductItem(){
+        $this->created  = date('Y-m-d H:i:s');
+        $this->modified = date('Y-m-d H:i:s');
+
+        $query = "INSERT INTO `product_item`
+            SET
+                `type`      = :producttype,
+                `name`      = :productname, 
+                `category`  = :productcategory,
+                `created`   = :created, 
+                `modified`  = :modified, 
+                `userid`    = :userid"; 
+
+        $stmt = $this->conn->prepare($query);
+
+        $this->producttype  = htmlspecialchars(strip_tags($this->producttype));
+        $this->productname  = htmlspecialchars(strip_tags($this->productname));
+        $this->productcategory = htmlspecialchars(strip_tags($this->productcategory));        
+        $this->created    = htmlspecialchars(strip_tags($this->created));
+        $this->modified   = htmlspecialchars(strip_tags($this->modified));
+        $this->userid     = htmlspecialchars(strip_tags($this->userid));
+
+        $stmt->bindParam(':producttype',     $this->producttype);        
+        $stmt->bindParam(':productname',     $this->productname);
+        $stmt->bindParam(':productcategory', $this->productcategory);
+        $stmt->bindParam(':created',       $this->created);
+        $stmt->bindParam(':modified',      $this->modified);
+        $stmt->bindParam(':userid',        $this->userid);
+
+        if($stmt->execute()){
+            return true;
+        }
+        else{
+            $this->showError($stmt);
+            return false;
+        }
+    }
+
+    function setProductItemVariant(){
+        $this->created  = date('Y-m-d H:i:s');
+        $this->modified = date('Y-m-d H:i:s');
+
+        $query = "INSERT INTO `product_item_variant`
+                SET
+                    `image_url` =   :image_url,
+                    `code`      =   :code,
+                    `note`      = :note,
+                    `created`   =   :created,
+                    `modified`  =   :modified,
+                    `product_colorid`   =   :product_colorid,
+                    `product_itemid`    =   :product_itemid,
+                    `jodid`     =   :jodid";
+
+        $stmt = $this->conn->prepare($query);
+
+        $this->image_url  = htmlspecialchars(strip_tags($this->image_url));
+        $this->code       = htmlspecialchars(strip_tags($this->code));
+        $this->note       = htmlspecialchars(strip_tags($this->note));        
+        $this->created    = htmlspecialchars(strip_tags($this->created));
+        $this->modified   = htmlspecialchars(strip_tags($this->modified));
+        $this->product_colorid     = htmlspecialchars(strip_tags($this->product_colorid));
+        $this->product_itemid     = htmlspecialchars(strip_tags($this->product_itemid));
+        $this->jodid      = htmlspecialchars(strip_tags($this->jodid));
+
+        $stmt->bindParam(':image_url',       $this->image_url);        
+        $stmt->bindParam(':code',            $this->code);
+        $stmt->bindParam(':note',          $this->note);
+        $stmt->bindParam(':created',         $this->created);
+        $stmt->bindParam(':modified',        $this->modified);
+        $stmt->bindParam(':product_colorid', $this->product_colorid);
+        $stmt->bindParam(':product_itemid',  $this->product_itemid);
+        $stmt->bindParam(':jodid',           $this->jodid);
+
+        if($stmt->execute()){
+            return true;
+        }
+        else{
+            $this->showError($stmt);
+            return false;
+        }
+    }
+
+    function getProductItemCount(){
+        $query = "SELECT max(id) AS total FROM product_item";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();   
+        $num = $stmt->rowCount();
+    
+        if($num>0){
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $row['total'];;
+        }
+        return false;
     }
 
     function readItems(){

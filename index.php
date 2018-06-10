@@ -119,7 +119,7 @@ echo "</div>";
                             if($i < 4){
                                 echo "<tr>";
                                 if($image_url=="") $image_url = "def.png";
-                                echo "<td class=\"col-xs-1\" style=\"padding-left: 15px\"><a href=\"{$home_url}joborderitem.php?&code={$code}\"><img class=\"img-rounded\" src=\"{$home_url}images/{$image_url}\" width=\"40\" height=\"40\" /></a></td>";
+                                echo "<td class=\"col-xs-1\" style=\"padding-left: 15px\"><a href=\"{$home_url}joborderitem.php?&code={$code}\"><img class=\"img-rounded\" src=\"{$home_url}images/thumbs/{$image_url}\" width=\"40\" height=\"40\" /></a></td>";
                                 echo "<td class=\"col-xs-9\"><a href=\"{$home_url}joborderitem.php?&code={$code}\">{$code}</a><br/>{$note}</td>";
                                 echo "<td class=\"col-xs-2\">{$status}</td>";
                                 echo "</tr>";

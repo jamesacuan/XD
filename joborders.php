@@ -101,7 +101,7 @@ function truncate($string, $length, $dots = "...") {
             
                 <?php 
                 if($role=='hans' || $role=='designer'){
-                    echo "<button id=\"softaccept\" name=\"submit\" value=\"accept\" class=\"btn btn-default\"><span class=\"glyphicon glyphicon-ok\"></span> Accept Request</button>";
+                    echo "<button name=\"submit\" value=\"accept\" class=\"btn btn-default\"><span class=\"glyphicon glyphicon-ok\"></span> Accept Request</button>";
                 }
                 else if($role=="user"){
                     echo "<button type=\"button\" onclick=\"location.href='addjoborder.php'\" class=\"btn btn-primary\"><span class=\"glyphicon glyphicon-plus\"></span> Create</button>";
@@ -143,7 +143,7 @@ function truncate($string, $length, $dots = "...") {
         <table id="joborders" class="table table-hover">
             <thead style="background-color: #fff">
                 <tr>
-                    <th class="col-xs-1">#</th>
+                    <th class="col-xs-1"><input type="checkbox" /></th>
                     <th>JO</th>
                     <th class="col-xs-1">Image</th>
                     <th class="col-xs-1">Code</th>
@@ -217,7 +217,7 @@ function truncate($string, $length, $dots = "...") {
                             //echo "<span class=\"glyphicon glyphicon-picture pull-right\" data-toggle=\"modal\" data-target=\"#image\" data-file=\"{$image_url}\" title=\"{$image_url}\"></span></td>";
                             //echo "<td><span title=\"" . date_format(date_create($created),"F d, Y h:i:s A") . "\">{$date_created}</span></td>";
 
-                            echo "<td><span class=";
+                            echo "<td><span data-toggle=\"tooltip\" title=\"{$status}\" class=";
                             /*    if     ($status=="For Approval") echo "label-primary";
                                 elseif ($status=="Approved") echo "label-success";
                                 elseif ($status=="Denied") echo "label-danger";

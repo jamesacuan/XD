@@ -55,7 +55,8 @@
    outline: 1px solid #ccc;
    padding: 1px;
 }
-#joborders.table{
+#joborders.table,
+#purchaseorders.table{
 	font-size: 13px;
 }
 .xd-product-thumbnail img{
@@ -527,3 +528,21 @@ option.avatar {
 .avatar .ui-icon {
 background-position: left top;
 }
+
+
+#PubForm {
+	margin: 50px auto;
+	padding: 40px;
+	width: 70%;
+	min-width: 300px;
+  }
+  
+  /* Mark input boxes that gets an error on validation: */
+  #publishModal input.invalid {
+	background-color: #ffdddd;
+  }
+  
+  /* Hide all steps by default: */
+  #publishModal .tab {
+	display: none;
+  }

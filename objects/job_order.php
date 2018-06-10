@@ -402,7 +402,7 @@ class JobOrder{
     }
 
     function readJODFeedback($val){
-        $query = "SELECT job_order_feedback.`image_url`, job_order_feedback.`note`, job_order_feedback.`tag`, job_order_feedback.`created`, job_order_feedback.`modified`, users.username, users.role, `job_order_detailsid`, job_order_details.code
+        $query = "SELECT job_order_feedback.`image_url`, users.nickname, job_order_feedback.`note`, job_order_feedback.`tag`, job_order_feedback.`created`, job_order_feedback.`modified`, users.username, users.role, `job_order_detailsid`, job_order_details.code
         FROM `job_order_feedback`
         JOIN users on job_order_feedback.userid = users.userid
         JOIN job_order_details on job_order_feedback.job_order_detailsid = job_order_details.id
@@ -679,6 +679,19 @@ class JobOrder{
         }
         else
             return true;
+    }
+
+    function getJOCode($id){
+        $query = "SELECT `code`
+            FROM `job_order_details`
+            WHERE id=$id";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $row['code'];
     }
 }
 ?>

@@ -1,7 +1,5 @@
 <?php
-/*$connect = mysqli_connect("localhost", "root", "", "xd");
-$output = '';
-
+/*
 $query = "SELECT `userid`, `username`, `nickname`, `password`, `role`, isAdmin, created, modified 
                 FROM users
                 WHERE username = ?

@@ -32,7 +32,38 @@ $('#joborders tr').click(function(event) {
     }
   });
 
+  /*checkbox in header */
+  $("#joborders thead th input[type='checkbox']").on('click',  function(){
+      $length = $("input[name='JOH[]'").length;
+      $i = 0;
 
+      if($(this).is(':checked')){
+        for($i=0; $i < $length; $i++){
+            $("input[data-increment='" + $i + "']").prop('checked', true);
+            $('body').find("input[data-increment='" + $i + "']").prop("disabled", false);
+            $('body').find("input[data-increment='" + $i + "']").closest('tr').addClass('enable');
+            $('body').find("input[data-increment='" + $i + "']").closest('tr').closest('tr').addClass('active');
+            $('#joborders').find("tr[data-user='mine'] input[type='checkbox']").not("[disabled]").prop('checked', true);
+            $('#joborders').find("tr[data-user='mine'] input[type='checkbox']").closest('tr').addClass('active');
+        }
+      }
+      else{
+        for($i=$length; $i > 0; $i--){
+            $("input[data-increment='" + $i + "']").prop('checked', false);
+            $('body').find("input[data-increment='" + $i + "']").prop("disabled", true);
+            $('body').find("input[data-increment='" + $i + "']").closest('tr').removeClass('enable');
+            $('body').find("input[data-increment='" + $i + "']").closest('tr').closest('tr').removeClass('active');
+            $('#joborders').find("tr[data-user='mine'] input[type='checkbox']").prop('checked', false);
+            $('#joborders').find("tr[data-user='mine'] input[type='checkbox']").closest('tr').removeClass('active');
+        }
+        if($i==0){
+            $("input[data-increment='" + $i + "']").prop('checked', false);
+            $('body').find("input[data-increment='" + $i + "']").closest('tr').closest('tr').removeClass('active');
+        }
+      }
+  });
+
+  /* checkboxes inside body */
   $("input[name='JOH[]']").on('click', function(){
     $length = $("input[name='JOH[]']").length;
     $i = $(this).attr('data-increment');
@@ -47,10 +78,12 @@ $('#joborders tr').click(function(event) {
         for($j = $i; $j < $length; $j++){
             $("input[data-increment='" + $j + "']").prop('checked', false);
             $('body').find("input[data-increment='" + $j + "']").prop("disabled", true);
+            $('body').find("input[data-increment='" + $j + "']").closest('tr').removeClass('enable');
             console.log($j);
         }
         $(this).closest('tr').removeClass('active');
     }
+    $("#joborders thead th input[type='checkbox']").prop('checked', false);
     var count = $("[name='JOH[]']:checked").length;
   });
 
@@ -98,7 +131,7 @@ $("#softdelete").click(function(){
     $('#home form')[0].submit();
 });*/
 
-$('#joborders tr').dblclick(function(){
+$('#joborders tbody tr').dblclick(function(){
     var id = $(this).attr('data-code');
     window.location = home_url + "joborderitem.php?&code=" + id;
 })
@@ -186,7 +219,7 @@ $(document).ready( function () {
               console.log(3); 
         }
       })
-      
+
     $("input[name='filterpublish']").on('click', function(){
         if ( $(this).is(':checked') ) {
             $.fn.dataTable.ext.search.pop();

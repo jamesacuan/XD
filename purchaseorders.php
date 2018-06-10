@@ -66,11 +66,11 @@ include 'template/header.php'
                         echo "</td>";
 
                         /* STATUS */
-                        echo "<td>";
-                        if($status == 'New' || $status == 'On-queue') echo  'On-queue';
-                        else if($status=='paid') echo 'Done';
-                        else echo "On-going";
-                        echo "</td>";
+                        echo "<td><span class=\"label ";
+                        if($status == 'New' || $status == 'On-queue') echo  'label-default">On-queue';
+                        else if($status == 'paid') echo 'label-success">Done';
+                        else echo 'label-primary">' . $status;
+                        echo "</span></td>";
                         
                         echo "<td><a href=\"purchaseorder.php?&amp;id={$id}\" class=\"btn btn-xs btn-default\">View</a></td>";
                         echo "</tr>";

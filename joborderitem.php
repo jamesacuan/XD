@@ -31,7 +31,7 @@ if(!empty($job_order->isDeleted))
     header("Location: 404.php");
 
 if($_POST){
-    /* if pUblish */
+    /* if pUblish 
     if($_POST['form']=="publishnew" && $_POST){
         $product->producttype     = $job_order->type;
         $product->productname     = $_POST['productname'];
@@ -62,8 +62,34 @@ if($_POST){
 
     }
 
+
+    if($_POST['form']=="publishexisting" && $_POST){
+        echo $product->image_url          = $_POST['image'];
+        echo $product->code               = $itemcode;
+        echo $product->product_colorid    = $_POST['color'];
+        echo $product->product_itemid     = $_POST['productname'];
+        echo $product->jodid           = $jodid;
+        echo $product->userid          = $_SESSION['userid'];
+        $product->note                 = $_POST['note'];
+
+        $product->setProductItemVariant();
+
+        echo $job_order->tag    = "";
+        echo $job_order->status = "Published";
+        echo $job_order->userid = $_SESSION['userid'];
+        echo $job_order->code   = $itemcode;
+        $job_order->setTag();
+        $job_order->setStatus();
+
+        $_SESSION['modal'] = $_POST['productname'] . "has been successfully added.";
+
+        header("Location: {$home_url}products.php");
+
+    }*/
+
+
     /*IF feedback */
-    else if($_POST['form']=='Submit'){
+    if($_POST['form']=='Submit'){
         echo 'no';
         $job_order->note = $_POST['note'];
         
@@ -226,6 +252,7 @@ if($num>0){
 }
 
 include_once "functions/login_check.php";
+include_once "functions/post_publish.php";
 include 'template/header.php';
 
 ?>
@@ -304,6 +331,8 @@ include 'template/header.php';
                     <div class="col-xs-3">Note:</div>
                     <div class="col-xs-9"><?php echo $job_order->note ?></div>
                 </div>
+
+                
                 <div class="row">
                     <div class="col-xs-12">
                     <?php echo "<div class=\"md-stepper-horizontal";
@@ -312,7 +341,7 @@ include 'template/header.php';
                         echo "\">"
                     ?>
                     <?php echo "<div class=\"md-step ";
-                    if ($job_order->status=="Accepted" || $job_order->status=="approved" || $job_order->status="Published") echo "active ";
+                    if ($job_order->status == "Accepted" || $job_order->status == "approved" || $job_order->status =="Published") echo "active ";
                     echo "\">";
                     ?>
                         <div class="md-step-circle">
@@ -751,7 +780,7 @@ if($job_order->status=="approved" && $_SESSION['role']=='user'){
                         <a class="btn btn-default" onClick="showTab(0)">Back</a>
                     </div>
                     <div class="pull-right">
-                        <button class="btn btn-primary">Submit</button>
+                        <button class="btn btn-primary" name="form" value="publishexisting">Submit</button>
                     </div>
                             </div>
                 </form>

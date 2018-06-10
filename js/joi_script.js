@@ -152,7 +152,6 @@ function hideTab(n){
     document.getElementById("regForm").submit();
     return false;
   }*/
-
 }
 /*function nextPrev(n) {
   // This function will figure out which tab to display

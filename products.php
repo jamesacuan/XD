@@ -34,7 +34,7 @@ include 'template/header.php'
     <div class="col-md-9">
     <div class="row">
     <?php       
-            $stmt = $product->readItems();
+            $stmt = $product->readProductItems();
             $num  = $stmt->rowCount();
             $temp=0;
 
@@ -45,13 +45,18 @@ include 'template/header.php'
                     echo "<div class=\"thumbnail  xd-product-thumbnail\">";
                     if($image_url=="none") echo  "<img src=\"{$home_url}images/def.png\">";
                     else   echo  "<img src=\"{$home_url}images/{$image_url}\">";
-                    echo  "<div class=\"caption\">";
-                    echo    "<h3>{$name}</h3>";
-                    echo    "<p>{$type}<br/>{$code}";
-                    if($visibility==$_SESSION['userid']) echo    " - <span>Visible only to you</span>";
-                    echo "</p>";
-                    //echo   "<p><a href=\"#\" class=\"btn btn-primary\" role=\"button\">Button</a>";
-                    echo  "</div>";
+                        echo  "<div class=\"caption\">";
+                        if($type=="HH"){
+                            echo "<h4>{$name} ({$color})</h4>";
+                        }
+                        else if($type=='TH')
+                            echo    "<h4>{$name}</h4>";
+                        echo    "<p>";
+                            if($type=="HH") echo "Helmet Holder";
+                            else if($type=='TH') echo "Ticket Holder";
+                        echo "</p>";
+                        echo   "<p><a href=\"#\" class=\"btn btn-default btn-sm\" role=\"button\">View</a>";
+                        echo  "</div>";
                     echo "</div>";
                     echo "</div>";
                 }

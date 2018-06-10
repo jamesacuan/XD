@@ -164,7 +164,8 @@ class Product{
                     `modified`  =   :modified,
                     `product_colorid`   =   :product_colorid,
                     `product_itemid`    =   :product_itemid,
-                    `jodid`     =   :jodid";
+                    `jodid`     =   :jodid,
+                    `userid`    =   :userid";
 
         $stmt = $this->conn->prepare($query);
 
@@ -176,15 +177,17 @@ class Product{
         $this->product_colorid     = htmlspecialchars(strip_tags($this->product_colorid));
         $this->product_itemid     = htmlspecialchars(strip_tags($this->product_itemid));
         $this->jodid      = htmlspecialchars(strip_tags($this->jodid));
+        $this->userid     = htmlspecialchars(strip_tags($this->userid));
 
         $stmt->bindParam(':image_url',       $this->image_url);        
         $stmt->bindParam(':code',            $this->code);
-        $stmt->bindParam(':note',          $this->note);
+        $stmt->bindParam(':note',            $this->note);
         $stmt->bindParam(':created',         $this->created);
         $stmt->bindParam(':modified',        $this->modified);
         $stmt->bindParam(':product_colorid', $this->product_colorid);
         $stmt->bindParam(':product_itemid',  $this->product_itemid);
         $stmt->bindParam(':jodid',           $this->jodid);
+        $stmt->bindParam(':userid',          $this->userid);
 
         if($stmt->execute()){
             return true;
@@ -224,6 +227,32 @@ class Product{
                 JOIN job_order ON job_order_details.job_orderid = job_order.id
                 JOIN users ON users.userid = job_order.userid
                 WHERE product_items.isDeleted <> 'Y'";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $this->name  = $row['name'];
+        $stmt->execute();
+        return $stmt;
+    }
+
+    function readProductItems(){
+        $query = "SELECT 
+            product_item.id,
+            product_item.name as 'name',
+            /*concat(product_item.name, ' (',product_color.name,')') as 'name',
+            */product_item.type,
+            product_item.category,
+            product_item_variant.id,
+            product_item_variant.image_url,
+            product_item_variant.code,
+            product_color.name as 'color'
+            FROM product_item
+            JOIN product_item_variant ON product_item.id = product_item_variant.product_itemid
+            JOIN product_color ON product_item_variant.product_colorid = product_color.id
+            WHERE product_item.isDeleted <> 'Y'
+            AND product_item_variant.isDeleted <> 'Y'";
 
         $stmt = $this->conn->prepare($query);
         $stmt->execute();

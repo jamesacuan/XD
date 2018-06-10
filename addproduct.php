@@ -27,104 +27,140 @@ include 'template/header.php';
 </div>
 
 <div class="row xd-content">
-<form id="regForm" action="">
+<div class="tab">
+      Select:
+      <button class="btn btn-default" onClick='showTab(1)'>New</button>
 
-<h1>Register:</h1>
-
-<!-- One "tab" for each step in the form: -->
-<div class="tab">Name:
-  <p><input placeholder="First name..." oninput="this.className = ''"></p>
-  <p><input placeholder="Last name..." oninput="this.className = ''"></p>
-</div>
-
-<div class="tab">Contact Info:
-  <p><input placeholder="E-mail..." oninput="this.className = ''"></p>
-  <p><input placeholder="Phone..." oninput="this.className = ''"></p>
-</div>
-
-<div class="tab">Birthday:
-  <p><input placeholder="dd" oninput="this.className = ''"></p>
-  <p><input placeholder="mm" oninput="this.className = ''"></p>
-  <p><input placeholder="yyyy" oninput="this.className = ''"></p>
-</div>
-
-<div class="tab">Login Info:
-  <p><input placeholder="Username..." oninput="this.className = ''"></p>
-  <p><input placeholder="Password..." oninput="this.className = ''"></p>
-</div>
-
-<div style="overflow:auto;">
-  <div style="float:right;">
-    <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
-    <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+      <?php if($job_order->type != 'TH') { ?>
+          <button class="btn btn-default" onClick='showTab(2)'>Existing</button>
+      <?php } ?>
+  
   </div>
-</div>
 
-<!-- Circles which indicates the steps of the form: -->
-<div style="text-align:center;margin-top:40px;">
-  <span class="step"></span>
-  <span class="step"></span>
-  <span class="step"></span>
-  <span class="step"></span>
-</div>
+  <div class="tab">
+  <form id="publishNewForm" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ."?&code=" . $itemcode;?>" method="post">
+      <div class="form-horizontal">
+          <div class="form-group" id="product_name">
+              <label class="control-label col-sm-3">Product Name</label>
+              <div class="col-sm-9">
+                  <input type="text" name="productname" class="form-control" placeholder="ex. <?php echo $job_order->note ?>" required />
+              </div>
+          </div>
+          <div class="form-group" id="product_type">
+              <label class="control-label col-sm-3">Type</label>
+              <div class="radio radio col-sm-9">
+                  <label for="HH">
+                      <input type="radio" onchange="fetch_colors('HH')" value="HH" name="type" id="HH" />Helmet Holder
+                  </label>
+                  <label for="TH">
+                      <input type="radio" onchange="fetch_colors('TH')" value="TH" name="type" id="TH" />Ticket Holder
+                  </label>
+              </div>
+          </div>
+              <div class="form-group" id="product_tag">
+                  <label class="control-label col-sm-3">Category</label>
+                  <div class="radio radio col-sm-9">
+                      <label for="plain">
+                          <input type="radio" value="plain" name="tag" id="plain">Plain
+                      </label>
+                      <label for="personal">
+                          <input type="radio" value="personal" name="tag" id="personal" required>Personal
+                      </label>
+                      <label for="brands">
+                          <input type="radio" value="brands" name="tag" id="brands">Brands
+                      </label>
+                      <label for="special">
+                          <input type="radio" value="special" name="tag" id="special">Special
+                      </label>
+                  </div>
+              </div>
+              <div class="form-group" id="item-img">
+                  <label class="control-label col-sm-3">Product Image</label>
+                  <div class="col-sm-9">                                
+                    <div id="colors">
+                    </div>
+                  </div>
+              </div>
+      </div>
+      <div class="clearfix">
+          <div class="pull-left">
+              <a class="btn btn-default" onClick="showTab(0)">Back</a>
+          </div>
+          <div class="pull-right">
+              <button class="btn btn-primary" name="form" value="publishnew">Submit</button>
+          </div>
+      </div>
+  </form>
+  </div>
 
-</form> 
+  <div class="tab">
+    <h4>Form for Existing should be in here</h4>
+    <div class="clearfix">
+          <div class="pull-left">
+              <a class="btn btn-default" onClick="showTab(0)">Back</a>
+          </div>
 
-</div>
+      </div>
+  </div>
 
+<!--
+<div class="tab">
+  <form id="publishExistingForm" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ."?&code=" . $itemcode;?>" method="post">
+      <div class="form-horizontal">
+          <div class="form-group" id="product_name">
+              <label class="control-label col-sm-3">Product Name</label>
+              <div class="col-sm-9">
+                  <select class="form-control input-sm" name="productname" id="existingproductname" required></select>
+              </div>
+          </div>
+          <div class="form-group" id="product_type">
+              <label class="control-label col-sm-3">Type</label>
+              <div class="radio radio col-sm-9">
+                  <label for="HH">
+                      <input type="radio" value="HH" name="type" id="TH" <?php if($job_order->type == "HH") echo "checked" ?> disabled>Helmet Holder
+                  </label>
+                  <label for="TH">
+                      <input type="radio" value="TH" name="type" id="HH" <?php if($job_order->type == "TH") echo "checked" ?> disabled>Ticket Holder
+                  </label>
+              </div>
+          </div>
+              <div class="form-group" id="item_color">
+                  <label class="control-label col-sm-3">Color</label>
+                  <div class="col-sm-9">
+                      <select class="form-control input-sm" name="color" id="colors" required></select>
+                  </div>
+              </div>
+              <div class="form-group" id="item-img">
+                  <label class="control-label col-sm-3">Product Image</label>
+                  <div class="col-sm-9">                                
+                  </div>
+              </div>
+              <div class="form-group" id="item_note">
+                  <label class="control-label col-sm-3">Note</label>
+                  <div class="col-sm-9">
+                      <textarea name="note" class="form-control" maxlength="100"> </textarea>
+                  </div>
+              </div>
+      </div>
+      <div class="clearfix">
+      <div class="pull-left">
+          <a class="btn btn-default" onClick="showTab(0)">Back</a>
+      </div>
+      <div class="pull-right">
+          <button class="btn btn-primary" name="form" value="publishexisting">Submit</button>
+      </div>
+              </div>
+  </form>
+  </div>
+                -->
 <style>
-     /* Style the form */
-#regForm {
-  background-color: #ffffff;
-  margin: 100px auto;
-  padding: 40px;
-  width: 70%;
-  min-width: 300px;
-}
-
-/* Style the input fields */
-input {
-  padding: 10px;
-  width: 100%;
-  font-size: 17px;
-  font-family: Raleway;
-  border: 1px solid #aaaaaa;
-}
-
-/* Mark input boxes that gets an error on validation: */
-input.invalid {
-  background-color: #ffdddd;
-}
-
-/* Hide all steps by default: */
 .tab {
   display: none;
 }
-
-/* Make circles that indicate the steps of the form: */
-.step {
-  height: 15px;
-  width: 15px;
-  margin: 0 2px;
-  background-color: #bbbbbb;
-  border: none;
-  border-radius: 50%;
-  display: inline-block;
-  opacity: 0.5;
-}
-
-/* Mark the active step: */
-.step.active {
-  opacity: 1;
-}
-
-/* Mark the steps that are finished and valid: */
-.step.finish {
-  background-color: #4CAF50;
-}
 </style>
 <script>
-    var currentTab = 0; // Current tab is set to be the first tab (0)
+/*
+var currentTab = 0; // Current tab is set to be the first tab (0)
 showTab(currentTab); // Display the current tab
 
 function showTab(n) {
@@ -195,6 +231,8 @@ function fixStepIndicator(n) {
   }
   //... and adds the "active" class to the current step:
   x[n].className += " active";
-}
+}*/
 </script>
+<script src='js/addproduct.js'></script>
+
 <?php include 'template/footer.php'; ?>

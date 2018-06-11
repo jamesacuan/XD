@@ -82,6 +82,18 @@ echo "</div>";
         </div>
     </div>
     <div class="col-md-9">
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="thumbnail">test</div>
+        </div>
+        <div class="col-md-4">
+            <div class="thumbnail">test</div>
+        </div>
+        <div class="col-md-4">
+            <div class="thumbnail">test</div>
+        </div>
+    </div>
     <h3>Activity</h3>
 
         <?php

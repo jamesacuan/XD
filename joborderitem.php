@@ -341,7 +341,7 @@ include 'template/header.php';
                         echo "\">"
                     ?>
                     <?php echo "<div class=\"md-step ";
-                    if ($job_order->status == "Accepted" || $job_order->status == "approved" || $job_order->status =="Published") echo "active ";
+                    if ($job_order->status == "Accepted" || $job_order->status == "Approved" || $job_order->status == "approved" || $job_order->status =="Published") echo "active ";
                     echo "\">";
                     ?>
                         <div class="md-step-circle">
@@ -349,7 +349,7 @@ include 'template/header.php';
                             else echo "<span>1</span>"; ?>
                         </div>
                         <div class="md-step-title">
-                        <?php if (($job_order->status=="Accepted" && $yes==0) || $job_order->status == "Approved" || $job_order->status == "Done") echo "Rendering Image";
+                        <?php if (($job_order->status=="Accepted" && $yes==0) || $job_order->status == "Done") echo "Rendering Image";
                             else if ($yes==1) echo "Rendered Image";
                             else echo "For Render"; ?>
                         </div>
@@ -868,7 +868,7 @@ if($job_order->status=="approved" && $_SESSION['role']=='user'){
 <?php } ?>
 
 <?php
-if($yes==1 && $job_order->status=='Accepted' && ($job_order->username==$_SESSION['username'] || $role=="superadmin")){
+if($yes==1 && ($job_order->status=='Accepted' || $job_order->status=='Approved') && ($job_order->username==$_SESSION['username'] || $role=="superadmin")){
 ?>
 <div class="modal fade" id="finishModal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
@@ -971,12 +971,11 @@ if($yes==1 && $job_order->status=='Accepted' && ($job_order->username==$_SESSION
         <h4 class="modal-title">Share</h4>
       </div>
       <div class="modal-body">
-                <div class="btn-group" role="group">
+            <div class="btn-group" role="group">
                 <button class="btn btn-default btn-lg">FB</button>
                 <button class="btn btn-default btn-lg">Messenger</button>
                 <button class="btn btn-default btn-lg">Email</button>
-            
-                </div>
+            </div>
       </div>
       <div class="modal-footer">
           <div data-dismiss="modal" class="btn btn-default">Close</div>
@@ -984,10 +983,11 @@ if($yes==1 && $job_order->status=='Accepted' && ($job_order->username==$_SESSION
     </div>
   </div>
 </div>
+
 <script src="js/joi_script.js"></script>
 <script src="js/script.js"></script>
 
-    </div>
-    <?php
-    include 'template/footer.php';
-    ?>
+</div>
+<?php
+include 'template/footer.php';
+?>

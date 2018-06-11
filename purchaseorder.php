@@ -195,8 +195,8 @@ if($purchase_order->username == $_SESSION['username'] || $_SESSION['role']=='han
         <thead>
             <tr>
                 <th class="col-xs-1">#</th>
-                <th class="col-xs-5">Name</th>
-                <th class="col-xs-2">Custom</th>
+                <th class="col-xs-4">Name</th>
+                <th class="col-xs-3">Custom</th>
                 <th class="col-xs-2">Color</th>
                 <th class="col-xs-2">Quantity</th>
             </tr>
@@ -214,18 +214,17 @@ if($purchase_order->username == $_SESSION['username'] || $_SESSION['role']=='han
                 extract($row);
                 echo "<tr>";
                 //echo "<td>{$i}</td>";
-
-                if(strpos($image_url, "define") == true )
+                if((strpos($image_url, "define") == true ) || $image_url=='0' || $image_url=='undefined')
                     echo "<td><img src=\"{$home_url}images/def.png\" width=\"75\" height=\"75\" /></td>";
                 else
                     echo "<td><img src=\"{$home_url}images/{$image_url}\" width=\"75\" height=\"75\" /></td>";
                 echo "<td><b>";
                 if($product == "HH") echo "Helmet Holder";
                 else if($product == "TH") echo "Ticket Holder";
-                echo " - {$type}</b>";
-                echo "<p/>Note: {$note}</p></td>";
+                echo "</b>";
+                if(!empty($note))echo "<p/>Note: {$note}</p></td>";
                 echo "<td>";
-                if(strpos($productname, "define") == true) echo "";
+                if(strpos($productname, "define") == true || $productname=='0') echo "Plain";
                 else echo "{$productname} </td>";
                 echo "<td>{$color}</td>";
                 echo "<td>{$quantity}</td>";

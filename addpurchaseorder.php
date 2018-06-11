@@ -14,11 +14,6 @@ $db = $database->getConnection();
 $purchase_order = new PurchaseOrder($db);
 $page_title="Create New Purchase Order";
 
-include 'template/header.php';
-?>
-
-<?php
-
 if($_POST){
     $userid   = $_SESSION['userid'];
     $product  = $_POST['product'];
@@ -44,9 +39,9 @@ if($_POST){
         print "<br><br><br>";
         $purchase_order->product  = $product[$key];
         $purchase_order->type     = $type[$key];
-        ////if($custom[$key]=="undefined")
-       ////// print    $purchase_order->productitemid = 0;
-        //////else
+        if($custom[$key]=="undefined")
+       print    $purchase_order->productitemid = 0;
+       else
         print    $purchase_order->productitemid = $custom[$key];
         $purchase_order->quantity = $quantity[$key];
         $purchase_order->color    = $color[$key];
@@ -56,8 +51,14 @@ if($_POST){
 
     $purchase_order->status = "New";
     $purchase_order->setStatus();
+    $_SESSION['modal'] = "Successfully added Purchase order #" . $poid . ".";
+    header("Location: {$home_url}purchaseorders.php");
 }
+
+include 'template/header.php';
+
 ?>
+
 <div class="row xd-heading">
     <div class="clearfix">
         <div class="page-header pull-left">
@@ -71,6 +72,7 @@ if($_POST){
     <button type="button" name="add" id="add_item" class="btn btn-success" data-toggle="modal" data-target="#addItemModal">Add Item</button>
    </div>
 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" id="purchase_order">
+<!--<form action="functions/post_purchaseorder.php" method="post" id="purchase_order">-->
     <table class="table table-hover table-bordered table-striped">
         <thead>
             <tr>
@@ -86,7 +88,7 @@ if($_POST){
     </table> 
     <div>
      <input type="hidden" id="uid" value="<?php echo $_SESSION['userid'] ?>" /> 
-     <input type="submit" name="insert" id="insert" class="btn btn-primary" value="Save" />
+     <input type="submit" name="insert" id="insert" class="btn btn-primary" value="Submit" />
     </div>
 </form>
 </div>
@@ -150,7 +152,7 @@ if($_POST){
 
         <div class="modal-footer">
             <input type="hidden" name="row_id" id="hidden_row_id" />
-            <button type="button" name="save" id="save" class="btn btn-info">Save</button>
+            <button type="button" name="save" id="save" class="btn btn-info">Add Item</button>
         </div>
         </div>
     </div>

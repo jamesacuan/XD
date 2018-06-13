@@ -92,6 +92,8 @@ include 'template/header.php';
                         echo "label-default\">On-queue";
                         else if ($purchase_order->status == 'paid')
                         echo "label-success\">Done";
+                        else if ($purchase_order->status == 'Delivered')
+                        echo "label-primary\">Delivered";
                         else echo "label-primary\">On-going";
                         echo "</span>";
                         ?>

@@ -106,40 +106,24 @@ include 'template/header.php';
                 <label class="control-label col-sm-3">Product</label>
                 <div class="radio col-sm-9">
                         <label for="HH" class="radio-inline">
-                            <input type="radio" value="HH" name="type" id="HH">Helmet Holder
+                            <input type="radio" value="HH" name="product" id="HH">Helmet Holder
                         </label>
                         <label for="TH" class="radio-inline">
-                            <input type="radio" value="TH" name="type" id="TH">Ticket Holder
+                            <input type="radio" value="TH" name="product" id="TH">Ticket Holder
                         </label>
                     </div>
                 </div>
-                
-                
-            <div class="form-group" id="item_category">
+            <div class="form-group" id="item_type">
                 <label class="control-label col-sm-3">Type</label>
                 <div class="radio radio col-sm-9">
                         <label for="pln">
-                            <input type="radio" value="plain" name="category" id="pln">Plain
+                            <input type="radio" value="plain" name="type" id="pln">Plain
                         </label>
                         <label for="csm">
-                            <input type="radio" value="custom" name="category" id="csm">Custom
+                            <input type="radio" value="custom" name="type" id="csm">Custom
                         </label>
                     </div>
             </div>
-            <div class="form-group" id="item_name">
-                <label class="control-label col-sm-3">Name</label>
-                <div class="col-sm-9">
-                    <select class="form-control input-sm" name="name" id="name"></select>
-                    <i>Loading</i>
-                </div>
-            </div>
-            <div class="form-group" id="item_color">
-                <label class="control-label col-sm-3">Products</label>
-                <div class="col-sm-9">
-                    
-                </div>
-            </div>
-            <!--
             <div class="form-group" id="item_color">
                 <label class="control-label col-sm-3">Color</label>
                 <div class="col-sm-9">
@@ -152,7 +136,6 @@ include 'template/header.php';
                     <select class="form-control input-sm" name="custom" id="custom"></select>
                 </div>
             </div>
-            -->
             <div class="form-group" id="item_quantity">
                 <label class="control-label col-sm-3">Quantity</label>
                 <div class="col-sm-9">

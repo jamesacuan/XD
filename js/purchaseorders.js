@@ -22,6 +22,40 @@ $(document).ready(function(){
         function(settings, data, dataIndex) {
             return $(potable.row(dataIndex).node()).attr('data-status') != 'Done';
             }
-        );
-        potable.draw();
+    );
+    potable.draw();
+
+
+    $("input[name='filterpublish']").on('click', function(){
+        if ( $(this).is(':checked') ) {
+            $.fn.dataTable.ext.search.pop();
+            potable.draw();
+        } 
+        else {
+            $.fn.dataTable.ext.search.push(
+                function(settings, data, dataIndex) {
+                    return $(potable.row(dataIndex).node()).attr('data-status') != 'Done';
+                }
+            );
+            potable.draw();
+        }
+    });
+
+    $("input[name='filterme']").on('click', function(){
+        if ( $(this).is(':checked') ) {
+             $.fn.dataTable.ext.search.push(
+                 function(settings, data, dataIndex) {
+                     return $(potable.row(dataIndex).node()).attr('data-user') == 'mine';
+                   }
+               );
+               potable.draw();
+         } 
+         else {
+             $.fn.dataTable.ext.search.pop();
+             potable.draw();
+             //alert('no');
+         }
+     });
+
+
 });

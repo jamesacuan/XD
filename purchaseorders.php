@@ -9,6 +9,7 @@ $db = $database->getConnection();
 $purchase_order = new PurchaseOrder($db);
 
 $page_title="Purchase Orders";
+$role = $_SESSION['role'];
 
 $require_login=true;
 include_once "functions/login_check.php";
@@ -29,13 +30,58 @@ include 'template/header.php'
 </div>
 
 <div class="row xd-content">
+    
     <div class="col-md-12">
+    <div class="row form-inline clearfix" style="border-bottom:1px solid #ddd; padding: 10px 0;z-index:999;background-color:#fff;" data-spy="affi" data-offset-top="250">
+          <div class="pull-left">  
+            
+                <?php 
+                if($role=='hans' || $role=='designer'){
+                    echo "<button name=\"submit\" value=\"accept\" class=\"btn btn-default\"><span class=\"glyphicon glyphicon-ok\"></span> Accept Request</button>";
+                }
+                else if($role=="user"){
+                    echo "<button type=\"button\" onclick=\"location.href='addjoborder.php'\" class=\"btn btn-primary\"><span class=\"glyphicon glyphicon-plus\"></span> Create</button>";
+                }
+                
+                ?>
+            </div>
+            <!--
+            <div class="dropdown pull-left">
+                <button class="btn btn-default" id="dLabel" type="button" data-toggle="dropdown">
+                    Filter <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a><label><input type="checkbox" name="filterme" id="filterme"/> By me</a></label></li>
+                    <li><a><label><input type="checkbox" name="filterpublish" id="filterpublish"/> Show Published</a></label></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="#" onclick="window.print();">Print...</a></li>
+                    <li><a href="objects/functions/export.php">Export to Excel...</a></li>
+                </ul>
+            </div>
+            -->
+            <div class="pull-right">
+                <label><input type="checkbox" name="filterme" id="filterme"/> By me</a></label>
+                <label><input type="checkbox" name="filterpublish" id="filterpublish"/> Show Published</a></label>
+                <input type="search" id="search" placeholder="search" class="form-control input-sm" />
+
+                <!--<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="glyphicon glyphicon-option-vertical"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="#" onclick="window.print();">Print...</a></li>
+                    <li><a href="objects/functions/export.php">Export to Excel...</a></li>
+                </ul>
+                -->
+            </div>
+          </div>
         <table id="purchaseorders" class="table table-hover table-striped">
                 <thead>
                     <tr>
+                        <th class="col-xs-1"><input type="checkbox" /></th>
                         <th class="col-xs-1">PO</th>
                         <th class="col-xs-4">By</th>
-                        <th class="col-xs-4">Date</th>
+                        <th class="col-xs-3">Date</th>
                         <th class="col-xs-2">Status</th>
                         <th class="col-xs-1">Action</th>
                     </tr>
@@ -53,6 +99,7 @@ include 'template/header.php'
                         if($status=='paid')
                             echo "data-status='Done'";
                         echo " >";
+                        echo "<td><input type=\"checkbox\" />";
                         echo "<td>{$id}</td>";
                         echo "<td>{$nickname}</td>";
                         $date_created = date_format(date_create($created),"m/d/Y");

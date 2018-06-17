@@ -13,34 +13,17 @@ $(document).ready(function(){
        $('#item_type').hide();
        $('#item_color').hide();
        $('#item_custom').hide();
-       $('#item_category').hide();
-       $('#item_name').hide();
-       $('#item_quantity').hide();
-       $('#item_note').hide();
        $('#save').text('Save');
     });
    
-    $('input[name="type"]').click(function(){
-       $('input[name="category"]').prop('checked',false);
-       $('#item_category').show();
+    $('input[name="product"]').click(function(){
+       $('#item_type').show();
+       $('#item_color').show();
        fetch_colors();
-       $('#item_name').hide();
        $('#item_custom').hide();
-       $('#item_color').hide();
-    });
-
-    $('input[name="category"]').click(function(){
-        var type =     $("input[name='type']:checked").val();
-        var category = $("input[name='category']:checked").val();
-        $('#item_name').show();
-        $('#item_color').hide();
-        fetch_product(type, category);
+       $('input[name="type"]').prop('checked',false);
     });
     
-    $('select[name="name"]').on('change', function() {
-        $('#item_color').show();
-    })
-
     $('#csm').click(function(){
        $('#item_custom').show();
        type=$('input[name="product"]:checked').val();
@@ -153,9 +136,6 @@ $(document).ready(function(){
                if(type=='custom'){
                 output += '<input type="hidden" name="custom[]" value="' + custom + '" />';
                }
-               else{
-               output += '<input type="hidden" name="custom[]" value="" />';
-                }
                output += '<input type="hidden" name="product[]" value="' + product + '" />';
                output += '<input type="hidden" name="type[]" value="' + type + '" />';
                output += '<input type="hidden" name="quantity[]" value="' + quantity + '" />';
@@ -230,38 +210,12 @@ $(document).ready(function(){
    }
    
    function fetch_colors(type){
-        $.ajax({
-            url:"objects/functions/fetch_colors.php",
-            method:"POST",
-            success:function(data){
-                $('#colors').html(data);
-            }
-        })
-    }
-
-    function fetch_product(type, category){
-        $.ajax({
-            url: "functions/fetch_po_productitem.php",
-            method: "POST",
-            data:{type:type, category:category},
-            beforeSend: function() {
-                $("#item_name .col-sm-9 i").show();
-            },
-            success: function(data){
-                $('#name').html(data);
-                $("#item_name .col-sm-9 i").hide();
-            }
-        })
-    }
-
-    function fetch_product(name){
-        $.ajax({
-            url: "functions/fetch_po_productvariant.php",
-            method: "POST",
-            data:{name:name},
-            success: function(data){
-                $('#item_color .col-sm-9').html(data);
-            }
-        })
-    }
+    $.ajax({
+        url:"objects/functions/fetch_colors.php",
+        method:"POST",
+        success:function(data){
+            $('#colors').html(data);
+        }
+    })
+   }
 });

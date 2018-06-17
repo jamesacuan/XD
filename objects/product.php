@@ -237,7 +237,7 @@ class Product{
         return $stmt;
     }
 
-    function readProductItems(){
+    function readProductItems($from_record_num, $records_per_page){
         $query = "SELECT 
             product_item.id,
             product_item.name as 'name',
@@ -252,7 +252,8 @@ class Product{
             JOIN product_item_variant ON product_item.id = product_item_variant.product_itemid
             JOIN product_color ON product_item_variant.product_colorid = product_color.id
             WHERE product_item.isDeleted <> 'Y'
-            AND product_item_variant.isDeleted <> 'Y'";
+            AND product_item_variant.isDeleted <> 'Y'
+            limit {$from_record_num}, {$records_per_page}";
 
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
@@ -261,6 +262,19 @@ class Product{
         $this->name  = $row['name'];
         $stmt->execute();
         return $stmt;
+    }
+
+    function getProductItemsCount(){
+        $query = "SELECT 
+            count(*) as total
+            FROM product_item_variant";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $this->name  = $row['total'];
+        return $this->name;
     }
 
     function getItemCount($type){

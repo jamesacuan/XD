@@ -201,7 +201,8 @@ body{
 	border: none !important;
 }
 
-#joborders_wrapper div.row:first-child{
+#joborders_wrapper div.row:first-child,
+#purchaseorders_wrapper div.row:first-child{
 	display: none
 }
 
@@ -512,8 +513,6 @@ html {
 	margin: 0;
 }
 
-
-table.fixedHeader-floating{position:fixed !important;background-color:white}table.fixedHeader-floating.no-footer{border-bottom-width:0}table.fixedHeader-locked{position:absolute !important;background-color:white}@media print{table.fixedHeader-floating{display:none}}
 
 table.dataTable{
 	margin: 0 !important;

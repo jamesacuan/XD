@@ -6,9 +6,8 @@
     $home_url    = "http://localhost/xd/";
     $home_title  = "HANC";
 
-    //$home_url="http://www.3d.local/";
     $page = isset($_GET['page']) ? $_GET['page'] : 1;  
-    $records_per_page = 10;
+    $records_per_page = 4;
     $from_record_num = ($records_per_page * $page) - $records_per_page;
 
 // current time

@@ -41,12 +41,12 @@ function fetch_colors(type){
     })
 }
 
-function readURL(input) {
+function readURL(input, val) {
     if (input.files && input.files[0]) {
       var reader = new FileReader();
-  
+        console.log(reader);
       reader.onload = function(e) {
-        $('#blah').attr('src', e.target.result);
+        $('#img' + val).attr('src', e.target.result);
       }
   
       reader.readAsDataURL(input.files[0]);

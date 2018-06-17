@@ -12,7 +12,7 @@ $page_title= "Products";
 
 $require_login=true;
 $page_ribbon="F";
-
+$page_url = "products.php?";
 include_once "functions/login_check.php";
 include 'template/header.php'
 ?>
@@ -33,9 +33,11 @@ include 'template/header.php'
     </div>
     <div class="col-md-9">
     <div class="row">
-    <?php       
-            $stmt = $product->readProductItems();
+    <?php      
+            $total_rows = $product->getProductItemsCount();
+            $stmt = $product->readProductItems($from_record_num, $records_per_page);
             $num  = $stmt->rowCount();
+            
             $temp=0;
 
             if($num>0){
@@ -55,11 +57,14 @@ include 'template/header.php'
                             if($type=="HH") echo "Helmet Holder";
                             else if($type=='TH') echo "Ticket Holder";
                         echo "</p>";
-                        echo   "<p><a href=\"#\" class=\"btn btn-default btn-sm\" role=\"button\">View</a>";
                         echo  "</div>";
                     echo "</div>";
                     echo "</div>";
                 }
+                echo "<div class=\"row\">";
+                echo "<div class=\"col-sm-12\">";
+                include 'template/paging.php';
+                echo "</div></div>";
             }
     ?>
     </div>

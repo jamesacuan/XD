@@ -11,7 +11,7 @@ while($row = mysqli_fetch_array($result)){
         $output .= "</div>";
 
         $output .= "<div class=\"col-md-10\">";
-        $output .= "Color: " . $row["name"] . "<input type='file' onchange=\"readURL(this);\" value=\"" . $row["id"] . "\" name=\"image\" />";
+        $output .= "Color: " . $row["name"] . "<input type='file' onchange=\"readURL(this, " . $row["id"] . ");\" value=\"" . $row["id"] . "\" name=\"image[]\" />";
         $output .= "</div>";
         
     $output .= "</div>";

@@ -32,12 +32,15 @@ $(document).ready(function(){
     $('input[name="category"]').click(function(){
         var type =     $("input[name='type']:checked").val();
         var category = $("input[name='category']:checked").val();
+        console.log(type + "." +category);
         $('#item_name').show();
         $('#item_color').hide();
         fetch_product(type, category);
     });
     
     $('select[name="name"]').on('change', function() {
+        var name = $("#name option:selected").val();
+        fetch_productvariant(name);
         $('#item_color').show();
     })
 
@@ -254,7 +257,7 @@ $(document).ready(function(){
         })
     }
 
-    function fetch_product(name){
+    function fetch_productvariant(name){
         $.ajax({
             url: "functions/fetch_po_productvariant.php",
             method: "POST",

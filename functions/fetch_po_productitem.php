@@ -1,7 +1,7 @@
 <?php
 include('dbcon.php');
 
-$query = "SELECT type, product_item.name
+$query = "SELECT id, type, product_item.name
 FROM `product_item`
 WHERE 
 product_item.type = '" . $_POST["type"] . "'";

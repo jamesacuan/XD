@@ -43,7 +43,7 @@ include 'template/header.php'
             if($num>0){
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                     extract($row);
-                    echo "<div class=\"col-sm-6 col-md-4\">";
+                    echo "<div class=\"col-sm-6 col-md-3\">";
                     echo "<div class=\"thumbnail  xd-product-thumbnail\">";
                     if($image_url=="none") echo  "<img src=\"{$home_url}images/def.png\">";
                     else   echo  "<img src=\"{$home_url}images/{$image_url}\">";
@@ -57,6 +57,7 @@ include 'template/header.php'
                             if($type=="HH") echo "Helmet Holder";
                             else if($type=='TH') echo "Ticket Holder";
                         echo "</p>";
+                        echo "<button class=\"btn btn-default glyphicon glyphicon-shopping-cart\"></button>";
                         echo  "</div>";
                     echo "</div>";
                     echo "</div>";

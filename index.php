@@ -16,12 +16,17 @@ $purchase_order = new PurchaseOrder($db);
 
 $page_title= "Dashboard";
 
-$require_login=true;
 $page_ribbon="F";
 
 $today     = date("m/d/Y");
 $yesterday = date("m/d/Y", strtotime($today . ' -1 days'));
 
+if(!isset($_SESSION["username"])){
+    $require_login=true ;
+include_once "functions/login_check.php";
+    include_once "template/home.php";
+}
+else{
 if($_SESSION['role']=="superadmin" && isset($_GET['truncate'])){
     if(isset($_GET['truncate'])){
         $settings->truncate();
@@ -30,9 +35,7 @@ if($_SESSION['role']=="superadmin" && isset($_GET['truncate'])){
     $current_url = explode('?', $current_url);
     header("Location: {$current_url[0]}");
 }
-
-include_once "functions/login_check.php";
-include 'template/header.php'
+include 'template/header.php';
 ?>
 
 <?php
@@ -43,59 +46,43 @@ if($action=='login_success'){
         echo "<h3>Hi, " . $_SESSION['nickname'] . ". Welcome back!</h3>";
 }
 echo "</div>";
+
+
+
 */
 ?>
-<div>
-<div class="container">
+<div class="xd-dash row" style="margin-left: -31px">
+<?php
+    if($_SESSION['role']=="superadmin"){
+        echo "<a href=\"#\" class=\"btn btn-danger\" data-id=\"truncate\" data-toggle=\"modal\" data-target=\"#clear\">Truncate</a>";
+    }
+?>
+<div class="col-md-3">
+<h3>Good Morning, <?php echo $_SESSION['nickname'] ?></h3>
+<p>June 23, Saturday</p>
+</div>
 
-<div class="row">
-    <div class="col-md-12 clearfix">
-        <div class="pull-left">
+<div class="col-md-9">
+    <div class="row">
+        <div class="col-md-3">
+            <p>test</p>
         </div>
-
-        <div class="pull-right btn-group">
-        <?php
-           /* if($_SESSION['role']=="user"){        
-                echo "<button type=\"button\" onclick=\"location.href='addjoborder.php'\" class=\"btn btn-default\">+ Job Order</button>";
-                echo "<button type=\"button\" onclick=\"location.href='addpurchaseorder.php'\" class=\"btn btn-default\">+ Purchase Order</button>";
-            }*/
-        ?>
-        <?php
-            if($_SESSION['role']=="superadmin"){
-                echo "<a href=\"#\" class=\"btn btn-danger\" data-id=\"truncate\" data-toggle=\"modal\" data-target=\"#clear\">Truncate</a>";
-            }
-        ?>
+        <div class="col-md-3">
+            <p>test</p>
+        </div>
+        <div class="col-md-3">
+            <p>test</p>
         </div>
     </div>
 </div>
+</div>
 <div class="row home-approval">
     <div class="col-md-3">
-        <div class="thumbnail panel panel-default">
-            <div class="caption">
-                <h3><?php echo $_SESSION["nickname"]?></h3>
-                <p><?php echo $_SESSION["role"]?></p>
-            </div>
-            <ul class="list-group">
-                <li class="list-group-item">Job Orders</li>
-                <li class="list-group-item">Purchase Orders</li>
-            </ul>
-        </div>
+        <ul>
+            <li>Activity</li>
+        </ul>
     </div>
     <div class="col-md-9">
-
-    <div class="row">
-        <div class="col-md-4">
-            <div class="thumbnail">test</div>
-        </div>
-        <div class="col-md-4">
-            <div class="thumbnail">test</div>
-        </div>
-        <div class="col-md-4">
-            <div class="thumbnail">test</div>
-        </div>
-    </div>
-    <h3>Activity</h3>
-
         <?php
         echo "<div class=\"panel-group\" id=\"accordion\" role=\"tablist\">";
         //if($_SESSION["admin"]=='Y')
@@ -219,4 +206,5 @@ echo "</div>";
 <?php
     //include 'template/content.php';
     include 'template/footer.php';
+    };
 ?>

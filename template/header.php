@@ -14,6 +14,7 @@
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen" />   
     <link href="css/datatables.css" rel="stylesheet" />
     <link href="css/jquery-ui.min.css" rel="stylesheet" />
+    <link href="favicon.png" rel="shortcut icon" />
     <link href="css/dataTables.bootstrap.min.css" rel="Stylesheet" />
     <link href="css/style.css" rel="stylesheet" />
     <script src="js/jquery-3.2.1.js"></script>
@@ -21,6 +22,30 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/moment.min.js"></script>
     <script src="js/datatables.min.js"></script>
+
+    <?php
+    if($home_url == "http://taxcalculator.pe.hu/"){
+    ?>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-121242412-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-121242412-1');
+</script>
+<?php
+    }?>
+<script type="text/javascript">
+        $(document).ready(function() {
+            $("#menu-toggle").click(function(e) {
+                e.preventDefault();
+                $("#wrapper").toggleClass("toggled");
+                $("#wrapper.toggled").find("#sidebar-wrapper").find(".collapse").collapse("hide");
+            });
+        });
+        </script>
 </head>
 <body>
 <?php /*<div id="progressBar" class="waiting"></div>*/ ?>
@@ -37,10 +62,11 @@
 
      <?php 
      if(isset($page_ribbon)){
-        echo "<div class=\"container\">";
+         echo "<div id=\"page-wrapper\">";
      }
      else {
         echo "<div class=\"xd-ribbon\"></div>";
+        /*echo "<div  id=\"page-wrapper\" class=\"xd-container container\">";*/
         echo "<div class=\"xd-container container\">";
      }
      ?>

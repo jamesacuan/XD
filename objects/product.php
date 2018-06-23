@@ -253,6 +253,7 @@ class Product{
             JOIN product_color ON product_item_variant.product_colorid = product_color.id
             WHERE product_item.isDeleted <> 'Y'
             AND product_item_variant.isDeleted <> 'Y'
+            ORDER BY product_item.name ASC
             limit {$from_record_num}, {$records_per_page}";
 
         $stmt = $this->conn->prepare($query);

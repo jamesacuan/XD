@@ -233,6 +233,6 @@ function fixStepIndicator(n) {
   x[n].className += " active";
 }*/
 </script>
-<script src='js/addproduct.js'></script>
+<script src='assets/js/addproduct.js'></script>
 
 <?php include 'template/footer.php'; ?>

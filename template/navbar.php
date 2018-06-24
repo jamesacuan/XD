@@ -87,18 +87,10 @@
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav in" id="side-menu">
-                        <li class="sidebar-search">
-                            <div class="masked">    
-                                <div class="input-group custom-search-form">
-                                    <input type="text" class="form-control" placeholder="Search...">
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-default" type="button">
-                                            <i class="fa fa-search"></i>
-                                        </button>
-                                    </span>
-                                </div>
+                        <li class="sidebar-profile">
+                            <div style="height:150px; width: 150px;">
+                                james
                             </div>
-                        <!-- /input-group -->
                         </li>
                         <li <?php echo $page_title=="Dashboard" ? "class='active'" : ""; ?>>
                     <a href="<?php echo $home_url; ?>" data-placement="right" data-toggle="tooltip" title="Home"><i class="glyphicon glyphicon-home"></i> <span class="masked">Home</span></a>
@@ -117,9 +109,9 @@
             </div>
        </div>
     </nav>
-*/?>
-
-    <div class="navbar navbar-default navbar-static-top" role="navigation">
+*/
+?>
+ <div class="navbar navbar-default navbar-static-top" role="navigation">
     <div class="container">
          <div class="navbar-header">
             <button type="button" class="navbar-toggle " data-toggle="collapse" data-target=".navbar-collapse">

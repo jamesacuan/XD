@@ -429,10 +429,14 @@ body {
   }
 
   #page-wrapper{
-	margin: auto auto;
+	  margin: auto;
 	background-color: #f5f5f5;
 }
 
+
+#wrapper.toggled #sidebar-wrapper .sidebar-profile{
+	display:none;
+}
   .xd-new-nav #menu-toggle{
 	  float: left;
   }
@@ -465,7 +469,7 @@ body {
 .xd-dash{
 background-image: url("../images/bg-ribbon.png");
 margin: 0 -30px;
-height: 100px;
+height: 120px;
 }
 .xd-alert{
 	position:absolute;
@@ -519,7 +523,7 @@ height: 100px;
 	font-size: 13px;
 }
 .xd-product-thumbnail img{
-  height: 250px;
+  height: 200px;
   width: 250px;
 }
 

@@ -52,6 +52,8 @@ echo "</div>";
 */
 ?>
 <div class="xd-dash row" style="margin-left: -31px">
+<div class="container">
+
 <?php
     if($_SESSION['role']=="superadmin"){
         echo "<a href=\"#\" class=\"btn btn-danger\" data-id=\"truncate\" data-toggle=\"modal\" data-target=\"#clear\">Truncate</a>";
@@ -74,6 +76,7 @@ echo "</div>";
             <p>test</p>
         </div>
     </div>
+</div>
 </div>
 </div>
 <div class="row home-approval">
@@ -202,7 +205,7 @@ echo "</div>";
     </div>
   </div>
 </div>
-<script src="js/script.js"></script>
+<script src="assets/js/script.js"></script>
 <?php
     //include 'template/content.php';
     include 'template/footer.php';

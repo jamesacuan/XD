@@ -217,7 +217,7 @@ if($purchase_order->username == $_SESSION['username'] || $_SESSION['role']=='han
                 echo "<tr>";
                 //echo "<td>{$i}</td>";
                 if((strpos($image_url, "define") == true ) || $image_url=='0' || $image_url=='undefined')
-                    echo "<td><img src=\"{$home_url}images/def.png\" width=\"75\" height=\"75\" /></td>";
+                    echo "<td><img src=\"{$home_url}assets/images/def.png\" width=\"75\" height=\"75\" /></td>";
                 else
                     echo "<td><img src=\"{$home_url}images/{$image_url}\" width=\"75\" height=\"75\" /></td>";
                 echo "<td><b>";
@@ -245,5 +245,5 @@ if($purchase_order->username == $_SESSION['username'] || $_SESSION['role']=='han
         </div>
     </div>
 </div>
-<script src="js/script.js"></script>
+<script src="assets/js/script.js"></script>
 <?php include_once 'template/footer.php' ?>

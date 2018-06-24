@@ -306,5 +306,5 @@ else{
   </div>
 </div>
 
-<script type="text/javascript" src="js/settings.js"> </script>
+<script type="text/javascript" src="assets/js/settings.js"> </script>
 <?php include 'template/footer.php' ?>

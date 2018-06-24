@@ -45,7 +45,7 @@ include 'template/header.php'
                     extract($row);
                     echo "<div class=\"col-sm-6 col-md-3\">";
                     echo "<div class=\"thumbnail  xd-product-thumbnail\">";
-                    if($image_url=="none") echo  "<img src=\"{$home_url}images/def.png\">";
+                    if($image_url=="none") echo  "<img src=\"{$home_url}assets/images/def.png\">";
                     else   echo  "<img src=\"{$home_url}images/{$image_url}\">";
                         echo  "<div class=\"caption\">";
                         if($type=="HH"){
@@ -72,4 +72,4 @@ include 'template/header.php'
     </div>
 </div>
 </div>
-<script src="js/script.js"></script>
+<script src="assets/js/script.js"></script>

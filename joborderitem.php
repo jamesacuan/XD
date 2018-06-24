@@ -984,8 +984,8 @@ if($yes==1 && ($job_order->status=='Accepted' || $job_order->status=='Approved')
   </div>
 </div>
 
-<script src="js/joi_script.js"></script>
-<script src="js/script.js"></script>
+<script src="assets/js/joi_script.js"></script>
+<script src="assets/js/script.js"></script>
 
 </div>
 <?php

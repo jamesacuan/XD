@@ -178,7 +178,7 @@ include 'template/header.php';
 
 
 </div>
-<script src="js/po_script.js"></script>
+<script src="assets/js/po_script.js"></script>
 
 <?php 
 include 'template/footer.php';

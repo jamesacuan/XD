@@ -6,16 +6,14 @@
         $_SESSION['beta'] = 1;
     }
     if($page_title != "Login"){
-    if($_SESSION['beta'] != 1){
-        include "infobar.php";
-    }
+
 
     include_once "notify.php";
     $notify = new Notify($db);
 }
 ?>
 
-    <nav class="navbar navbar-default no-margin row">
+    <nav class="xd-navbar navbar navbar-static-top navbar-default no-margin row">
     <!-- Brand and toggle get grouped for better mobile display -->
         
         <div class="collapse navbar-collapse col-md-1">
@@ -81,11 +79,13 @@
             </ul>
         </div>
     </nav>
-    <div id="wrapper" class="toggled-2">
-        <!-- Sidebar -->
+    <div id="wrapper" class="xd-content-wrapper toggled-2">
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
-
+                <!--<li><div>
+                    <b><?php echo $_SESSION["nickname"]; ?></b>
+                </div>
+                </li>-->
                 <li <?php echo $page_title=="Dashboard" ? "class='active'" : ""; ?>>
                     <a href="<?php echo $home_url; ?>"><span class="pull-left"><i class="glyphicon glyphicon-home"></i></span>Home</a>
                 </li>

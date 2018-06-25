@@ -433,6 +433,16 @@ body {
 	background-color: #f5f5f5;
 }
 
+nav.navbar .navbar-toggle .icon-bar{
+	background-color: #fff;
+}
+nav.navbar .nav-search input[class="form-control"] {
+	background-color: #282e6c;
+	border: 1px solid #3b4180;
+	color: #fff;
+}
+
+
 
 #wrapper.toggled #sidebar-wrapper .sidebar-profile{
 	display:none;
@@ -620,8 +630,21 @@ right:0;
 *   MATERIALIZING
 */
 
-nav.navbar{
+.xd-navbar{
 	border-radius: 0;
+	left: 0;
+	right: 0;
+	z-index: 3000;
+	position:fixed;
+}
+
+
+.xd-content-wrapper #page-content-wrapper,
+.xd-content-wrapper #sidebar-wrapper{
+	margin-top: 54px;
+}
+.xd-content-wrapper #sidebar-wrapper{
+	position:fixed;
 }
 .navbar-right{
 	margin-right: 0;

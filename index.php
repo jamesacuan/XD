@@ -18,26 +18,41 @@ $page_title= "Dashboard";
 
 $page_ribbon="F";
 
-$today     = date("m/d/Y");
+$today     = date("m/d/Y h:i:s A");
 $yesterday = date("m/d/Y", strtotime($today . ' -1 days'));
+
+$hrs = date("G");
+
+function getDayGreeter($hrs){
+    if ( $hrs >= 5 && $hrs <= 11 ) {
+        return "Good Morning";
+    } else if ( $hrs >= 12 && $hrs <= 18 ) {
+        return "Good Afternoon";
+    } else if ( $hrs >= 19 || $hrs <= 4 ) {
+        return "Good Evening";
+    }
+}
 
 if(!isset($_SESSION["username"])){
     $require_login=true ;
-include_once "functions/login_check.php";
+    include_once "functions/login_check.php";
     include_once "template/home.php";
 }
+
 else{
-if($_SESSION['role']=="superadmin" && isset($_GET['truncate'])){
-    if(isset($_GET['truncate'])){
-        $settings->truncate();
+    if($_SESSION['role']=="superadmin" && isset($_GET['truncate'])){
+        if(isset($_GET['truncate'])){
+            $settings->truncate();
+        }
+        $current_url = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        $current_url = explode('?', $current_url);
+        header("Location: {$current_url[0]}");
     }
-    $current_url = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-    $current_url = explode('?', $current_url);
-    header("Location: {$current_url[0]}");
 }
 include 'template/header.php';
 ?>
 
+<div class="container-fluid xyz">
 <?php
 /*
 echo "<div class='col-md-12'>";
@@ -51,7 +66,9 @@ echo "</div>";
 
 */
 ?>
-<div class="xd-dash row" style="margin-left: -31px">
+
+
+<div class="xd-dash row">
 <div class="container">
 
 <?php
@@ -60,7 +77,7 @@ echo "</div>";
     }
 ?>
 <div class="col-md-3">
-<h3>Good Morning, <?php echo $_SESSION['nickname'] ?></h3>
+<h3><?php echo getDayGreeter($hrs) ?>, <?php echo $_SESSION['nickname'] ?></h3>
 <p>June 23, Saturday</p>
 </div>
 
@@ -193,21 +210,8 @@ echo "</div>";
   </div>
 </div>
 
-<div class="modal fade" id="image" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-sm" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
-      </div>
-      <div class="modal-body">
-        <img class="job-order-for-render" />"
-      </div>
-    </div>
-  </div>
 </div>
-<script src="assets/js/script.js"></script>
+
 <?php
-    //include 'template/content.php';
     include 'template/footer.php';
-    };
 ?>

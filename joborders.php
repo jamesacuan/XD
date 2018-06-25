@@ -305,7 +305,6 @@ function truncate($string, $length, $dots = "...") {
     <script src="js/dataTables.fixedHeader.min.js"></script>
             -->
 <script src="assets/js/dataTables.rowGroup.min.js"></script>
-<script src="assets/js/script.js"></script>
 <script src="assets/js/joborders.js"></script>
 </div>
 <?php

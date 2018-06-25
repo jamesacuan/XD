@@ -161,8 +161,6 @@ include 'template/header.php';
   </div>
 </div>
 
-<script src="assets/js/script.js"></script>
-
 <?php
 include 'template/footer.php';
 ?>

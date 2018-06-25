@@ -14,6 +14,7 @@
     <link href="assets/css/bootstrap.min.css" rel="stylesheet" media="screen" />   
     <link href="assets/css/datatables.css" rel="stylesheet" />
     <link href="assets/css/jquery-ui.min.css" rel="stylesheet" />
+    <link href="assets/css/sidebar.css" rel="stylesheet" />
     <link href="assets/favicon.png" rel="shortcut icon" />
     <link href="assets/css/dataTables.bootstrap.min.css" rel="Stylesheet" />
     <link href="assets/css/style.css" rel="stylesheet" />
@@ -62,11 +63,13 @@
 
      <?php 
      if(isset($page_ribbon)){
-         echo "<div id=\"page-wrapper\">";
+         echo "<div id=\"page-content-wrapper\">";
      }
      else {
-        echo "<div class=\"xd-ribbon\"></div>";
         /*echo "<div  id=\"page-wrapper\" class=\"xd-container container\">";*/
+        echo "<div id=\"page-content-wrapper\" >";
+        echo "<div class=\"xd-ribbon\"></div>";
+
         echo "<div class=\"xd-container container\">";
      }
      ?>

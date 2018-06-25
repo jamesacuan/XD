@@ -433,6 +433,5 @@ else if(!isset($_FILES['image']) && $_POST){
   </div>
 </div>
 </div>
-<script src="assets/js/script.js"></script>
 <?php include 'template/footer.php'; ?>
 

@@ -130,6 +130,5 @@ include 'template/header.php'
     </div>
 </div>
 </div>
-<script src="assets/js/script.js"></script>
 <script src="assets/js/purchaseorders.js"></script>
 <?php include 'template/footer.php'?>

@@ -1,185 +1,87 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>jQuery UI Selectmenu - Custom Rendering</title>
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <link rel="stylesheet" href="/resources/demos/style.css">
-  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <script>
-  $( function() {
-    $.widget( "custom.iconselectmenu", $.ui.selectmenu, {
-      _renderItem: function( ul, item ) {
-        var li = $( "<li>" ),
-          wrapper = $( "<div>", { text: item.label } );
- 
-        if ( item.disabled ) {
-          li.addClass( "ui-state-disabled" );
-        }
- 
-        $( "<span>", {
-          style: item.element.attr( "data-style" ),
-          "class": "ui-icon " + item.element.attr( "data-class" )
-        })
-          .appendTo( wrapper );
- 
-        return li.append( wrapper ).appendTo( ul );
-      }
-    });
- 
-    $( "#filesA" )
-      .iconselectmenu()
-      .iconselectmenu( "menuWidget" )
-        .addClass( "ui-menu-icons" );
- 
-    $( "#filesB" )
-      .iconselectmenu()
-      .iconselectmenu( "menuWidget" )
-        .addClass( "ui-menu-icons customicons" );
- 
-    $( "#people" )
-      .iconselectmenu()
-      .iconselectmenu( "menuWidget")
-        .addClass( "ui-menu-icons avatar" );
-  } );
-  </script>
-  <style>
-    h2 {
-      margin: 30px 0 0 0;
-    }
-    fieldset {
-      border: 0;
-    }
-    label {
-      display: block;
-    }
- 
-    /* select with custom icons */
-    .ui-selectmenu-menu .ui-menu.customicons .ui-menu-item-wrapper {
-      padding: 0.5em 0 0.5em 3em;
-    }
-    .ui-selectmenu-menu .ui-menu.customicons .ui-menu-item .ui-icon {
-      height: 24px;
-      width: 24px;
-      top: 0.1em;
-    }
-    .ui-icon.video {
-      background: url("images/24-video-square.png") 0 0 no-repeat;
-    }
-    .ui-icon.podcast {
-      background: url("images/24-podcast-square.png") 0 0 no-repeat;
-    }
-    .ui-icon.rss {
-      background: url("images/24-rss-square.png") 0 0 no-repeat;
-    }
- 
-    /* select with CSS avatar icons */
-    option.avatar {
-      background-repeat: no-repeat !important;
-      padding-left: 20px;
-    }
-    .avatar .ui-icon {
-      background-position: left top;
-    }
-  </style>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Simple Sidebar - Start Bootstrap Template</title>
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/sidebar.css" rel="stylesheet">
+    <link href="font-awesome-4.3.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body>
- 
-<div class="demo">
- 
-<form action="#">
-  <h2>Selectmenu with framework icons</h2>
-  <fieldset>
-    <label for="filesA">Select a File:</label>
-    <select name="filesA" id="filesA">
-      <option value="jquery" data-class="ui-icon-script">jQuery.js</option>
-      <option value="jquerylogo" data-class="ui-icon-image">jQuery Logo</option>
-      <option value="jqueryui" data-class="ui-icon-script">ui.jQuery.js</option>
-      <option value="jqueryuilogo" selected="selected" data-class="ui-icon-image">jQuery UI Logo</option>
-      <option value="somefile" disabled="disabled" data-class="ui-icon-help">Some unknown file</option>
-    </select>
-  </fieldset>
- 
-  <h2>Selectmenu with custom icon images</h2>
-  <fieldset>
-    <label for="filesB">Select a podcast:</label>
-    <select name="filesB" id="filesB">
-      <option value="mypodcast" data-class="podcast">John Resig Podcast</option>
-      <option value="myvideo" data-class="video">Scott González Video</option>
-      <option value="myrss" data-class="rss">jQuery RSS XML</option>
-    </select>
-  </fieldset>
-  <label for="files">Select a file</label>
-    <select name="files" id="files">
-      <optgroup label="Scripts">
-        <option value="jquery">jQuery.js</option>
-        <option value="jqueryui">ui.jQuery.js</option>
-      </optgroup>
-      <optgroup label="Other files">
-        <option value="somefile">Some unknown file</option>
-        <option value="someotherfile">Some other file with a very long option text</option>
-      </optgroup>
-    </select>
-  <h2>Selectmenu with custom avatar 16x16 images as CSS background</h2>
-  <fieldset>
-    <label for="people">Select a Person:</label>
-    <select name="people" id="people">
-      <option value="1" data-class="avatar" data-style="background-image: url(&apos;http://www.gravatar.com/avatar/b3e04a46e85ad3e165d66f5d927eb609?d=monsterid&amp;r=g&amp;s=16&apos;);">John Resig</option>
-      <option value="2" data-class="avatar" data-style="background-image: url(&apos;http://www.gravatar.com/avatar/e42b1e5c7cfd2be0933e696e292a4d5f?d=monsterid&amp;r=g&amp;s=16&apos;);">Tauren Mills</option>
-      <option value="3" data-class="avatar" data-style="background-image: url(&apos;http://www.gravatar.com/avatar/bdeaec11dd663f26fa58ced0eb7facc8?d=monsterid&amp;r=g&amp;s=16&apos;);">Jane Doe</option>
-    </select>
-  </fieldset>
-</form>
- 
-</div>
-<?php 
+    <nav class="navbar navbar-default no-margin">
+    <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header fixed-brand">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"  id="menu-toggle">
+                      <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
+                    </button>
+                    <a class="navbar-brand" href="#"><i class="fa fa-rocket fa-4"></i> SEEGATESITE</a>
+                </div><!-- navbar-header-->
 
-$file_name= "filenma.jpg";
-$tmp       = explode('.',$file_name);
-$file_ext  = $tmp[0];
-echo $file_ext;
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav">
+                                <li class="active" ><button class="navbar-toggle collapse in" data-toggle="collapse" id="menu-toggle-2"> <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span></button></li>
+                            </ul>
+                </div><!-- bs-example-navbar-collapse-1 -->
+    </nav>
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
 
+                <li class="active">
+                    <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-dashboard fa-stack-1x "></i></span> Dashboard</a>
+                       <ul class="nav-pills nav-stacked" style="list-style-type:none;">
+                        <li><a href="#">link1</a></li>
+                        <li><a href="#">link2</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-flag fa-stack-1x "></i></span> Shortcut</a>
+                    <ul class="nav-pills nav-stacked" style="list-style-type:none;">
+                        <li><a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-flag fa-stack-1x "></i></span>link1</a></li>
+                        <li><a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-flag fa-stack-1x "></i></span>link2</a></li>
 
-if(isset($_POST["submit"])) {
-  if(is_array($_FILES)) {
-    $file = $_FILES['myImage']['tmp_name']; 
-    
-    
-    $source_properties = getimagesize($file);
-    $image_type = $source_properties[2]; 
-
-    
-    if( $image_type == IMAGETYPE_JPEG ) {   
-      $image_resource_id = imagecreatefromjpeg($file);  
-      $target_layer = fn_resize($image_resource_id,$source_properties[0],$source_properties[1]);
-      imagejpeg($target_layer,$_FILES['myImage']['name'] . "_thump.jpg");
-    }
-    elseif( $image_type == IMAGETYPE_GIF )  {  
-      $image_resource_id = imagecreatefromgif($file);
-      $target_layer = fn_resize($image_resource_id,$source_properties[0],$source_properties[1]);
-      imagegif($target_layer,$_FILES['myImage']['name'] . "_thump.gif");
-    }
-    elseif( $image_type == IMAGETYPE_PNG ) {
-      $image_resource_id = imagecreatefrompng($file); 
-      $target_layer = fn_resize($image_resource_id,$source_properties[0],$source_properties[1]);
-      imagepng($target_layer,$_FILES['myImage']['name'] . "_thump.png");
-    }
-  }
-}
-
-function fn_resize($image_resource_id,$width,$height) {
-  $target_width =200;
-  $target_height =200;
-  $target_layer=imagecreatetruecolor($target_width,$target_height);
-  imagecopyresampled($target_layer,$image_resource_id,0,0,0,0,$target_width,$target_height, $width,$height);
-  return $target_layer;
-}
-?>
-<form name="frmImageResize" action="" method="post" enctype="multipart/form-data">
-<input type="file" name="myImage" /> 
-<input type="submit" name="submit" value="Submit" />
-</form>
-
-</body> 
+                    </ul>
+                </li>
+                <li>
+                    <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-cloud-download fa-stack-1x "></i></span>Overview</a>
+                </li>
+                <li>
+                    <a href="#"> <span class="fa-stack fa-lg pull-left"><i class="fa fa-cart-plus fa-stack-1x "></i></span>Events</a>
+                </li>
+                <li>
+                    <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-youtube-play fa-stack-1x "></i></span>About</a>
+                </li>
+                <li>
+                    <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-wrench fa-stack-1x "></i></span>Services</a>
+                </li>
+                <li>
+                    <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-server fa-stack-1x "></i></span>Contact</a>
+                </li>
+            </ul>
+        </div><!-- /#sidebar-wrapper -->
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid xyz">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1>Simple Sidebar With Bootstrap 3 by <a href="https://seegatesite.com/create-simple-cool-sidebar-menu-with-bootstrap-3/" >Seegatesite.com</a></h1>
+                        <p>This sidebar is adopted from start bootstrap simple sidebar startboostrap.com, which I modified slightly to be more cool. For tutorials and how to create it , you can read from my site here <a href="https://seegatesite.com/create-simple-cool-sidebar-menu-with-bootstrap-3/">create cool simple sidebar menu with boostrap 3</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+    <!-- jQuery -->
+    <script src="assets/js/moment.min.js"></script>
+    <script src="assets/js/jquery-3.2.1.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/script.js"></script>
+</body>
+</html>

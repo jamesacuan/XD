@@ -245,5 +245,4 @@ if($purchase_order->username == $_SESSION['username'] || $_SESSION['role']=='han
         </div>
     </div>
 </div>
-<script src="assets/js/script.js"></script>
 <?php include_once 'template/footer.php' ?>

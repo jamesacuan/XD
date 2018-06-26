@@ -48,6 +48,22 @@
         </div>
         <div class="col-md-3 pull-right">
             <ul class="nav navbar-nav navbar-right">
+       
+                   <li>
+                    
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                            <span class="glyphicon glyphicon-bell"></span>
+                             
+                           <?php if($notify->getNotification($_SESSION['userid']) > 1) { ?>
+                                <span class="badge"><?php echo $notify->getNotification($_SESSION['userid']) ?></span>
+                           <?php } ?> <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">Test</a></li>
+                        </ul>
+                         
+                    </li>
+                   
             <li>
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
                     <span class="glyphicon glyphicon-plus"></span>

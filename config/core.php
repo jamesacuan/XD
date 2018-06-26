@@ -10,14 +10,6 @@
     $records_per_page = 20;
     $from_record_num = ($records_per_page * $page) - $records_per_page;
 
-// current time
-//echo date('h:i:s') . "\n";
-
 // sleep for 10 seconds
 //sleep(20);
-
-// wake up !
-//echo date('h:i:s') . "\n";
-
-
 ?>

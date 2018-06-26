@@ -57,6 +57,7 @@ if($access_denied){
     echo "<div class='alert alert-danger margin-top-40' role='alert'>Access Denied.<br /><br />Your username or password maybe incorrect </div>";
 }
      echo "<div class='account-wall'>";
+     echo "<a href=\"{$home_url}\"><h3 style=\"text-align:center\">HANC</h3></a>";
         echo "<div id='my-tab-content' class='tab-content'>";
             echo "<div class='tab-pane active' id='login'>";
                 echo "<form class='form-signin' action='" . htmlspecialchars($_SERVER["PHP_SELF"]) . "' method='post'>";

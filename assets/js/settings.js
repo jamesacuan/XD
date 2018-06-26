@@ -1,4 +1,5 @@
 $(document).ready(function(){
+
     $('.xd-products-info').affix({
         offset: 105
       })
@@ -72,4 +73,6 @@ $(document).ready(function(){
                 alert("All Fields are Required");  
             }
     )};*/
+ 
 });  
+

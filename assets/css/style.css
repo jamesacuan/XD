@@ -636,8 +636,16 @@ right:0;
 	right: 0;
 	z-index: 3000;
 	position:fixed;
-}
+	transition: all .2s ease-in-out;
 
+}
+.xd-dash.row .col-md-3{
+	color: #fff;
+}
+.xd-navbar .navbar-toggle:hover{
+	background-color: transparent;
+	cursor: pointer;
+}
 
 .xd-content-wrapper #page-content-wrapper,
 .xd-content-wrapper #sidebar-wrapper{

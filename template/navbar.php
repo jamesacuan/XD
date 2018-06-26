@@ -12,14 +12,12 @@
     $notify = new Notify($db);
 }
 ?>
+    <?php if(isset($_SESSION['logged_in']) && $_SESSION['logged_in']==true){ ?>
 
-    <nav class="xd-navbar navbar navbar-static-top navbar-default no-margin row">
-    <!-- Brand and toggle get grouped for better mobile display -->
-        
+    <nav class="xd-navbar navbar navbar-static-top navbar-default no-margin row">        
         <div class="collapse navbar-collapse col-md-1">
             <ul class="nav navbar-nav">
                 <li class="active" >
-
                     <div class="navbar-toggle collapse in" data-toggle="collapse" id="menu-toggle-2" type="button">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
@@ -34,7 +32,8 @@
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"  id="menu-toggle">
                 <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
             </button>
-            <a class="navbar-brand" href="<?php echo $home_url; ?>">HANC</a>
+            <a ></a>
+            <a class="navbar-brand" href="<?php echo $home_url; ?>"><img src="<?php echo $home_url . "assets/images/logo-xs.png"; ?>" alt="HANC" /></a>
         </div><!-- navbar-header-->
 
         <div class="nav-search col-md-5">
@@ -101,6 +100,7 @@
                 </li>
             </ul>
         </div>
+    <?php } ?>
 <?php
 
 /*<div class="navbar navbar-default navbar-static-top" role="navigation">

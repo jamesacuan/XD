@@ -80,15 +80,15 @@
     display: block;
     text-decoration: none;
     color: #999999;
-    padding: 5px 0;
+    padding: 10px 0;
     border-left: 2px solid transparent;
 }
 
 .sidebar-nav li a:hover {
     text-decoration: none;
-    color: #fff;
+    color: #9b9b9b;;
     background: rgba(255,255,255,0.2);
-    border-left: red 2px solid;
+    border-left: 2px solid transparent;
 }
 
 .sidebar-nav li a:active,
@@ -118,7 +118,7 @@
 }
 @media(min-width:768px) {
     #wrapper {
-        padding-left: 250px;
+        padding-left: 200px;
     }
     .fixed-brand{
         width: 250px;
@@ -128,14 +128,14 @@
     }
 
     #sidebar-wrapper {
-        width: 250px;
+        width: 200px;
     }
 
     #wrapper.toggled #sidebar-wrapper {
-        width: 250px;
+        width: 200px;
     }
     #wrapper.toggled-2 #sidebar-wrapper {
-        width: 50px;
+        width: 70px;
     }
     #wrapper.toggled-2 #sidebar-wrapper:hover {
         /*width: 250px;*/
@@ -154,12 +154,12 @@
     #wrapper.toggled #page-content-wrapper {
         position: relative;
         margin-right: 0;
-        padding-left: 250px;
+        padding-left: 200px;
     }
     #wrapper.toggled-2 #page-content-wrapper {
         position: relative;
         margin-right: 0;
-        margin-left: -200px;
+        margin-left: -130px;
         -webkit-transition: all 0.5s ease;
         -moz-transition: all 0.5s ease;
         -o-transition: all 0.5s ease;

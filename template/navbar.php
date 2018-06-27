@@ -102,17 +102,17 @@
                 </div>
                 </li>-->
                 <li <?php echo $page_title=="Dashboard" ? "class='active'" : ""; ?>>
-                    <a href="<?php echo $home_url; ?>"><span class="pull-left"><i class="glyphicon glyphicon-home"></i></span>Home</a>
+                    <a href="<?php echo $home_url; ?>" id="xd-list-home"><span class="pull-left"><i class="glyphicon"></i></span>Home</a>
                 </li>
                 
                 <li <?php echo $page_title=="Job Orders" ? "class='active'" : ""; ?>>
-                    <a href="<?php echo $home_url . "joborders.php" ; ?>"><span class="pull-left"><i class="glyphicon glyphicon-home"></i></span>Job Orders</a>
+                    <a href="<?php echo $home_url . "joborders.php" ; ?>" id="xd-list-joborder"><span class="pull-left"><i class="glyphicon"></i></span>Job Orders</a>
                 </li>
                 <li <?php echo $page_title=="Purchase Orders" ? "class='active'" : ""; ?>>
-                    <a href="<?php echo $home_url . "purchaseorders.php" ; ?>"><span class="pull-left"><i class="glyphicon glyphicon-home"></i></span>Purchase Orders</a>
+                    <a href="<?php echo $home_url . "purchaseorders.php" ; ?>" id="xd-list-purchaseorder"><span class="pull-left"><i class="glyphicon"></i></span>Purchase Orders</a>
                 </li>
                 <li <?php echo $page_title=="Products" ? "class='active'" : ""; ?>>
-                    <a href="<?php echo $home_url . "products.php" ; ?>"><span class="pull-left"><i class="glyphicon glyphicon-home"></i></span>Products</a>
+                    <a href="<?php echo $home_url . "products.php" ; ?>" id="xd-list-products"><span class="pull-left"><i class="glyphicon"></i></span>Products</a>
                 </li>
             </ul>
         </div>

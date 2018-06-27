@@ -480,7 +480,49 @@ nav.navbar .nav-search input[class="form-control"] {
 background-image: url("../images/bg-ribbon.png");
 margin: 0 -30px;
 height: 120px;
+background-position-x: center;
+background-repeat: repeat-x;
 }
+
+#sidebar-wrapper li.active > a{
+	background-color: transparent;
+}
+
+#sidebar-wrapper i.glyphicon{
+	background: url('../images/sprite.png') no-repeat right;
+	background-position: 3px -83px;
+	width: 32px;
+	height: 32px;
+}	
+
+li.hover #xd-list-home i.glyphicon,
+li.active #xd-list-home i.glyphicon{
+	background-position: -31px -83px;
+}
+
+li #xd-list-joborder i.glyphicon{
+	background-position: 3px -119px;;
+}
+li.hover #xd-list-joborder i.glyphicon,
+li.active #xd-list-joborder i.glyphicon{
+	background-position: -31px -119px;
+}
+
+li #xd-list-purchaseorder i.glyphicon{
+	background-position: 3px -154px;
+}
+
+li.hover #xd-list-home i.glyphicon,
+li.active #xd-list-purchaseorder i.glyphicon{
+	background-position: -31px -154px;
+}
+
+
+li.hover #xd-list-home i.glyphicon,
+li.active #xd-list-products i.glyphicon{
+	background-position: -31px -83px;
+}
+
 .xd-alert{
 	position:absolute;
 	width: 300px;
@@ -634,7 +676,7 @@ right:0;
 	border-radius: 0;
 	left: 0;
 	right: 0;
-	z-index: 3000;
+	z-index: 1030;
 	position:fixed;
 	transition: all .2s ease-in-out;
 

@@ -412,7 +412,7 @@ include 'template/header.php';
                                 echo "<a href=\"" . $home_url . "joborderitem.php?code={$page_title}&amp;status=Deny\" class=\"btn btn-default\">Deny</a>";
                             }*/
                             
-
+                            
                             if($job_order->status=='Accepted' && ($job_order->username==$_SESSION['username'] || $role=="superadmin") && $yes==1){
                                 echo "<button type=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#finishModal\" id=\"finish\"><span class=\"glyphicon glyphicon-ok\"></span> Approved by Client</button>";
                             }

@@ -511,12 +511,24 @@ li.active #xd-list-joborder i.glyphicon{
 li #xd-list-purchaseorder i.glyphicon{
 	background-position: 3px -154px;
 }
+.row.xd-bar{
+	margin: 0;
+	border-bottom: 1px solid #ccc;
+	background: #fff;
+	padding: 5px 15px;
+}
 
+#page-content-wrapper .row{
+	margin: 0;
+}
 li.hover #xd-list-home i.glyphicon,
 li.active #xd-list-purchaseorder i.glyphicon{
 	background-position: -31px -154px;
 }
 
+.xd-bar h2{
+	font-size: 18px;
+}
 
 li.hover #xd-list-home i.glyphicon,
 li.active #xd-list-products i.glyphicon{

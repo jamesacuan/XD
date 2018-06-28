@@ -43,6 +43,11 @@
     width: 250px;
 }
 
+.container-fluid{
+    padding-right: 0px;
+    padding-left:  0px;
+}
+
 #page-content-wrapper {
     position: absolute;
     padding: 15px;

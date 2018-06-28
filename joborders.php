@@ -13,6 +13,7 @@ $settings = new Settings($db);
 $page_title="Job Orders";
 $require_login=true;
 $role = $_SESSION['role'];
+$page_ribbon = "N";
 
 include_once "functions/login_check.php";
 include_once "functions/joborders_post.php";
@@ -58,87 +59,75 @@ function truncate($string, $length, $dots = "...") {
 }
 ?>
 
-<div class="row xd-heading">
-    <div class="clearfix">
-        <div class="page-header pull-left">
-            <h1><?php echo isset($page_title) ? $page_title : "Index"; ?></h1>
+<div class="row xd-bar">
+        <div class="pull-left">
+            <h2>Job Orders<small>4</small></h2>
         </div>
-        <div class="btn-group pull-right">
-            <?php if($_SESSION['role']=="user")
-                echo "<button type=\"button\" onclick=\"location.href='addjoborder.php'\" class=\"btn btn-primary\">+ Job Order</button>";
-                
-            ?>
-            <!-- <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="glyphicon glyphicon-option-vertical"></span>
-                        <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a href="#" onclick="window.print();">Print...</a></li>
-                        <li><a href="objects/functions/export.php">Export to Excel...</a></li>
-                    </ul>
-            -->
+        <div class="pull-right">
+            <span>5 active | 10 pending | 100 published</span>
         </div>
-    </div>
 </div>
+<div class="row xd-bar">
+<?php 
+        if($role=='hans' || $role=='designer'){
+            echo "<button name=\"submit\" value=\"accept\" class=\"btn btn-default\"><span class=\"glyphicon glyphicon-ok\"></span> Accept Request</button>";
+        }
+        else if($role=="user"){
+            echo "<button type=\"button\" onclick=\"location.href='addjoborder.php'\" class=\"btn btn-primary\"><span class=\"glyphicon glyphicon-plus\"></span> Create</button>";
+            echo "&nbsp;<button id=\"softdelete\" class=\"btn btn-default\"><span class=\"glyphicon glyphicon-trash\"></span> Delete</button>";
+        }
+        
+        ?>
 
 
 
+                    <!--
+    <div class="dropdown pull-left">
+        <button class="btn btn-default" id="dLabel" type="button" data-toggle="dropdown">
+            Filter <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            <li><a><label><input type="checkbox" name="filterme" id="filterme"/> By me</a></label></li>
+            <li><a><label><input type="checkbox" name="filterpublish" id="filterpublish"/> Show Published</a></label></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#" onclick="window.print();">Print...</a></li>
+            <li><a href="objects/functions/export.php">Export to Excel...</a></li>
+        </ul>
+    </div>
+    -->
+    <div class="pull-right">
+
+        <div class="dropdown">
+        <button class="btn btn-default" id="dLabel" type="button" data-toggle="dropdown">
+            Filter <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            <li><a><label><input type="checkbox" name="filterme" id="filterme"/> By me</a></label></li>
+            <li><a><label><input type="checkbox" name="filterpublish" id="filterpublish"/> Show Published</a></label></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#" onclick="window.print();">Print...</a></li>
+            <li><a href="objects/functions/export.php">Export to Excel...</a></li>
+        </ul>
+    </div>
+
+    <!--
+        <label><input type="checkbox" name="filterme" id="filterme"/> By me</a></label>
+        <label><input type="checkbox" name="filterpublish" id="filterpublish"/> Show Published</a></label>
+
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="glyphicon glyphicon-option-vertical"></span>
+            <span class="sr-only">Toggle Dropdown</span>
+        </button>
+        <ul class="dropdown-menu">
+            <li><a href="#" onclick="window.print();">Print...</a></li>
+            <li><a href="objects/functions/export.php">Export to Excel...</a></li>
+        </ul>
+        -->
+</div>
+</div>
 <div class="row xd-content">
-    <ul class="nav nav-tabs clearfix" role="tablist">
-        <li role="presentation" <?php if($type=="") echo "class=\"active\"" ?>><a href="<?php echo $home_url ?>joborders.php">View All</a></li>
-        <li role="presentation" <?php if($type=="HH") echo "class=\"active\"" ?>><a href="<?php echo $home_url ?>joborders.php?type=HH">Helmet Holder</a></li>
-        <li role="presentation" <?php if($type=="TH") echo "class=\"active\"" ?>><a href="<?php echo $home_url ?>joborders.php?type=TH">Ticket Holder</a></li>
-        <div class="pull-right form-inline">
-        </div>
-    </ul>
-
-
   <div role="tabpanel" class="tab-pane active" id="home">
-      <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" style="position:relative; width:100%">
-          <div class="row form-inline clearfix" style="border-bottom:1px solid #ddd; padding: 10px 0;z-index:999;background-color:#fff;" data-spy="affi" data-offset-top="250">
-          <div class="pull-left">  
-            
-                <?php 
-                if($role=='hans' || $role=='designer'){
-                    echo "<button name=\"submit\" value=\"accept\" class=\"btn btn-default\"><span class=\"glyphicon glyphicon-ok\"></span> Accept Request</button>";
-                }
-                else if($role=="user"){
-                    echo "<button type=\"button\" onclick=\"location.href='addjoborder.php'\" class=\"btn btn-primary\"><span class=\"glyphicon glyphicon-plus\"></span> Create</button>";
-                    echo "&nbsp;<button id=\"softdelete\" class=\"btn btn-default\"><span class=\"glyphicon glyphicon-trash\"></span> Delete</button>";
-                }
-                
-                ?>
-            </div>
-            <!--
-            <div class="dropdown pull-left">
-                <button class="btn btn-default" id="dLabel" type="button" data-toggle="dropdown">
-                    Filter <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a><label><input type="checkbox" name="filterme" id="filterme"/> By me</a></label></li>
-                    <li><a><label><input type="checkbox" name="filterpublish" id="filterpublish"/> Show Published</a></label></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a href="#" onclick="window.print();">Print...</a></li>
-                    <li><a href="objects/functions/export.php">Export to Excel...</a></li>
-                </ul>
-            </div>
-            -->
-            <div class="pull-right">
-                <label><input type="checkbox" name="filterme" id="filterme"/> By me</a></label>
-                <label><input type="checkbox" name="filterpublish" id="filterpublish"/> Show Published</a></label>
-                <input type="search" id="search" placeholder="search" class="form-control input-sm" />
-
-                <!--<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="glyphicon glyphicon-option-vertical"></span>
-                    <span class="sr-only">Toggle Dropdown</span>
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a href="#" onclick="window.print();">Print...</a></li>
-                    <li><a href="objects/functions/export.php">Export to Excel...</a></li>
-                </ul>
-                -->
-            </div>
-          </div>
+      <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" style="position:relative; width:100%">          
         <table id="joborders" class="table table-hover">
             <thead style="background-color: #fff">
                 <tr>

@@ -15,7 +15,7 @@
     <?php if(isset($_SESSION['logged_in']) && $_SESSION['logged_in']==true){ ?>
 
     <nav class="xd-navbar navbar navbar-static-top navbar-default no-margin row">        
-        <div class="collapse navbar-collapse col-md-1">
+        <div class="collapse navbar-collapse col-md-1 col-sm-1">
             <ul class="nav navbar-nav">
                 <li class="active" >
                     <div class="navbar-toggle collapse in" data-toggle="collapse" id="menu-toggle-2" type="button">
@@ -38,8 +38,9 @@
 
         <div class="nav-search col-md-5">
             <div class="input-group">
+                <input type="text" class="form-control">
                 <div class="input-group-btn">
-                    <button type="button" id="xd-navbar-search-button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action <span class="caret"></span></button>
+                    <button type="button" id="xd-navbar-search-button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Search <span class="caret"></span></button>
                     <ul class="dropdown-menu">
                         <li><a href="#">Action</a></li>
                         <li><a href="#">Another action</a></li>
@@ -48,8 +49,6 @@
                         <li><a href="#">Separated link</a></li>
                     </ul>
                 </div>
-                <input type="text" class="form-control">
-
             </div>
         </div>
         <div class="col-md-3 pull-right">

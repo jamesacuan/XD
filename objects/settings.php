@@ -32,6 +32,7 @@ TRUNCATE users_notify;
 TRUNCATE product_color;
 TRUNCATE purchase_order;
 TRUNCATE purchase_order_details;
+TRUNCATE purchase_order_status;
 //TRUNCATE users;
 */
 

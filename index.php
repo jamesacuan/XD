@@ -25,11 +25,11 @@ $hrs = date("G");
 
 function getDayGreeter($hrs){
     if ( $hrs >= 5 && $hrs <= 11 ) {
-        return "Good Morning";
+        return "Good morning";
     } else if ( $hrs >= 12 && $hrs <= 18 ) {
-        return "Good Afternoon";
+        return "Good afternoon";
     } else if ( $hrs >= 19 || $hrs <= 4 ) {
-        return "Good Evening";
+        return "Good evening";
     }
 }
 

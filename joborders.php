@@ -73,8 +73,8 @@ function truncate($string, $length, $dots = "...") {
             echo "<button name=\"submit\" value=\"accept\" class=\"btn btn-default\"><span class=\"glyphicon glyphicon-ok\"></span> Accept Request</button>";
         }
         else if($role=="user"){
-            echo "<button type=\"button\" onclick=\"location.href='addjoborder.php'\" class=\"btn btn-primary\"><span class=\"glyphicon glyphicon-plus\"></span> Create</button>";
-            echo "&nbsp;<button id=\"softdelete\" class=\"btn btn-default\"><span class=\"glyphicon glyphicon-trash\"></span> Delete</button>";
+            echo "<button type=\"button\" onclick=\"location.href='addjoborder.php'\" class=\"btn btn-primary btn-sm btn-md\"><span class=\"glyphicon glyphicon-plus\"></span> Create</button>";
+            echo "&nbsp;<button id=\"softdelete\" class=\"btn btn-sm btn-md btn-default\"><span class=\"glyphicon glyphicon-trash\"></span> Delete</button>";
         }
         
         ?>

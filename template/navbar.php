@@ -38,9 +38,18 @@
 
         <div class="nav-search col-md-5">
             <div class="input-group">
-                <input type="search" class="form-control">
+                <?php
+                if  ($page_title=="Job Orders" || $page_title=="Purchase Orders" || $page_title=="Products"){  
+                ?>
+                    <div class="input-group-btn">
+                        <button type="button" id="xd-navbar-search-button" class="btn btn-default">
+                        <?php echo $page_title; ?>
+                        </button>
+                    </div>
+                <?php } ?>
+                <input type="search" class="form-control" accesskey="/" />
                 <div class="input-group-btn">
-                    <button type="button" id="xd-navbar-search-button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Search <span class="caret"></span></button>
+                    <button type="button" id="xd-navbar-search-button" class="btn btn-default xd-btn-search dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span></button>
                     <ul class="dropdown-menu">
                         <li><a href="#">Action</a></li>
                         <li><a href="#">Another action</a></li>

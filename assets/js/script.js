@@ -21,9 +21,27 @@ $("button[data-close='alert']").click(function(){
 
 
 $(document).ready( function () {
-     $('[data-toggle="tooltip"]').tooltip();
-     $('[data-toggle="popover"]').popover();  
-     initMenu();
+    $('[data-toggle="tooltip"]').tooltip();
+    $('[data-toggle="popover"]').popover();  
+    initMenu();
+    $(document).bind('keydown', '/', function(){
+        $('.nav-search input[type="search"]')[0].focus();
+    });
+    $(document).bind('keydown', 'shift+h', function(){
+        window.location.href = home_url;
+    });
+    $(document).bind('keydown', 'shift+j', function(){
+        window.location.href = home_url + "joborders.php";
+    });
+    $(document).bind('keydown', 'shift+p', function(){
+        window.location.href = home_url + "purchaseorders.php";
+    });
+    $(document).bind('keydown', 'shift+r', function(){
+        window.location.href = home_url + "products.php";
+    });
+    $(document).bind('keypress', 'c+j', function(){
+        window.location.href = home_url + "addjoborder.php";
+    });
 });
 
 
@@ -36,12 +54,6 @@ function setMoment(){
         console.log(x[i].innerText);
     }
 }
-
-
-$("#menu-toggle").click(function(e) {
-    e.preventDefault();
-    $("#wrapper").toggleClass("toggled");
-});
 
 $("#menu-toggle-2").click(function(e) {
     e.preventDefault();
@@ -76,4 +88,21 @@ $(window).scroll(function (event) {
     else{
         $('.xd-navbar').css('box-shadow','0 4px 5px 0 rgba(0,0,0,0.14),0 1px 10px 0 rgba(0,0,0,0.12),0 2px 4px -1px rgba(0,0,0,0.2)');
     }
+});
+
+var mywindow = $(window);
+var mypos = mywindow.scrollTop();
+var up = false;
+var newscroll;
+mywindow.scroll(function () {
+    newscroll = mywindow.scrollTop();
+    if (newscroll > mypos && !up) {
+        $('#footer').stop().slideToggle();
+        up = !up;
+        console.log(up);
+    } else if(newscroll < mypos && up) {
+        $('#footer').stop().slideToggle();
+        up = !up;
+    }
+    mypos = newscroll;
 });

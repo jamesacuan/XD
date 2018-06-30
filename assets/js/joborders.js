@@ -150,6 +150,7 @@ $(document).ready( function () {
             },
             dataSrc: 1
         },
+        "bAutoWidth": false,
         "pageLength": 25
     });
     var filteredjotable = jobordertable

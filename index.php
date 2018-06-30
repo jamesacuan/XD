@@ -69,7 +69,6 @@ echo "</div>";
 
 
 <div class="xd-dash row">
-<div class="container">
 
 <?php
     if($_SESSION['role']=="superadmin"){
@@ -77,8 +76,8 @@ echo "</div>";
     }
 ?>
 <div class="col-md-3">
-<h3><?php echo getDayGreeter($hrs) ?>, <?php echo $_SESSION['nickname'] ?></h3>
-<p>June 23, Saturday</p>
+<h3><?php echo getDayGreeter($hrs) ?>, <span class="name"><?php echo $_SESSION['nickname'] ?></span></h3>
+<p><span class="date"><?php echo date("F d") ?></span> <span class="day"><?php echo date("D") ?></span></p>
 </div>
 
 <?php
@@ -134,7 +133,6 @@ echo "</div>";
 </div>
 */
 ?>
-</div>
 </div>
 <div class="row home-approval">
     <div class="col-md-3">

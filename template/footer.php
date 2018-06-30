@@ -1,8 +1,15 @@
 </div>
-<script src="assets/js/jquery-ui.min.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
 <script src="assets/js/moment.min.js"></script>
+<?php
+    if ($page_title=="Job Orders" || $page_title=="Purchase Orders"){ ?>
+<script src="assets/js/jquery-ui.min.js"></script>
 <script src="assets/js/datatables.min.js"></script>
+<?php 
+    }
+?>
+<script src="assets/js/jquery.hotkeys.js"></script>
 <script src="assets/js/script.js"></script>
+
 </body>
 </html>

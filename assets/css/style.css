@@ -16,7 +16,11 @@ body {
 	  padding: 0 30px;
 	  border-left: 1px solid #e7e7e7;
 	}
-  }
+	
+	}
+	#footer{
+		display: none;
+	}
   .navbar-top-links {
 	margin-right: 0;
   }
@@ -587,6 +591,12 @@ li.active #xd-list-products i.glyphicon{
 #purchaseorders.table{
 	font-size: 13px;
 }
+.xd-product h4{
+	font-size: 16px;
+}
+.xd-product p{
+	font-size:12px;
+}
 .xd-product-thumbnail img{
   height: 200px;
   width: 250px;
@@ -1156,6 +1166,8 @@ background-position: left top;
     overflow-y: auto;
 }
 
+
+
 @media(max-width:768px) {
     #wrapper.toggled #sidebar-wrapper .sidebar {
         width: 100%;
@@ -1183,4 +1195,21 @@ background-position: left top;
     #wrapper.toggled #sidebar-wrapper ul li .masked {
         display: initial;
     }
+}
+
+@media(max-width: 768px){
+	#footer{
+		display:block;
+	}
+	nav .pull-right{
+		display: none;
+	}
+}
+@media(max-width: 1065px){
+	.nav-search{
+		display: none !important;
+	}
+	nav .col-md-3{
+		width: 40%;
+	}
 }

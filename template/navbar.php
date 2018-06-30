@@ -38,7 +38,7 @@
 
         <div class="nav-search col-md-5">
             <div class="input-group">
-                <input type="text" class="form-control">
+                <input type="search" class="form-control">
                 <div class="input-group-btn">
                     <button type="button" id="xd-navbar-search-button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Search <span class="caret"></span></button>
                     <ul class="dropdown-menu">
@@ -53,41 +53,46 @@
         </div>
         <div class="col-md-3 pull-right">
             <ul class="nav navbar-nav navbar-right">
-       
-                   <li>
-                    
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
-                            <span class="glyphicon glyphicon-bell"></span>
-                             
-                           <?php if($notify->getNotification($_SESSION['userid']) > 1) { ?>
-                                <span class="badge"><?php echo $notify->getNotification($_SESSION['userid']) ?></span>
-                           <?php } ?> <span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Test</a></li>
-                        </ul>
-                         
-                    </li>
-                   
-            <li>
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
-                    <span class="glyphicon glyphicon-plus"></span>
-                    <span class="caret"></span>
-                </a>
-                <ul class="dropdown-menu" role="menu">
-                    <?php if($_SESSION['role']=="user"){
-                        echo "<li><a href=\"{$home_url}addjoborder.php\">Job Order</a></li>";
-                        echo "<li><a href=\"{$home_url}addpurchaseorder.php\">Purchase Order</a></li>";
-                    }
-                    if(!empty($_SESSION['admin'])){
-                        echo "<li><a href=\"{$home_url}addproduct.php\">New Product</a></li>";
-                    }
-                    ?>
-                </ul>
-            </li>
+                <li>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                        <span class="glyphicon glyphicon-shopping-cart"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">Test</a></li>
+                    </ul>
+                </li>
+                <li>
+                
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                        <span class="glyphicon glyphicon-bell"></span>
+                            
+                        <?php if($notify->getNotification($_SESSION['userid']) > 1) { ?>
+                            <span class="badge"><?php echo $notify->getNotification($_SESSION['userid']) ?></span>
+                        <?php } ?> 
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">Test</a></li>
+                    </ul>
+                        
+                </li>
+                <li>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <?php if($_SESSION['role']=="user"){
+                            echo "<li><a href=\"{$home_url}addjoborder.php\">Job Order</a></li>";
+                            echo "<li><a href=\"{$home_url}addpurchaseorder.php\">Purchase Order</a></li>";
+                        }
+                        if(!empty($_SESSION['admin'])){
+                            echo "<li><a href=\"{$home_url}addproduct.php\">New Product</a></li>";
+                        }
+                        ?>
+                    </ul>
+                </li>
             <li <?php echo $page_title=="Edit Profile" ? "class='active'" : ""; ?>>
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
-                <?php echo "<span>" . $_SESSION['nickname'] . "</span>&nbsp;<span class=\"caret\"></span>"; ?>
+                <?php echo "<span>" . $_SESSION['nickname'] . "</span>"; ?>
                 </a>
                 <ul class="dropdown-menu" role="menu">
                     <?php if($_SESSION['admin']=='Y'){
@@ -203,23 +208,19 @@
     </div>
     
 </div>
-<!--
+*/
+?>
 <div id="footer">
   <div class="col-xs-12 navbar-inverse navbar-fixed-bottom">
   <div class="row" id="bottomNav">
-    <div class="col-xs-3 text-center"><a href="#"><i class="glyphicon glyphicon-circle-arrow-left"></i><br>Home</a></div>
-    <div class="col-xs-3 text-center"><a href="#"><i class="glyphicon glyphicon-circle-arrow-down"></i><br>Job Orders</a></div>
-    <div class="col-xs-3 text-center"><a href="#"><i class="glyphicon glyphicon-circle-arrow-right"></i><br>Purchase Orders</a></div>
-    <div class="col-xs-3 text-center"><a href="#"><i class="glyphicon glyphicon-circle-arrow-right"></i><br>Products</a></div>
+    <div class="col-xs-3 text-center"><a href="<?php echo $home_url; ?>"><i class="glyphicon glyphicon-circle-arrow-left"></i><br>Home</a></div>
+    <div class="col-xs-3 text-center"><a href="<?php echo $home_url . "joborders.php" ; ?>"><i class="glyphicon glyphicon-circle-arrow-down"></i><br>Job Orders</a></div>
+    <div class="col-xs-3 text-center"><a href="<?php echo $home_url . "purchaseorders.php" ; ?>"><i class="glyphicon glyphicon-circle-arrow-right"></i><br>Purchase Orders</a></div>
+    <div class="col-xs-3 text-center"><a href="<?php echo $home_url . "products.php" ; ?>"><i class="glyphicon glyphicon-circle-arrow-right"></i><br>Products</a></div>
 
   </div>
   </div>
 </div>
--->
-
-*/
-?>
-
 
 <?php
 /*

@@ -19,6 +19,7 @@ include 'template/header.php'
 
 <div class="container">
 <div class="row">
+<!--
     <div class="col-md-3">
         <div class="thumbnail panel panel-default xd-products-info data-spy="affix" data-offset-top="60" data-offset-bottom="200"">
             <div class="caption">
@@ -31,7 +32,8 @@ include 'template/header.php'
             </ul>
         </div>
     </div>
-    <div class="col-md-9">
+    -->
+    <div class="col-md-12">
     <div class="row">
     <?php      
             $total_rows = $product->getProductItemsCount();
@@ -43,7 +45,7 @@ include 'template/header.php'
             if($num>0){
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                     extract($row);
-                    echo "<div class=\"col-sm-6 col-md-3\">";
+                    echo "<div class=\"col-xs-6 col-sm-4 col-md-3 xd-product\">";
                     echo "<div class=\"thumbnail  xd-product-thumbnail\">";
                     if($image_url=="none") echo  "<img src=\"{$home_url}assets/images/def.png\">";
                     else   echo  "<img src=\"{$home_url}images/{$image_url}\">";
@@ -57,8 +59,17 @@ include 'template/header.php'
                             if($type=="HH") echo "Helmet Holder";
                             else if($type=='TH') echo "Ticket Holder";
                         echo "</p>";
-                        echo "<button class=\"btn btn-default glyphicon glyphicon-shopping-cart\"></button>";
-                        echo  "</div>";
+                        /*
+                        echo "<div class=\"input-group\">";
+                        echo "<input type=\"number\" class=\"form-control\">";
+                        echo "<span class=\"input-group-btn\">";
+                        */
+                        echo "<button class=\"btn btn-sm btn-default glyphicon glyphicon-shopping-cart\"></button>";
+                        /*
+                        echo "</span>";
+                        echo "</div>";
+                        */
+                    echo "</div>";
                     echo "</div>";
                     echo "</div>";
                 }

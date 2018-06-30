@@ -56,6 +56,8 @@ $(document).ready(function(){
              //alert('no');
          }
      });
-
+     $(".nav-search input[type='search'").keyup(function() {
+        potable.search($(this).val()).draw();
+     });
 
 });

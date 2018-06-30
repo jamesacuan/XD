@@ -81,6 +81,8 @@ echo "</div>";
 <p>June 23, Saturday</p>
 </div>
 
+<?php
+/*
 <div class="col-md-9">
     <div class="row">
         <div class="col-lg-3 col-md-6">
@@ -130,6 +132,8 @@ echo "</div>";
         </div>
     </div>
 </div>
+*/
+?>
 </div>
 </div>
 <div class="row home-approval">

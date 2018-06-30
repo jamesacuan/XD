@@ -175,7 +175,7 @@ $(document).ready( function () {
     $("#search").keyup(function() {
         jobordertable.search($(this).val()).draw();
      });
-     $(".nav-search input[placeholder='Search'").keyup(function() {
+     $(".nav-search input[type='search'").keyup(function() {
         jobordertable.search($(this).val()).draw();
      });
     $("input[name='filterme']").on('click', function(){

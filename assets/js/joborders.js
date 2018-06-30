@@ -151,7 +151,10 @@ $(document).ready( function () {
             dataSrc: 1
         },
         "bAutoWidth": false,
-        "pageLength": 25
+        "pageLength": 25,
+        drawCallback: function(){
+            $("img.img-circle").lazyload();
+        }
     });
     var filteredjotable = jobordertable
         .columns(6)

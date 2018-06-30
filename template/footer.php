@@ -5,6 +5,8 @@
     if ($page_title=="Job Orders" || $page_title=="Purchase Orders"){ ?>
 <script src="assets/js/jquery-ui.min.js"></script>
 <script src="assets/js/datatables.min.js"></script>
+<script src="assets/js/dataTables.rowGroup.min.js"></script>
+<script src="assets/js/lazyload.min.js"></script>
 <?php 
     }
 ?>

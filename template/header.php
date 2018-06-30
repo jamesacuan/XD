@@ -1,3 +1,9 @@
+<?php
+if($page_title != "Login"){
+    include_once "objects/settings.php";
+    $settings  = new Settings($db);
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

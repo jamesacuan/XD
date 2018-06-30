@@ -3,7 +3,6 @@ include_once "config/core.php";
 include_once "config/database.php";
 include_once "objects/job_order.php";
 include_once "objects/product.php";
-include_once "objects/settings.php";
 include_once "objects/user.php";
 
 $database = new Database();
@@ -11,7 +10,6 @@ $db = $database->getConnection();
 
 $job_order = new JobOrder($db);
 $product   = new Product($db);
-$settings  = new Settings($db);
 $user      = new User($db);
 
 if(isset($_GET['code']))

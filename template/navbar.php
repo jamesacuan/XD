@@ -100,8 +100,10 @@
                     </ul>
                 </li>
             <li <?php echo $page_title=="Edit Profile" ? "class='active'" : ""; ?>>
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
-                <?php echo "<span>" . $_SESSION['nickname'] . "</span>"; ?>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" style="padding: 7px;">
+                <?php 
+                echo "<div class=\"xd-circle\" style=\"width:35px; height:35px;background-color: #" . $settings->getColor(substr($_SESSION['username'], 0, 1)) . "\">" . substr($_SESSION['username'], 0, 1) . "</div>";
+                ?>
                 </a>
                 <ul class="dropdown-menu" role="menu">
                     <?php if($_SESSION['admin']=='Y'){

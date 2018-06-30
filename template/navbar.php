@@ -203,8 +203,24 @@
     </div>
     
 </div>
+<!--
+<div id="footer">
+  <div class="col-xs-12 navbar-inverse navbar-fixed-bottom">
+  <div class="row" id="bottomNav">
+    <div class="col-xs-3 text-center"><a href="#"><i class="glyphicon glyphicon-circle-arrow-left"></i><br>Home</a></div>
+    <div class="col-xs-3 text-center"><a href="#"><i class="glyphicon glyphicon-circle-arrow-down"></i><br>Job Orders</a></div>
+    <div class="col-xs-3 text-center"><a href="#"><i class="glyphicon glyphicon-circle-arrow-right"></i><br>Purchase Orders</a></div>
+    <div class="col-xs-3 text-center"><a href="#"><i class="glyphicon glyphicon-circle-arrow-right"></i><br>Products</a></div>
+
+  </div>
+  </div>
+</div>
+-->
+
 */
 ?>
+
+
 <?php
 /*
 <style>

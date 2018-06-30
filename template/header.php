@@ -11,7 +11,7 @@
             else echo "Index";
         ?>
     </title>
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet" media="screen" />   
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" media="screen" />  
     <link href="assets/css/datatables.css" rel="stylesheet" />
     <link href="assets/css/jquery-ui.min.css" rel="stylesheet" />
     <link href="assets/css/sidebar.css" rel="stylesheet" />
@@ -19,10 +19,11 @@
     <link href="assets/css/dataTables.bootstrap.min.css" rel="Stylesheet" />
     <link href="assets/css/style.css" rel="stylesheet" />
     <script src="assets/js/jquery-3.2.1.js"></script>
-    <script src="assets/js/jquery-ui.min.js"></script>  
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/moment.min.js"></script>
-    <script src="assets/js/datatables.min.js"></script>
+
+    <!--
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+-->
 
     <?php
     if($home_url == "http://taxcalculator.pe.hu/"){

@@ -542,8 +542,9 @@ li.active #xd-list-products i.glyphicon{
 	right: 0;
 	margin-left: auto; 
 	margin-right: auto; 
-	z-index: 500;
 	box-shadow: rgba(0, 0, 0, 0.5) 0px 5px 15px 0px;
+	z-index: 1100;
+	top: 35px;
 }
 .xd-container{
 	margin-top: -45vh;

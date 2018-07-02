@@ -476,7 +476,14 @@ nav.navbar .nav-search input[class="form-control"] {
     text-align: center;
 }
 
+#joborders,
+#purchaseorders{
+	border-right: #b0afb4 1px solid;
+}
 
+.xd-info-pane #stats{
+	margin: 10px;
+}
 .xd-dash{
 background-image: url("../images/bg-ribbon.png");
 margin: 0 -30px;
@@ -583,6 +590,24 @@ li.active #xd-list-products i.glyphicon{
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;
 	border: 1px solid #ddd;
+}
+.xd-content div[class*="col-md"]{
+	margin: 0;
+	padding: 0;
+}
+.xd-table{
+	display:table;
+}
+.xd-sticky{
+	position: Absolute;
+	top: 0px;
+	left: 0;
+	right: 0;
+}
+
+.info-card{
+	border: 1px solid #ddd;
+	margin: 15px 5px;
 }
 .xd-ribbon{
 	width: 100%;

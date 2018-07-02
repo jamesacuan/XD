@@ -58,6 +58,7 @@ function truncate($string, $length, $dots = "...") {
     return (strlen($string) > $length) ? substr($string, 0, $length - strlen($dots)) . $dots : $string;
 }
 ?>
+<div class="">
 
 <div class="row xd-bar">
         <div class="pull-left">
@@ -68,10 +69,9 @@ function truncate($string, $length, $dots = "...") {
             </h2>
         </div>
         <div class="pull-right">
-            <span>5 active | 10 pending | 100 published</span>
         </div>
 </div>
-<div class="row xd-bar">
+<div class="row xd-bar xd-toolbar">
     <div class="pull-left">
 <?php 
         if($role=='hans' || $role=='designer'){
@@ -137,7 +137,7 @@ function truncate($string, $length, $dots = "...") {
 </div>
 </div>
 <div class="row xd-content">
-  <div role="tabpanel" class="tab-pane active" id="home">
+  <div role="tabpanel" class="col-md-10" id="home">
       <form action="<?php htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" style="position:relative; width:100%">          
         <table id="joborders" class="table table-hover">
             <thead style="background-color: #fff">
@@ -265,7 +265,73 @@ function truncate($string, $length, $dots = "...") {
             ?>
             </tbody>
         </table> 
+        </div>
 
+        <div class="col-md-2 xd-info-pane">
+        <div>
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#stats">Stats</a></li>
+                <li><a data-toggle="tab" href="#activity">Activity</a></li>
+            </ul>
+            <div class="tab-content">
+                <div id="stats" class="tab-pane fade in active">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-comments fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">26</div>
+                                    <div>Pending</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-comments fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">26</div>
+                                    <div>Pending</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="activity" class="tab-pane fade in">
+            <?php
+            $stmt = $job_order->readJODRecentStream();
+            $num  = $stmt->rowCount();
+            if($num>0){
+                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                    extract($row);
+            ?>
+
+                    <div class="info-card">
+                        <div class="media">
+                            <div class="media-left">
+                                <a href="<?php echo "{$home_url}joborderitem.php?&code={$code}" ?> ">
+                                <?php  if($image_url=="") $image_url = "def.png"; ?>
+                                <img class="img-rounded media-object" src="<?php echo "{$home_url}images/thumbs/{$image_url}" ?>" width="32" height="32" /></a>
+                                </a>
+                            </div>
+                            <div class="media-body">
+                                <h4 class="media-heading"><?php echo $code ?></h4>
+                                <p>added by <?php echo $nickname ?> </p>
+                            </div>
+                        </div>
+                    </div>
+
+            <?php }
+            } ?>
+                            </div>
+            </div>
+        </div>
+    </div>
 <div class="modal fade" id="warn" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">
@@ -282,7 +348,6 @@ function truncate($string, $length, $dots = "...") {
       </div>
     </div>
   </div>
-</div>
 </form>
     </div>
 
@@ -299,12 +364,7 @@ function truncate($string, $length, $dots = "...") {
   </div>
 </div>
 
-
-
-<!--
-    <script src="js/dataTables.fixedHeader.min.js"></script>
-            -->
-<script src="assets/js/dataTables.rowGroup.min.js"></script>
+</div>
 <script src="assets/js/joborders.js"></script>
 </div>
 <?php

@@ -504,6 +504,23 @@ class JobOrder{
     }
 
 
+    function readJODRecentStream(){
+        $query = "SELECT job_order_details.id as ID,
+        users.nickname,
+        job_order_details.code,
+        job_order_details.image_url,
+        job_order_details.created as created
+        FROM job_order_details
+        JOIN job_order ON job_order_details.job_orderid = job_order.id
+        JOIN users ON users.userid = job_order.userid
+        WHERE job_order.isDeleted <> 'Y'
+        ORDER BY created DESC
+        LIMIT 5";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt;
+    }
 
     function readJODActivityStream(){
         /*$query = "SELECT job_order.id as JOID,

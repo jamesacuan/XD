@@ -141,6 +141,10 @@ $(document).ready( function () {
         fixedHeader: {
             header: true
         },
+        keys: {
+            keys: [ 13 /* ENTER */, 38 /* UP */, 40 /* DOWN */ ]
+         },
+         
         order: [[1, 'asc']],
         rowGroup: {
             startRender: function ( rows, group ) {
@@ -154,7 +158,8 @@ $(document).ready( function () {
         "pageLength": 25,
         drawCallback: function(){
             $("img.img-circle").lazyload();
-        }
+        },
+        
     });
     var filteredjotable = jobordertable
         .columns(6)

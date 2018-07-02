@@ -42,6 +42,15 @@ $(document).ready( function () {
     $(document).bind('keypress', 'c+j', function(){
         window.location.href = home_url + "addjoborder.php";
     });
+    $(document).bind('keypress', 'shift+n', function(){
+        window.location.href = home_url + "addjoborder.php";
+    });
+    $(document).bind('keydown', 'shift+/', function(){
+        $('#keycode').modal('show');
+    });
+    $(document).bind('keydown', 'ctrl+f', function(){
+        $('.nav-search input[type="search"]')[0].focus();
+    });
     checkBrowser();
 });
 
@@ -89,6 +98,13 @@ $(window).scroll(function (event) {
     else{
         $('.xd-navbar').css('box-shadow','0 4px 5px 0 rgba(0,0,0,0.14),0 1px 10px 0 rgba(0,0,0,0.12),0 2px 4px -1px rgba(0,0,0,0.2)');
     }
+
+    /*if($sbar>=50){
+        $('.xd-toolbar').addClass("xd-sticky");
+    }
+    else{
+        $('.xd-toolbar').removeClass("xd-sticky");
+    }*/
 });
 
 $(window).resize(function() {
@@ -119,3 +135,12 @@ mywindow.scroll(function () {
     }
     mypos = newscroll;
 });
+
+if(window.Notification && Notification.permission !== "denied") {
+	Notification.requestPermission(function(status) {  // status is "granted", if accepted by user
+		/*var n = new Notification('Title', { 
+			body: 'I am the body text!',
+			icon: '/path/to/icon.png' // optional
+		});*/ 
+	});
+}

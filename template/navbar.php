@@ -162,6 +162,16 @@
                 
                 <li <?php echo $page_title=="Job Orders" ? "class='active'" : ""; ?>>
                     <a href="<?php echo $home_url . "joborders.php" ; ?>" id="xd-list-joborder"><span class="pull-left"><i class="glyphicon"></i></span>Job Orders</a>
+                    <!--
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="#">Helmet Holder</a>
+                        </li>
+                        <li>
+                            <a href="#">Ticket Holder</a>
+                        </li>
+                    </ul>
+                    -->
                 </li>
                 <li <?php echo $page_title=="Purchase Orders" ? "class='active'" : ""; ?>>
                     <a href="<?php echo $home_url . "purchaseorders.php" ; ?>" id="xd-list-purchaseorder"><span class="pull-left"><i class="glyphicon"></i></span>Purchase Orders</a>

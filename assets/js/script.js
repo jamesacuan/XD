@@ -140,7 +140,17 @@ if(window.Notification && Notification.permission !== "denied") {
 	Notification.requestPermission(function(status) {  // status is "granted", if accepted by user
 		/*var n = new Notification('Title', { 
 			body: 'I am the body text!',
-			icon: '/path/to/icon.png' // optional
+			icon: '.../images/def.png' // optional
 		});*/ 
 	});
 }
+
+/*
+var url = document.location.toString();
+if (url.match('#')) {
+    $('.nav-tabs a[href="#' + url.split('#')[1] + '"]').tab('show');
+} 
+
+$('.nav-tabs a').on('shown.bs.tab', function (e) {
+    window.location.hash = e.target.hash;
+})*/

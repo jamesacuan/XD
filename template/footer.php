@@ -68,8 +68,7 @@
 <script src="assets/js/jquery-ui.min.js"></script>
 <script src="assets/js/datatables.min.js"></script>
 <script src="assets/js/dataTables.rowGroup.min.js"></script>
-<script src="https://cdn.datatables.net/keytable/2.4.1/js/dataTables.keyTable.min.js"> </script>
-
+<script src="assets/js/dataTables.keyTable.min.js"> </script>
 <script src="assets/js/lazyload.min.js"></script>
 <?php 
     }

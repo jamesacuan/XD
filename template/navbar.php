@@ -88,8 +88,7 @@
                         <li><a href="#">Action</a></li>
                         <li><a href="#">Another action</a></li>
                         <li><a href="#">Something else here</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
+                        
                     </ul>
                 </div>
             </div>
@@ -102,6 +101,8 @@
                     </a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="#">Test</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="addpurchaseorder.php   ">View placed items...</a></li>
                     </ul>
                 </li>
                 <li>
@@ -152,16 +153,22 @@
     <div id="wrapper" class="xd-content-wrapper toggled-2">
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
-                <!--<li><div>
-                    <b><?php echo $_SESSION["nickname"]; ?></b>
-                </div>
-                </li>-->
+            <?php /*<li><a>
+
+                <span class="pull-left">
+                
+                echo "<div class=\"xd-circle\" style=\"width:35px; height:35px;background-color: #" . $settings->getColor(substr($_SESSION['username'], 0, 1)) . "\">" . substr($_SESSION['username'], 0, 1) . "</div>";
+                
+                </span>Profile
+                    </a>
+
+                </li> */?>
                 <li <?php echo $page_title=="Dashboard" ? "class='active'" : ""; ?>>
-                    <a href="<?php echo $home_url; ?>" id="xd-list-home"><span class="pull-left"><i class="glyphicon"></i></span>Home</a>
+                    <a title="Home" href="<?php echo $home_url; ?>" id="xd-list-home"><span class="pull-left"><i class="glyphicon"></i></span>Home</a>
                 </li>
                 
                 <li <?php echo $page_title=="Job Orders" ? "class='active'" : ""; ?>>
-                    <a href="<?php echo $home_url . "joborders.php" ; ?>" id="xd-list-joborder"><span class="pull-left"><i class="glyphicon"></i></span>Job Orders</a>
+                    <a title="Job Orders" href="<?php echo $home_url . "joborders.php" ; ?>" id="xd-list-joborder"><span class="pull-left"><i class="glyphicon"></i></span>Job Orders</a>
                     <!--
                     <ul class="nav nav-second-level">
                         <li>
@@ -174,10 +181,10 @@
                     -->
                 </li>
                 <li <?php echo $page_title=="Purchase Orders" ? "class='active'" : ""; ?>>
-                    <a href="<?php echo $home_url . "purchaseorders.php" ; ?>" id="xd-list-purchaseorder"><span class="pull-left"><i class="glyphicon"></i></span>Purchase Orders</a>
+                    <a title="Purchase Orders"  href="<?php echo $home_url . "purchaseorders.php" ; ?>" id="xd-list-purchaseorder"><span class="pull-left"><i class="glyphicon"></i></span>Purchase Orders</a>
                 </li>
                 <li <?php echo $page_title=="Products" ? "class='active'" : ""; ?>>
-                    <a href="<?php echo $home_url . "products.php" ; ?>" id="xd-list-products"><span class="pull-left"><i class="glyphicon"></i></span>Products</a>
+                    <a title="Products" href="<?php echo $home_url . "products.php" ; ?>" id="xd-list-products"><span class="pull-left"><i class="glyphicon"></i></span>Products</a>
                 </li>
             </ul>
         </div>

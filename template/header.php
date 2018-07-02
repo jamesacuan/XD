@@ -26,7 +26,7 @@ if($page_title != "Login"){
     <link href="assets/css/dataTables.bootstrap.min.css" rel="Stylesheet" />
     <link href="assets/css/style.css" rel="stylesheet" />
     <script src="assets/js/jquery-3.2.1.js"></script>
-    <link href="https://cdn.datatables.net/keytable/2.4.1/css/keyTable.dataTables.min.css" rel="Stylesheet" />
+    <link href="assets/css/keyTable.bootstrap.min.css" rel="Stylesheet" />
 
     <!--
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet" />

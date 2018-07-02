@@ -17,6 +17,7 @@ if($page_title != "Login"){
             else echo "Index";
         ?>
     </title>
+    <link href="https://fonts.googleapis.com/css?family=Fira+Sans|Roboto" rel="stylesheet"> 
     <link href="assets/css/bootstrap.min.css" rel="stylesheet" media="screen" />  
     <link href="assets/css/datatables.css" rel="stylesheet" />
     <link href="assets/css/jquery-ui.min.css" rel="stylesheet" />

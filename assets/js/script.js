@@ -24,7 +24,7 @@ $(document).ready( function () {
     $('[data-toggle="tooltip"]').tooltip();
     $('[data-toggle="popover"]').popover();  
     initMenu();
-    $(document).bind('keydown', '/', function(){
+    $(document).bind('keypress', '/', function(){
         $('.nav-search input[type="search"]')[0].focus();
     });
     $(document).bind('keydown', 'shift+h', function(){
@@ -42,6 +42,7 @@ $(document).ready( function () {
     $(document).bind('keypress', 'c+j', function(){
         window.location.href = home_url + "addjoborder.php";
     });
+    checkBrowser();
 });
 
 
@@ -90,6 +91,18 @@ $(window).scroll(function (event) {
     }
 });
 
+$(window).resize(function() {
+    checkBrowser();
+})
+
+function checkBrowser(){
+    if ($(window).width() <= 750) {
+        $("body").addClass("xd-mobile");
+    }
+    else $("body").removeClass("xd-mobile");
+}
+
+
 var mywindow = $(window);
 var mypos = mywindow.scrollTop();
 var up = false;
@@ -97,11 +110,11 @@ var newscroll;
 mywindow.scroll(function () {
     newscroll = mywindow.scrollTop();
     if (newscroll > mypos && !up) {
-        $('#footer').stop().slideToggle();
+        $('.xd-mobile #footer .navbar-fixed-bottom').stop().slideToggle();
         up = !up;
         console.log(up);
     } else if(newscroll < mypos && up) {
-        $('#footer').stop().slideToggle();
+        $('.xd-mobile #footer .navbar-fixed-bottom').stop().slideToggle();
         up = !up;
     }
     mypos = newscroll;

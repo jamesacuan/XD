@@ -13,7 +13,41 @@
 }
 ?>
     <?php if(isset($_SESSION['logged_in']) && $_SESSION['logged_in']==true){ ?>
+    <div class="xd-navbar navbar mobile navbar-static-top row no-margin navbar-default">
+        <div class="col-sm-2 ">
+            <a class="navbar-brand" href="<?php echo $home_url; ?>"><img src="<?php echo $home_url . "assets/images/logo-xs.png"; ?>" alt="HANC" /></a>
+        </div>
+        <div class="col-sm-10 pull-right">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                        <span class="glyphicon glyphicon-shopping-cart"></span>
+                    </a>
+                </li>
+                <li>
+                
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                        <span class="glyphicon glyphicon-bell"></span>
+                            
+                        <?php if($notify->getNotification($_SESSION['userid']) > 1) { ?>
+                            <span class="badge"><?php echo $notify->getNotification($_SESSION['userid']) ?></span>
+                        <?php } ?> 
+                    </a>
 
+                        
+                </li>
+
+            <li <?php echo $page_title=="Edit Profile" ? "class='active'" : ""; ?>>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" style="padding: 7px;">
+                <?php 
+                echo "<div class=\"xd-circle\" style=\"width:35px; height:35px;background-color: #" . $settings->getColor(substr($_SESSION['username'], 0, 1)) . "\">" . substr($_SESSION['username'], 0, 1) . "</div>";
+                ?>
+                </a>
+
+            </li>
+            </ul>
+        </div>
+    </div>
     <nav class="xd-navbar navbar navbar-static-top navbar-default no-margin row">        
         <div class="collapse navbar-collapse col-md-1 col-sm-1">
             <ul class="nav navbar-nav">
@@ -50,7 +84,7 @@
                 <input type="search" class="form-control" accesskey="/" />
                 <div class="input-group-btn">
                     <button type="button" id="xd-navbar-search-button" class="btn btn-default xd-btn-search dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span></button>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu dropdown-menu-right">
                         <li><a href="#">Action</a></li>
                         <li><a href="#">Another action</a></li>
                         <li><a href="#">Something else here</a></li>

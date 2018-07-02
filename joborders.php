@@ -61,13 +61,18 @@ function truncate($string, $length, $dots = "...") {
 
 <div class="row xd-bar">
         <div class="pull-left">
-            <h2>Job Orders<small>4</small></h2>
+            <h2>Job Orders
+                <?php if($type=="HH") echo " > Helmet Holder";
+                      else if($type=="TH") echo " > Ticket Holder";
+                ?>
+            </h2>
         </div>
         <div class="pull-right">
             <span>5 active | 10 pending | 100 published</span>
         </div>
 </div>
 <div class="row xd-bar">
+    <div class="pull-left">
 <?php 
         if($role=='hans' || $role=='designer'){
             echo "<button name=\"submit\" value=\"accept\" class=\"btn btn-default\"><span class=\"glyphicon glyphicon-ok\"></span> Accept Request</button>";
@@ -78,8 +83,8 @@ function truncate($string, $length, $dots = "...") {
         }
         
         ?>
-
-
+        <button type="button" class="btn btn-default btn-sm" onclick="window.print();"><span class="glyphicon glyphicon-print"></span> Print</button>
+    </div>
 
                     <!--
     <div class="dropdown pull-left">
@@ -96,17 +101,23 @@ function truncate($string, $length, $dots = "...") {
     </div>
     -->
     <div class="pull-right">
-
         <div class="dropdown">
-        <button class="btn btn-default" id="dLabel" type="button" data-toggle="dropdown">
+            <button class="btn btn-default btn-sm" type="button" data-toggle="dropdown">
+                Type <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right">
+                <li><a href="<?php echo $home_url ?>joborders.php">All</a></li>
+                <li><a href="<?php echo $home_url ?>joborders.php?type=HH">Helmet Holder</a></li>
+                <li><a href="<?php echo $home_url ?>joborders.php?type=TH">Ticket Holder</a></li>
+            </ul>
+        </div>
+        <div class="dropdown">
+        <button class="btn btn-default btn-sm   " id="dLabel" type="button" data-toggle="dropdown">
             Filter <span class="caret"></span>
         </button>
-        <ul class="dropdown-menu">
+        <ul class="dropdown-menu dropdown-menu-right">
             <li><a><label><input type="checkbox" name="filterme" id="filterme"/> By me</a></label></li>
             <li><a><label><input type="checkbox" name="filterpublish" id="filterpublish"/> Show Published</a></label></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#" onclick="window.print();">Print...</a></li>
-            <li><a href="objects/functions/export.php">Export to Excel...</a></li>
         </ul>
     </div>
 

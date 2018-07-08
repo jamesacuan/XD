@@ -7,6 +7,7 @@ $database = new Database();
 $db = $database->getConnection();
 
 $purchase_order = new PurchaseOrder($db);
+$page_ribbon = "N";
 
 $page_title="Purchase Orders";
 $role = $_SESSION['role'];
@@ -16,65 +17,45 @@ include_once "functions/login_check.php";
 include 'template/header.php'
 ?>
 
-<div class="row xd-heading">
-    <div class="clearfix">
-        <div class="page-header pull-left">
-            <h1><?php echo isset($page_title) ? $page_title : "Index"; ?></h1>
+<div class="row xd-bar">
+        <div class="pull-left">
+            <h2>Purchase Orders</h2>
         </div>
-        <div class="btn-group pull-right">
-            <?php if($_SESSION['role']=="user")
-                echo "<button type=\"button\" onclick=\"location.href='addpurchaseorder.php'\" class=\"btn btn-primary pull-right\">+ Purchase Order</button>";
-            ?>
+        <div class="pull-right">
         </div>
+</div>
+
+<div class="row xd-bar">
+    <div class="pull-left">
+        <?php 
+        if($role=='hans' || $role=='designer'){
+            echo "<button name=\"submit\" value=\"accept\" class=\"btn btn-default\"><span class=\"glyphicon glyphicon-ok\"></span> Accept Request</button>";
+        }
+        else if($role=="user"){
+            echo "<button type=\"button\" onclick=\"location.href='addjoborder.php'\" class=\"btn btn-primary btn-sm btn-md\"><span class=\"glyphicon glyphicon-plus\"></span> Create</button>";
+            echo "&nbsp;<button id=\"softdelete\" class=\"btn btn-sm btn-md btn-default\"><span class=\"glyphicon glyphicon-trash\"></span> Delete</button>";
+        }
+        ?>
+    </div>
+
+    <div class="pull-right">
+        <div class="dropdown">
+            <button class="btn btn-default btn-sm" id="dLabel" type="button" data-toggle="dropdown">
+                Filter <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right">
+                <li><a><label><input type="checkbox" name="filterme" id="filterme"/> By me</a></label></li>
+                <li><a><label><input type="checkbox" name="filterpublish" id="filterpublish"/> Show Published</a></label></li>
+            </ul>
+        </div>
+        <button class="btn btn-default btn-sm">
+            <span class=" glyphicon glyphicon-info-sign"></span>
+        </button>
     </div>
 </div>
 
 <div class="row xd-content">
-    
-    <div class="col-md-12">
-    <div class="row form-inline clearfix" style="border-bottom:1px solid #ddd; padding: 10px 0;z-index:999;background-color:#fff;" data-spy="affi" data-offset-top="250">
-          <div class="pull-left">  
-            
-                <?php 
-                if($role=='hans' || $role=='designer'){
-                    echo "<button name=\"submit\" value=\"accept\" class=\"btn btn-default\"><span class=\"glyphicon glyphicon-ok\"></span> Accept Request</button>";
-                }
-                else if($role=="user"){
-                    echo "<button type=\"button\" onclick=\"location.href='addjoborder.php'\" class=\"btn btn-primary\"><span class=\"glyphicon glyphicon-plus\"></span> Create</button>";
-                }
-                
-                ?>
-            </div>
-            <!--
-            <div class="dropdown pull-left">
-                <button class="btn btn-default" id="dLabel" type="button" data-toggle="dropdown">
-                    Filter <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a><label><input type="checkbox" name="filterme" id="filterme"/> By me</a></label></li>
-                    <li><a><label><input type="checkbox" name="filterpublish" id="filterpublish"/> Show Published</a></label></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a href="#" onclick="window.print();">Print...</a></li>
-                    <li><a href="objects/functions/export.php">Export to Excel...</a></li>
-                </ul>
-            </div>
-            -->
-            <div class="pull-right">
-                <label><input type="checkbox" name="filterme" id="filterme"/> By me</a></label>
-                <label><input type="checkbox" name="filterpublish" id="filterpublish"/> Show Published</a></label>
-                <input type="search" id="search" placeholder="search" class="form-control input-sm" />
-
-                <!--<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="glyphicon glyphicon-option-vertical"></span>
-                    <span class="sr-only">Toggle Dropdown</span>
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a href="#" onclick="window.print();">Print...</a></li>
-                    <li><a href="objects/functions/export.php">Export to Excel...</a></li>
-                </ul>
-                -->
-            </div>
-          </div>
+    <div class="col-md-10">
         <table id="purchaseorders" class="table table-hover table-striped">
                 <thead>
                     <tr>
@@ -112,23 +93,41 @@ include 'template/header.php'
                         }
                         echo "</td>";
 
-                        /* STATUS */
+                        /* STATUS 
                         echo "<td><span class=\"label ";
                         if($status == 'New' || $status == 'On-queue') echo  'label-default">On-queue';
                         else if($status == 'paid') echo 'label-success">Done';
                         else echo 'label-primary">' . $status;
                         echo "</span></td>";
-                        
+                        */
+                        echo "<td>{$status}</td>";
+
                         echo "<td><a href=\"purchaseorder.php?&amp;id={$id}\" class=\"btn btn-xs btn-default\">View</a></td>";
                         echo "</tr>";
                     }
                 }//
                 ?>    
                 </tbody>
-            </table> 
+        </table>
+    </div>
+    <div class="col-md-2 xd-info-pane">
+        <div>
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#stats">Stats</a></li>
+                <li><a data-toggle="tab" href="#activity">Activity</a></li>
+            </ul>
+            <div class="tab-content">
+                <div id="stats" class="tab-pane fade in active">
+                    <h4>HOME</h4>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                </div>
+                <div id="activity" class="tab-pane fade in">
+                test
+                </div>
+            </div>
         </div>
     </div>
 </div>
-</div>
+
 <script src="assets/js/purchaseorders.js"></script>
 <?php include 'template/footer.php'?>

@@ -1,6 +1,10 @@
 <?php
+if(isset($settings) && $settings=='Y')
+    $subdirectory = "../";
+else $subdirectory = "";
+
 if($page_title != "Login"){
-    include_once "objects/settings.php";
+    include_once $subdirectory . "objects/settings.php";
     $settings  = new Settings($db);
 }
 ?>
@@ -17,26 +21,31 @@ if($page_title != "Login"){
             else echo "Index";
         ?>
     </title>
-    <link href="https://fonts.googleapis.com/css?family=Fira+Sans|Roboto" rel="stylesheet"> 
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet" media="screen" />  
-    <link href="assets/css/datatables.css" rel="stylesheet" />
-    <link href="assets/css/jquery-ui.min.css" rel="stylesheet" />
-    <link href="assets/css/sidebar.css" rel="stylesheet" />
-    <link href="assets/favicon.png" rel="shortcut icon" />
-    <link href="assets/css/dataTables.bootstrap.min.css" rel="Stylesheet" />
-    <link href="assets/css/style.css" rel="stylesheet" />
-    <script src="assets/js/jquery-3.2.1.js"></script>
-    <link href="assets/css/keyTable.bootstrap.min.css" rel="Stylesheet" />
-
-    <!--
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="<?php echo $subdirectory ?>assets/css/bootstrap.min.css" rel="stylesheet" media="screen" />  
+    <link href="<?php echo $subdirectory ?>assets/css/datatables.css" rel="stylesheet" />
+    <link href="<?php echo $subdirectory ?>assets/css/jquery-ui.min.css" rel="stylesheet" />
+    <link href="<?php echo $subdirectory ?>assets/css/sidebar.css" rel="stylesheet" />
+    <link href="<?php echo $subdirectory ?>assets/favicon.png" rel="shortcut icon" />
+    <link href="<?php echo $subdirectory ?>assets/css/dataTables.bootstrap.min.css" rel="Stylesheet" />
+    <link href="<?php echo $subdirectory ?>assets/css/style.css" rel="stylesheet" />
+    <script src="<?php echo $subdirectory ?>assets/js/jquery-3.2.1.js"></script>
+<?php
+// Create the function, so you can use it
+/*function isMobile() {
+    return preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|hiptop|mini|mobi|palm|phone|pie|tablet|up\.browser|up\.link|webos|wos)/i", $_SERVER["HTTP_USER_AGENT"]);
+}
+// If the user is on a mobile device, redirect them
+if(isMobile()){
+    echo "test";
+    header("Location: http://localhost/xd-live/");
+}
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet" />
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
--->
-
+*/
+?>
     <?php
     if($home_url == "http://taxcalculator.pe.hu/"){
     ?>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-121242412-1"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -59,7 +68,7 @@ if($page_title != "Login"){
 </head>
 <body>
 <?php /*<div id="progressBar" class="waiting"></div>*/ ?>
-     <?php include_once 'template/navbar.php'; ?>
+     <?php include_once $subdirectory . 'template/navbar.php'; ?>
 
      <?php if(!empty($_SESSION["modal"])){ ?>
         <div class="xd-alert alert alert-warning clearfix" role="alert">

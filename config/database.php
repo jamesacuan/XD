@@ -2,7 +2,8 @@
 class Database{
  
     private $host = "localhost";
-    private $db_name = "xd";
+    //private $db_name = "xd";
+    private $db_name = "u166415122_xd";
     private $username = "root";
     private $password = "";
     public  $conn;

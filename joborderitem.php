@@ -506,6 +506,9 @@ include 'template/header.php';
                         <div class="form-group">
                             <textarea class="form-control" name="note" placeholder="Comment" rows="3" required></textarea>
                         </div>
+                        <?php
+
+                        if($job_order->status == "Accepted"){ ?>
                         <div class="form-group clearfix">
                             <div class="pull-left">
                             <label for="tag" class="control-label">Tag</label>
@@ -521,6 +524,7 @@ include 'template/header.php';
                                 </div>
                             </div>
                         </div>
+                        <?php } ?>
                         <!--
                         <div class="form-group">
 

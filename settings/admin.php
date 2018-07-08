@@ -1,19 +1,24 @@
 <?php
-include_once "config/core.php";
-include_once "config/database.php";
-include_once "objects/user.php";
+include_once "../config/core.php";
+include_once "../config/database.php";
+include_once "../objects/user.php";
+
+if($_SESSION['admin']!='Y'){
+    header("Location: '../404.php'");
+    echo "yo are not allowe";
+}
 
 $require_login=true;
-include_once "functions/login_check.php";
+include_once "../functions/login_check.php";
 
 $database = new Database();
 $db = $database->getConnection();
 
 $user = new User($db);
-$page_title="Settings";
+$page_title="Admin Settings";
 $page_ribbon="F";
-
-include 'template/header.php';
+$settings = "Y";
+include '../template/header.php';
 ?>
 
 <?php
@@ -307,4 +312,4 @@ else{
 </div>
 
 <script type="text/javascript" src="assets/js/settings.js"> </script>
-<?php include 'template/footer.php' ?>
+<?php include '../template/footer.php' ?>

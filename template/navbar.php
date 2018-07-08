@@ -142,7 +142,7 @@
                 </a>
                 <ul class="dropdown-menu" role="menu">
                     <?php if($_SESSION['admin']=='Y'){
-                        echo "<li><a href=\"" . $home_url . "settings.php\">Settings</a></li>";
+                        echo "<li><a href=\"" . $home_url . "settings\">Settings</a></li>";
                     }?>
                     <li><a href="<?php echo $home_url; ?>logout.php">Logout</a></li>
                 </ul>
@@ -186,6 +186,11 @@
                 <li <?php echo $page_title=="Products" ? "class='active'" : ""; ?>>
                     <a title="Products" href="<?php echo $home_url . "products.php" ; ?>" id="xd-list-products"><span class="pull-left"><i class="glyphicon"></i></span>Products</a>
                 </li>
+                <?php if($_SESSION['admin']=='Y'){?>
+                <li <?php echo $page_title=="Admin Settings" ? "class='active'" : ""; ?>>
+                    <?php echo "<a href=\"{$home_url}settings\admin.php\">Admin</a>"?>
+                </li>
+                <?php } ?>
             </ul>
         </div>
     <?php } ?>

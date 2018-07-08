@@ -48,7 +48,6 @@ if($_POST){
         $access_denied=true;
     }
 }
-
 include_once "template/header.php";
 
 echo "<div class='col-sm-6 col-md-4 col-md-offset-4'>";

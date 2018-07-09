@@ -188,7 +188,7 @@
                 </li>
                 <?php if($_SESSION['admin']=='Y'){?>
                 <li <?php echo $page_title=="Admin Settings" ? "class='active'" : ""; ?>>
-                    <?php echo "<a href=\"{$home_url}settings\admin.php\">Admin</a>"?>
+                    <a title="Admin" href="<?php echo $home_url . "settings\admin.php" ; ?>" id="xd-list-admin"><span class="pull-left"><i class="glyphicon"></i></span>Admin</a>
                 </li>
                 <?php } ?>
             </ul>

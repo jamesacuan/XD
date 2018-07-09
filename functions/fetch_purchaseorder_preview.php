@@ -31,7 +31,7 @@ return $stmt;";
 $result1 = mysqli_query($connect, $query1);
 while($row = mysqli_fetch_array($result1)){
     $output .= "<div>";
-    $output .= "<h3>PO - " . $row["id"] . "</h3>";
+    $output .= "<a href=\"purchaseorder.php?&amp;id=" . $row["id"] . "\"><h3>PO - " . $row["id"] . "</h3></a>";
 
     $output .= "<ul class=\"nav nav-tabs\">";
     $output .= "<li class=\"active\"><a data-toggle=\"tab\" href=\"#info\">Info</a></li>";

@@ -193,7 +193,7 @@ $(document).ready( function () {
             dataSrc: 1
         },
         "bAutoWidth": false,
-        "pageLength": 10,
+        "pageLength": 15,
         drawCallback: function(){
             $("img.img-circle").lazyload();
         },

@@ -481,7 +481,11 @@ nav.navbar .nav-search input[class="form-control"] {
 	border-right: #b0afb4 1px solid;
 }
 .xd-info-pane img{
-	width:90%;
+	width:80%;
+}
+
+.xd-info-pane h3{
+	font-size: 18px;
 }
 .xd-info-pane #stats{
 	margin: 10px;
@@ -550,6 +554,13 @@ li.active #xd-list-home i.glyphicon{
 
 li #xd-list-joborder i.glyphicon{
 	background-position: 3px -119px;;
+}
+li #xd-list-admin i.glyphicon{
+	background-position: 3px -225px;
+}
+li.hover #xd-list-admin i.glyphicon,
+li.active #xd-list-admin i.glyphicon{
+	background-position: -31px -225px;
 }
 li.hover #xd-list-joborder i.glyphicon,
 li.active #xd-list-joborder i.glyphicon{
@@ -876,13 +887,15 @@ body{
 
 #joborders tr.enable{
 	cursor: pointer;
+	
 }
 .table > tbody > tr.active > td{
 	background-color: transparent !important;
 }
 
 .enable.active {
-    background-color: #FFF9C4 !important; 
+		background-color: #FFF9C4 !important; 
+		outline: 1px solid #e0d14e;
 }
 .hide{
 	display:none;
@@ -1286,7 +1299,10 @@ background-position: left top;
     }
     #wrapper.toggled #sidebar-wrapper ul li .masked {
         display: initial;
-    }
+		}
+		.xd-info-pane{
+			display: none
+		}
 }
 
 #footer,

@@ -270,7 +270,15 @@ function truncate($string, $length, $dots = "...") {
         <div class="col-md-2 xd-info-pane">
                 <?php include "functions/fetch_joborder_pane.php" ?>
         </div>
+        </div>
     </div>
+
+</form>
+    </div>
+</div>
+
+<script src="assets/js/joborders.js"></script>
+
 <div class="modal fade" id="warn" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">
@@ -278,18 +286,16 @@ function truncate($string, $length, $dots = "...") {
         <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
         <h4 class="modal-title">Heads up!</h4>
       </div>
-      <div class="modal-body">
+        <div class="modal-body">
           <p></p>
-    </div>
+        </div>
       <div class="modal-footer">
         <button name="submit" value="" class="btn btn-sm btn-default btnmodal">Yes</button>
         <a href="#" class="btn btn-primary" data-dismiss="modal">No</a>
       </div>
     </div>
   </div>
-</form>
-    </div>
-
+</div>
 <div class="modal fade" id="image" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">
@@ -297,14 +303,13 @@ function truncate($string, $length, $dots = "...") {
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
       </div>
       <div class="modal-body">
-        <img class="job-order-for-render" />"
+        <img class="job-order-for-render" />
       </div>
     </div>
   </div>
 </div>
 
-</div>
-<script src="assets/js/joborders.js"></script>
+
 </div>
 <?php
 include 'template/footer.php';

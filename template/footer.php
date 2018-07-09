@@ -59,7 +59,7 @@
     </div>
   </div>
 </div>
-
+</div>
 
 <script src="<?php echo $subdirectory ?>assets/js/bootstrap.min.js"></script>
 <script src="<?php echo $subdirectory ?>assets/js/moment.min.js"></script>

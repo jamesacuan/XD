@@ -6,6 +6,7 @@ $('#image').on('shown.bs.modal', function (event) {
     var filename = button.data('file');
     var modal    = $(this);
     modal.find('.job-order-for-render').attr('src', home_url + "images/" + filename);
+    alert(src);
 })
 
 $('#clear').on('shown.bs.modal', function (event) {

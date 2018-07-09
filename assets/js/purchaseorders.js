@@ -1,3 +1,40 @@
+$("#sidebar-wrapper").click(function(event) {
+    console.log('yes');
+    fetch_info();
+});
+
+$(".xd-bar").click(function(event) {
+    console.log('yes');
+    fetch_info();
+});
+
+$('#purchaseorders tbody tr').click(function(event){
+    var id = $(this).attr('data-code');
+    fetch_preview(id);
+    event.stopPropagation();
+})
+
+function fetch_info(){
+    $.ajax({
+        url:"functions/fetch_purchaseorder_pane.php",
+        method:"POST",
+        success:function(data){
+            $('.xd-info-pane').html(data);
+        }
+    })
+}
+function fetch_preview(data){
+    console.log(data);
+    $.ajax({
+        url:"functions/fetch_purchaseorder_preview.php",
+        method:"POST",
+        data:{code:data},
+        success:function(data){
+            $('.xd-info-pane').html(data);
+        }
+    })
+   }
+
 $(document).ready(function(){
     var potable = $('#purchaseorders').DataTable({
         "aLengthMenu": [[10, 25, 50, 75, -1], [10, 25, 50, 75, "All"]],

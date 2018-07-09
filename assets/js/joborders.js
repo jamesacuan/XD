@@ -136,6 +136,44 @@ $('#joborders tbody tr').dblclick(function(){
     window.location = home_url + "joborderitem.php?&code=" + id;
 })
 
+$("#sidebar-wrapper").click(function(event) {
+    console.log('yes');
+    fetch_info();
+});
+
+$(".xd-bar").click(function(event) {
+    console.log('yes');
+    fetch_info();
+});
+
+$('#joborders tbody tr').click(function(event){
+    var id = $(this).attr('data-code');
+    fetch_preview(id);
+    event.stopPropagation();
+})
+
+function fetch_info(){
+    $.ajax({
+        url:"functions/fetch_joborder_pane.php",
+        method:"POST",
+        success:function(data){
+            $('.xd-info-pane').html(data);
+        }
+    })
+}
+function fetch_preview(data){
+    console.log(data);
+    $.ajax({
+        url:"functions/fetch_joborderitem_preview.php",
+        method:"POST",
+        data:{code:data},
+        success:function(data){
+            $('.xd-info-pane').html(data);
+        }
+    })
+   }
+
+
 $(document).ready( function () {
     var jobordertable = $('#joborders').DataTable({
         fixedHeader: {
@@ -155,7 +193,7 @@ $(document).ready( function () {
             dataSrc: 1
         },
         "bAutoWidth": false,
-        "pageLength": 25,
+        "pageLength": 10,
         drawCallback: function(){
             $("img.img-circle").lazyload();
         },

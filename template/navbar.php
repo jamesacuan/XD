@@ -150,23 +150,23 @@
             </ul>
         </div>
     </nav>
-    <div id="wrapper" class="xd-content-wrapper toggled-2">
+    <div id="wrapper" class="xd-content-wrapper <?php echo $_SESSION["toggle"] ?>" >
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
-            <?php /*<li><a>
-
-                <span class="pull-left">
-                
-                echo "<div class=\"xd-circle\" style=\"width:35px; height:35px;background-color: #" . $settings->getColor(substr($_SESSION['username'], 0, 1)) . "\">" . substr($_SESSION['username'], 0, 1) . "</div>";
-                
-                </span>Profile
+            <?php /* 
+            <li class="xd-sidebar-profile">
+                <a>
+               <span class="pull-left">
+                <?php echo "<div class=\"xd-circle\" style=\"width:35px; height:35px;background-color: #" . $settings->getColor(substr($_SESSION['username'], 0, 1)) . "\">" . substr($_SESSION['username'], 0, 1) . "</div>";
+?></span>Profile
                     </a>
 
-                </li> */?>
+                </li>
+            */?>
                 <li <?php echo $page_title=="Dashboard" ? "class='active'" : ""; ?>>
                     <a title="Home" href="<?php echo $home_url; ?>" id="xd-list-home"><span class="pull-left"><i class="glyphicon"></i></span>Home</a>
                 </li>
-                
+                <li></li>
                 <li <?php echo $page_title=="Job Orders" ? "class='active'" : ""; ?>>
                     <a title="Job Orders" href="<?php echo $home_url . "joborders.php" ; ?>" id="xd-list-joborder"><span class="pull-left"><i class="glyphicon"></i></span>Job Orders</a>
                     <!--

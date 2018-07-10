@@ -455,7 +455,23 @@ nav.navbar .nav-search input[class="form-control"] {
   .xd-new-nav .navbar-search{
 	  float:left;
   }
-.xd-sidebar li i{
+	.xd-sidebar-profile{
+    display: block;
+    transition: all 0.3s ease-in;
+    background-color: blue;
+    visibility: visible;
+    padding-top:100px;
+}
+
+.toggled-2 .xd-sidebar-profile{
+    padding-top:0;
+    display: block;
+    height:auto;
+    background-color: transparent;
+}
+
+
+	.xd-sidebar li i{
 	color: #9b9b9b;
 	font-size: 22px;
 }

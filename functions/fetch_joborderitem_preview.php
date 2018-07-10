@@ -39,11 +39,42 @@ while($row = mysqli_fetch_array($result)){
     $output .= "<dt>Created:</dt><dd>" . date_format(date_create($row["created"]),"F d, Y h:i:s A") . "</dd>";
     $output .= "</dl>";
     $output .= "</div>"; //end of info
-    $output .= "<div id=\"discussion\" class=\"tab-pane fade in\">";
-    $output .= "<p>Hello</p>";
-    $output .= "</div>"; //end of discussion
-    $output .= "</div>"; //end of parent div
+    
+    
+
 }
+
+$output .= "<div id=\"discussion\" class=\"tab-pane fade in\">";
+$output .= "<ul class=\"chat\">";
+
+
+$query2 = "SELECT job_order_feedback.`image_url`, users.nickname, job_order_feedback.`note`, job_order_feedback.`tag`, job_order_feedback.`created`, job_order_feedback.`modified`, users.username, users.role, `job_order_detailsid`, job_order_details.code
+FROM `job_order_feedback`
+JOIN users on job_order_feedback.userid = users.userid
+JOIN job_order_details on job_order_feedback.job_order_detailsid = job_order_details.id
+WHERE job_order_details.code LIKE '" . $_POST['code'] . "'
+ORDER BY job_order_feedback.created ASC";
+
+$result2 = mysqli_query($connect, $query2);
+while($row = mysqli_fetch_array($result2)){
+    $output .= "<li class=\"left clearfix\">";
+    if(!empty($row["image_url"])){
+        $output .= "<span class=\"chat-img pull-left\">";
+        $output .= "<img src=" . $home_url . "images/thumbs/" . $row["image_url"] . " class=\"img-circle\" width=\"50\" height=\"50\"/>";
+        $output .= "</span>";
+    }
+    
+    $output .= "<div class=\"chat-body clearfix\">";
+    $output .= "<div class=\"header\">";
+    $output .= "<strong class=\"pull-left primary-font\">" . $row["nickname"] . "</strong>";
+    $output .= "</div>";
+    $output .= "<p>". $row["note"] . "</p>";
+    $output .= "</div>";
+    $output .= "</li>";
+}
+$output .= "</ul>";  // end of chat
+$output .= "</div>"; //end of discussion
+$output .= "</div>"; //end of parent div
 
 echo $output;
 

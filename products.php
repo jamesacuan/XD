@@ -48,7 +48,7 @@ include 'template/header.php'
                     echo "<div class=\"col-xs-6 col-sm-4 col-md-3 xd-product\">";
                     echo "<div class=\"thumbnail  xd-product-thumbnail\">";
                     if($image_url=="none") echo  "<img src=\"{$home_url}assets/images/def.png\">";
-                    else   echo  "<img src=\"{$home_url}images/{$image_url}\">";
+                    else   echo  "<img data-src=\"{$home_url}images/{$image_url}\" class=\"xd-img\">";
                         echo  "<div class=\"caption\">";
                         if($type=="HH"){
                             echo "<h4>{$name} ({$color})</h4>";

@@ -69,6 +69,11 @@
 <script src="<?php echo $subdirectory ?>assets/js/datatables.min.js"></script>
 <script src="<?php echo $subdirectory ?>assets/js/dataTables.rowGroup.min.js"></script>
 <script src="<?php echo $subdirectory ?>assets/js/dataTables.keyTable.min.js"> </script>
+<?php 
+    }
+?>
+<?php
+    if ($page_title=="Products"){ ?>
 <script src="<?php echo $subdirectory ?>assets/js/lazyload.min.js"></script>
 <?php 
     }

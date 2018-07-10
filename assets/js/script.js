@@ -70,8 +70,15 @@ $("#menu-toggle-2").click(function(e) {
     e.preventDefault();
     $("#wrapper").toggleClass("toggled-2");
     $('#menu ul').hide();
+    toggle();
 });
 
+function toggle(){
+    $.ajax({
+        url:"functions/toggle.php",
+        method:"POST"
+    })
+}
 function initMenu() {
     $('#menu ul').hide();
     $('#menu ul').children('.current').parent().show();
@@ -145,7 +152,9 @@ if(window.Notification && Notification.permission !== "denied") {
 		});*/ 
 	});
 }
-
+$(function() {
+    $("img.xd-img").lazyload();
+});
 /*
 var url = document.location.toString();
 if (url.match('#')) {

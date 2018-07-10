@@ -32,6 +32,8 @@ if($_POST){
         $_SESSION['admin']     = $user->isAdmin;
         $_SESSION['beta']      = 0;
         $_SESSION['modal']     = "";
+        $_SESSION["toggle"]    = "toggled-2";
+
          /*
         $_SESSION['firstname'] = htmlspecialchars($user->firstname, ENT_QUOTES, 'UTF-8') ;
         $_SESSION['lastname'] = $user->lastname;
